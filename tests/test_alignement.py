@@ -203,26 +203,27 @@ def test_compute_alignement_nanoQA():
 #     interchange_intervention_acc
 # )
 # # %%
-# from causal_checker.retrieval_datasets import (
-#     create_code_type_retrieval_dataset,
-#     get_end_position,
-# )
+from causal_checker.retrieval_datasets import (
+    create_code_type_retrieval_dataset,
+    get_end_position,
+    create_translation_retrieval_dataset,
+)
+
 # %%
-model = HookedTransformer.from_pretrained(model_name="pythia-2.7b")
+model, tokenizer = get_pythia_model("6.9b", dtype=torch.bfloat16)
 # %%
-dataset = create_code_type_retrieval_dataset(nb_sample=100, tokenizer=model.tokenizer)
-end_position = get_end_position(dataset, model.tokenizer)
+dataset = create_translation_retrieval_dataset(nb_sample=100, tokenizer=tokenizer)
+end_position = get_end_position(dataset, tokenizer)
 # %%
-MID_LAYER = 8
+MID_LAYER = 16
 alig = CausalAlignement(
     causal_graph=CONTEXT_RETRIEVAL_CAUSAL_GRAPH,
+    hook_type="hf",
     model=model,
-    mapping_tl={
-        "query": layer_span(0, MID_LAYER, end_position),
-        "context": layer_span(
-            0, 0, position=WildPosition(position=0, label="dummy_position")
-        ),
-        "output": layer_span(MID_LAYER, model.cfg.n_layers, end_position),
+    mapping_hf={
+        "query": residual_steam_hook_fn(resid_layer=MID_LAYER, position=end_position),
+        "context": dummy_hook(),
+        "output": dummy_hook(),
     },
 )
 
@@ -237,9 +238,12 @@ baseline, interchange_intervention_acc = check_alignement(
     nb_inter=100,
     batch_size=10,
     verbose=True,
+    tokenizer=tokenizer,
 )
 
 baseline_percentage, iia = np.count_nonzero(baseline), np.count_nonzero(
     interchange_intervention_acc
 )
+# %%
+print(baseline_percentage, iia)
 # %%

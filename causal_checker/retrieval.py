@@ -102,8 +102,6 @@ class ContextQueryPrompt(CausalInput):
         self.answer = find_answer(self.query, self.context)
 
 
-
-
 # define general causal graph
 
 query = CausalGraph(name="query", output_type=Query, leaf=True)

@@ -176,7 +176,7 @@ def gen_code_prompt(tokenizer):
             Entity(
                 name=v,
                 attributes=[Attribute(value=types[i], relation=Relation("type"))],
-                tokenizer=None,
+                tokenizer=tokenizer,
             )
         )
     query = Query(
@@ -208,5 +208,92 @@ def get_end_position(dataset: List[ContextQueryPrompt], tokenizer: Any) -> WildP
     for prompt in dataset:
         end_positions.append(len(tokenizer(prompt.model_input)["input_ids"]) - 1)
     return WildPosition(position=end_positions, label="END")
+
+
+NEWS_ARTICLE_ENGLISH = """
+Title: "Climate Change: The Unsung Heroes"
+
+In an era defined by increasing global temperatures and extreme weather events, the fight against climate change continues on many fronts. While prominent environmentalists and politicians often claim the limelight, behind the scenes, countless unsung heroes have dedicated their lives to combating climate change. This article aims to spotlight the work of these individuals.
+
+At the forefront is M. {NAME1}, a marine biologist who has developed an innovative method for promoting coral reef growth. Given that coral reefs act as carbon sinks, absorbing and storing CO2 from the atmosphere, M. {NAME1}'s work has significant implications for climate mitigation. Despite facing numerous hurdles, M. {NAME1} has consistently pushed forward, driven by an unwavering commitment to oceanic health.
+
+Next, we turn to M. {NAME2}, a climate economist from a small town who has successfully devised a market-based solution to curb industrial carbon emissions. By developing a novel carbon pricing model, M. {NAME2} has enabled a tangible shift toward greener industrial practices. The model has been adopted in several countries, resulting in significant reductions in CO2 emissions. Yet, despite these successes, M. {NAME2}'s work often flies under the mainstream media radar.
+
+Another unsung hero in the climate change battle is M. {NAME3}, a young agricultural scientist pioneering a line of genetically modified crops that can thrive in drought conditions. With changing rainfall patterns threatening food security worldwide, M. {NAME3}'s work is of immense global relevance. However, due to controversy surrounding genetically modified organisms, the contributions of scientists like M. {NAME3} often go unnoticed.
+
+Additionally, the story of M. {NAME4} is worth mentioning. An urban planner by profession, M. {NAME4} has been instrumental in designing green cities with a minimal carbon footprint. By integrating renewable energy sources, promoting public transportation, and creating more green spaces, M. {NAME4} has redefined urban living. While the aesthetics of these cities often capture public attention, the visionary behind them, M. {NAME4}, remains relatively unknown.
+
+Lastly, we have M. {NAME5}, a grassroots activist working tirelessly to protect and restore the forests in her community. M. {NAME5} has mobilized local communities to halt deforestation and engage in extensive tree-planting initiatives. While large-scale afforestation projects often get global recognition, the efforts of community-level heroes like M. {NAME5} remain largely unsung.
+
+The fight against climate change is not a single battle, but a war waged on multiple fronts. Every victory counts, no matter how small. So, as we continue this struggle, let's not forget to appreciate and honor the unsung heroes like M. {NAME1}, M. {NAME2}, M. {NAME3}, M. {NAME4}, and M. {NAME5} who, away from the spotlight, are making a world of difference."""
+
+
+SENTENCES = [
+    ("À l'avant-garde se trouve", "NAME1"),
+    ("Ensuite, nous nous tournons vers", "NAME2"),
+    (
+        "Un autre héros méconnu dans la lutte contre le changement climatique est",
+        "NAME3",
+    ),
+    ("De plus, l'histoire de", "NAME4"),
+    ("Enfin, nous avons", "NAME5"),
+]
+
+NAMES = {
+    "NAME1": ["Smith", "Johnson", "Williams", "Brown", "Jones"],
+    "NAME2": ["Garcia", "Miller", "Davis", "Rodriguez", "Martinez"],
+    "NAME3": ["Hernandez", "Lopez", "Gonzalez", "Perez", "Wilson"],
+    "NAME4": ["Anderson", "Thomas", "Taylor", "Moore", "Jackson"],
+    "NAME5": ["Martin", "Lee", "Walker", "Harris", "Thompson"],
+}
+
+TRANSLATION_TEMPLATE = """<|endoftext|>
+English:
+{ENGLISH_ARTICLE}
+
+French:
+[...]
+{FRENCH_SENTENCE} M."""
+
+
+def make_translation_prompt(tokenizer):
+    names = {k: rd.choice(v) for k, v in NAMES.items()}
+    sentence, querried_name = rd.choice(SENTENCES)
+    english_article = NEWS_ARTICLE_ENGLISH.format(**names)
+    translation_prompt = TRANSLATION_TEMPLATE.format(
+        ENGLISH_ARTICLE=english_article, FRENCH_SENTENCE=sentence
+    )
+
+    entities = []
+    for name_idx, name in names.items():
+        entities.append(
+            Entity(
+                name=" " + name,
+                attributes=[Attribute(value=name_idx, relation=Relation("name_order"))],
+                tokenizer=tokenizer,
+            )
+        )
+    query = Query(
+        querried_relation=Relation("name"),
+        filter_by=[Attribute(value=querried_name, relation=Relation("name_order"))],
+    )
+    prompt = ContextQueryPrompt(
+        model_input=translation_prompt,
+        query=query,
+        context=entities,
+        tokenizer=tokenizer,
+    )
+    return prompt
+
+
+def create_translation_retrieval_dataset(
+    nb_sample=100, tokenizer=None
+) -> List[ContextQueryPrompt]:
+    dataset = []
+    for _ in range(nb_sample):
+        dataset.append(make_translation_prompt(tokenizer))
+    check_tokenisation(dataset)
+    return dataset
+
 
 # %%

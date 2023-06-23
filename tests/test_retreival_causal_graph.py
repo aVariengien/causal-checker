@@ -56,3 +56,5 @@ def test_nanoQA_retrieval_dataset():
         assert (
             cg_output == prompt.answer
         ), f"Prompt answer is not the same as the causal graph output! {cg_output} vs {prompt.answer}"
+
+# %%
