@@ -11,7 +11,7 @@ from functools import partial
 def get_blocks(model):
     if isinstance(model, LlamaForCausalLM):
         return model.model.layers
-    elif isinstance(model, GPT2LMHeadModel):
+    elif isinstance(model, GPT2LMHeadModel) or "falcon" in str(type(model)):
         return model.transformer.h
     elif isinstance(model, GPTNeoXForCausalLM):
         return model.gpt_neox.layers
@@ -19,10 +19,35 @@ def get_blocks(model):
         raise ValueError(f"Unsupported model type: {type(model)}")
 
 
+def get_attn(model, layer: int):
+    blocks = get_blocks(model)
+    if isinstance(model, GPT2LMHeadModel):
+        return blocks[layer].attn
+    elif isinstance(model, GPTNeoXForCausalLM):
+        return blocks[layer].attention
+    elif "falcon" in str(type(model)):
+        return blocks[layer].self_attention
+    else:
+        raise ValueError(f"Unsupported model type: {type(model)}")
+
+
+def get_mlp(model, layer: int):
+    blocks = get_blocks(model)
+    if (
+        isinstance(model, GPT2LMHeadModel)
+        or isinstance(model, GPTNeoXForCausalLM)
+        or "falcon" in str(type(model))
+    ):
+        return blocks[layer].mlp
+    else:
+        raise ValueError(f"Unsupported model type: {type(model)}")
+
+
 def residual_steam_hook_fn(resid_layer: int, position: WildPosition):
     """resid_layer=0 is the embedding (not supported yet), 1 is after the first block, etc."""
     assert resid_layer > 0
-    resid_layer -= 1 # offset by one to account for embedding layer
+    resid_layer -= 1  # offset by one to account for embedding layer
+
     def hook_fn(
         model,
         source_toks: torch.Tensor,

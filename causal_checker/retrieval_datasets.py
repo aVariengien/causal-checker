@@ -23,41 +23,69 @@ import random as rd
 
 
 def check_tokenisation(dataset: List[ContextQueryPrompt]):
-    all_attributes = []
-    all_first_tokens = []
+    all_attributes = {}
     for prompt in dataset:
         for entity in prompt.context:
             for attribute in entity.attributes:
-                all_attributes.append(attribute.value)
-                all_first_tokens.append(attribute.first_token)
-    assert len(set(all_attributes)) == len(
-        set(all_first_tokens)
-    ), "Some first tokens are the same for different attributes!"
+                if attribute.first_token not in all_attributes:
+                    all_attributes[attribute.first_token] = attribute.value
+                else:
+                    assert (
+                        all_attributes[attribute.first_token] == attribute.value
+                    ), f"Two different attribute values gives the same first token! {attribute.first_token} {attribute.value} {all_attributes[attribute.first_token]}"
+
+
+def gen_nanoQA_entities(nanostory: Dict[str, Any], tokenizer: Any) -> List[Entity]:
+    entities = []
+    for nar_var in QUERRIED_NARRATIVE_VARIABLES_PRETTY_NAMES:
+        entity_name = " " + nanostory["seed"][nar_var]
+        attr = Attribute(
+            value=nar_var,
+            relation=Relation("narrative_variable"),
+            tokenizer=None,  # no tokenizer, values will not be recovered
+        )
+        entities.append(
+            Entity(
+                name=entity_name,
+                attributes=[attr],
+                tokenizer=tokenizer,
+                only_tokenize_name=True,
+            )
+        )
+    return entities
 
 
 def create_nanoQA_retrieval_dataset(
-    nano_qa_dataset: NanoQADataset,
+    nano_qa_dataset: Optional[NanoQADataset] = None,
+    tokenizer: Optional[Any] = None,
+    nb_sample: Optional[int] = None,
 ) -> List[ContextQueryPrompt]:
+    """Generate a retrieval dataset from a NanoQA dataset. If the NanoQA dataset is not provided, it will be generated."""
+    if nano_qa_dataset is None:
+        assert tokenizer is not None
+        assert nb_sample is not None
+        nano_qa_dataset = NanoQADataset(
+            nb_samples=nb_sample,
+            tokenizer=tokenizer,
+            nb_variable_values=5,
+            seed=42,
+            querried_variables=["city", "character_name", "character_occupation"],
+        )
+    else:
+        assert tokenizer is None
+        assert nb_sample is None
+        tokenizer = nano_qa_dataset.tokenizer
+        nb_sample = len(nano_qa_dataset)
+
     dataset = []
 
     for i in range(len(nano_qa_dataset)):
         q_var = nano_qa_dataset.questions[i]["querried_variable"]
         query = Query(
-            querried_relation=Relation("name"),
+            queried_relation=Relation("name"),
             filter_by=[Attribute(value=q_var, relation=Relation("narrative_variable"))],
         )
-
-        entities = []
-        for nar_var in QUERRIED_NARRATIVE_VARIABLES_PRETTY_NAMES:
-            entity_name = " " + nano_qa_dataset.nanostories[i]["seed"][nar_var]
-            attr = Attribute(value=nar_var, relation=Relation("narrative_variable"))
-            entities.append(
-                Entity(
-                    name=entity_name,
-                    attributes=[attr],
-                    tokenizer=nano_qa_dataset.tokenizer,
-                )
-            )
+        entities = gen_nanoQA_entities(nano_qa_dataset.nanostories[i], tokenizer)
 
         prompt = ContextQueryPrompt(
             model_input=nano_qa_dataset.prompts_text[i],
@@ -65,9 +93,10 @@ def create_nanoQA_retrieval_dataset(
             context=entities,
             tokenizer=nano_qa_dataset.tokenizer,
         )
+
         assert (
             prompt.answer == nano_qa_dataset.answer_first_token_texts[i]
-        ), f"NanoQA and ContextQueryPrompt answers are different! {prompt.answer} vs {nano_qa_dataset.answer_first_token_texts[i]}"
+        ), f"NanoQA and ContextQueryPrompt answers are different! '{prompt.answer}' vs '{nano_qa_dataset.answer_first_token_texts[i]}'"
 
         dataset.append(prompt)
 
@@ -180,7 +209,7 @@ def gen_code_prompt(tokenizer):
             )
         )
     query = Query(
-        querried_relation=Relation("name"),
+        queried_relation=Relation("name"),
         filter_by=[Attribute(value=type_querried, relation=Relation("type"))],
     )
     prompt = ContextQueryPrompt(
@@ -229,14 +258,26 @@ The fight against climate change is not a single battle, but a war waged on mult
 
 
 SENTENCES = [
-    ("À l'avant-garde se trouve", "NAME1"),
-    ("Ensuite, nous nous tournons vers", "NAME2"),
     (
-        "Un autre héros méconnu dans la lutte contre le changement climatique est",
+        "un économiste du climat d'une petite ville qui a réussi à concevoir une solution basée sur le marché pour réduire les émissions de carbone industrielles. En développant un modèle innovant de tarification du carbone,",
+        "NAME2",
+    ),
+    (
+        "Étant donné que les récifs coralliens agissent comme des puits de carbone, absorbant et stockant le CO2 de l'atmosphère, le travail de",
+        "NAME1",
+    ),
+    (
+        "Cependant, en raison de la controverse entourant les organismes génétiquement modifiés, les contributions de scientifiques comme",
         "NAME3",
     ),
-    ("De plus, l'histoire de", "NAME4"),
-    ("Enfin, nous avons", "NAME5"),
+    (
+        "En intégrant des sources d'énergie renouvelables, en favorisant les transports publics et en créant plus d'espaces verts,",
+        "NAME4",
+    ),
+    (
+        "Alors que les projets de reforestation à grande échelle obtiennent souvent une reconnaissance mondiale, les efforts des héros au niveau de la communauté comme",
+        "NAME5",
+    ),
 ]
 
 NAMES = {
@@ -248,6 +289,8 @@ NAMES = {
 }
 
 TRANSLATION_TEMPLATE = """<|endoftext|>
+Here is a new article in Engligh. Below, there is a partial translation in French. Please complete the translation.
+
 English:
 {ENGLISH_ARTICLE}
 
@@ -274,7 +317,7 @@ def make_translation_prompt(tokenizer):
             )
         )
     query = Query(
-        querried_relation=Relation("name"),
+        queried_relation=Relation("name"),
         filter_by=[Attribute(value=querried_name, relation=Relation("name_order"))],
     )
     prompt = ContextQueryPrompt(
@@ -294,6 +337,152 @@ def create_translation_retrieval_dataset(
         dataset.append(make_translation_prompt(tokenizer))
     check_tokenisation(dataset)
     return dataset
+
+
+NAME_GENDER = {
+    "Michael": 0,
+    "Christopher": 0,
+    "Matthew": 0,
+    "Ashley": 1,
+    "Jessica": 1,
+}
+
+DOUBLE_NANO_QA_TEMPLATE = """
+
+Here are two short stories. The first involve a male character while the second is about a female protagonist. Read them carefully and answer the questions below.
+
+1. Female character
+{FEMALE_STORY}
+
+2. Male character
+{MALE_STORY}
+
+Answer the questions below, The answers should be concise and to the point.
+
+Question: {question}
+
+Answer: {answer_prefix}"""
+
+
+QUESTIONS = [
+    # city
+    {
+        "question": "Where does the story of the {character} take place?",
+        "answer_prefix": "The story of the {character} takes place in the city called",
+        "querried_variable": "city",
+    },
+    {
+        "question": "In which city is the plot of the {character} set?",
+        "answer_prefix": "The plot of the {character}'s story takes place in the city of",
+        "querried_variable": "city",
+    },
+    {
+        "question": "Where is the story of the {character} located?",
+        "answer_prefix": "The story of the {character} is located in a city named",
+        "querried_variable": "city",
+    },
+    # occupation
+    {
+        "question": "What job does the {character} have?",
+        "answer_prefix": "The {character} is a professional",
+        "querried_variable": "character_occupation",
+    },
+    {
+        "question": "In which profession is the {character} involved?",
+        "answer_prefix": "The {character} is a professional",
+        "querried_variable": "character_occupation",
+    },
+    {
+        "question": "Which vocation does the {character} pursue?",
+        "answer_prefix": "The {character} is a professional",
+        "querried_variable": "character_occupation",
+    },
+]
+
+GENDERED_CHARACTER_REFERENCES = ["protagonist", "character"]
+
+
+def sample():
+    pass
+
+
+def create_double_nanoQA_retreival_dataset(
+    nb_sample=100, tokenizer=None
+) -> List[ContextQueryPrompt]:
+    nano_qa_dataset = NanoQADataset(
+        nb_samples=nb_sample * 3,
+        tokenizer=tokenizer,
+        nb_variable_values=5,
+        seed=42,
+        querried_variables=["city", "character_name", "character_occupation"],
+    )
+
+    male_nanostories = []
+    female_nanostories = []
+    for s in nano_qa_dataset.nanostories:
+        if NAME_GENDER[s["seed"]["character_name"]]:
+            female_nanostories.append(s)
+        else:
+            male_nanostories.append(s)
+
+    all_prompts = []
+
+    for k in range(nb_sample):
+        # generate the text of the prompt
+        s_male = rd.choice(male_nanostories)
+        s_female = rd.choice(female_nanostories)
+
+        q = rd.choice(QUESTIONS)
+        question, querried_var, answer_prefix = (
+            q["question"],
+            q["querried_variable"],
+            q["answer_prefix"],
+        )
+
+        querried_gender = rd.choice(["male", "female"])
+        reference = querried_gender + " " + rd.choice(GENDERED_CHARACTER_REFERENCES)
+        question = question.format(character=reference)
+        answer_prefix = answer_prefix.format(character=reference)
+
+        double_nanoQA_text = DOUBLE_NANO_QA_TEMPLATE.format(
+            FEMALE_STORY=s_female["story"],
+            MALE_STORY=s_male["story"],
+            question=question,
+            answer_prefix=answer_prefix,
+        )
+
+        # generate the representation of the prompt
+        entities = []
+        for gender, story in zip(["male", "female"], [s_male, s_female]):
+            attributes = [Attribute(value=gender, relation=Relation("gender"))]
+            attributes += [
+                Attribute(
+                    value=" " + story["seed"][nar_var],
+                    relation=Relation(nar_var),
+                    tokenizer=tokenizer,
+                )
+                for nar_var in QUERRIED_NARRATIVE_VARIABLES_PRETTY_NAMES
+            ]
+            entities.append(
+                Entity(
+                    name=" " + story["seed"]["character_name"],
+                    attributes=attributes,
+                    tokenizer=tokenizer,
+                )
+            )
+        query = Query(
+            queried_relation=Relation(querried_var),
+            filter_by=[Attribute(value=querried_gender, relation=Relation("gender"))],
+        )
+
+        prompt = ContextQueryPrompt(
+            model_input=double_nanoQA_text,
+            query=query,
+            context=entities,
+            tokenizer=nano_qa_dataset.tokenizer,
+        )
+        all_prompts.append(prompt)
+    return all_prompts
 
 
 # %%

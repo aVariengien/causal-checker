@@ -2,6 +2,10 @@ from transformers import AutoTokenizer, AutoModelForCausalLM  # type: ignore
 import torch
 
 
+def get_nb_layers(model):
+    pass
+
+
 def get_model(model_name, dtype=torch.bfloat16):
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
@@ -30,6 +34,17 @@ def get_gpt2_model(size, dtype=torch.bfloat16):
 
 
 def get_pythia_model(size, dtype=torch.bfloat16):
-    assert size in ["70m", "125m", "350m", "2.8b", "6.9b", "12b"]
+    assert size in ["70m", "160m", "410m", "1b", "2.8b", "6.9b", "12b"]
     model_name = f"EleutherAI/pythia-{size}"
     return get_model(model_name, dtype=dtype)
+
+
+def get_model_and_tokenizer(model_name, dtype=torch.bfloat16):
+    if "falcon" in model_name:
+        return get_falcon_model(model_name.replace("falcon-", ""), dtype=dtype)
+    elif "gpt2" in model_name:
+        return get_gpt2_model(model_name.replace("gpt2-", ""), dtype=dtype)
+    elif "pythia" in model_name:
+        return get_pythia_model(model_name.replace("pythia-", ""), dtype=dtype)
+    else:
+        raise ValueError(f"Unknown model name: {model_name}")

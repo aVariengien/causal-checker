@@ -10,6 +10,7 @@ from causal_checker.retrieval import CausalInput, ContextQueryPrompt
 from causal_checker.hf_hooks import residual_steam_hook_fn
 
 Dataset = List[CausalInput] | List[ContextQueryPrompt]
+Metric = Callable[[Any, List[Any], torch.Tensor, Dataset, List[int]], Any]
 
 
 @define
@@ -169,18 +170,45 @@ def batched_forward(
     return torch.cat(all_logits, dim=0)
 
 
+def evaluate_model(
+    dataset: Dataset,
+    batch_size: int,
+    model: HookedTransformer,
+    causal_graph: CausalGraph,
+    compute_metric: Metric,
+    tokenizer: Any = None,
+):
+    if isinstance(model, HookedTransformer):
+        tokenizer = model.tokenizer
+    else:
+        assert (
+            tokenizer is not None
+        ), "tokenizer must be provided if model is not a HookedTransformer"
+    dataset_str = [i.model_input for i in dataset]
+    dataset_tok = torch.tensor(tokenizer(dataset_str, padding=True)["input_ids"])  # type: ignore
+    logits = batched_forward(model, batch_size, dataset_tok)
+    cg_output = []
+    for i in range(len(dataset)):
+        cg_output.append(causal_graph.run(inputs=dataset[i].causal_graph_input))
+    baseline_metric = compute_metric(
+        tokenizer, cg_output, logits, dataset, list(range(len(dataset)))
+    )
+    return baseline_metric
+
+
 def check_alignement(
     alignement: CausalAlignement,
     model: HookedTransformer,
     causal_graph: CausalGraph,
     dataset: Dataset,
-    compute_metric: Callable[[Any, List[Any], torch.Tensor, Dataset, List[int]], Any],
+    compute_metric: Metric,
     variables_inter: Optional[List[str]] = None,
     nb_inter: int = 100,
     batch_size: int = 10,
     verbose: bool = False,
     tokenizer: Any = None,
     seed: Optional[int] = None,
+    eval_baseline: bool = True,
 ) -> Any:
     """Check the alignement between the high-level causal graph and the low-level graph (the model) on the given dataset by performing interchange intervention.
     * variables_inter is the list of variables names from the causal graph to be intervened on. By default, all variables are intervened on.
@@ -205,15 +233,17 @@ def check_alignement(
     dataset_str = [i.model_input for i in dataset]
     dataset_tok = torch.tensor(tokenizer(dataset_str, padding=True)["input_ids"])  # type: ignore
 
-    # check that before any verification, the model performs similarly as the causal graph
-    logits = batched_forward(model, batch_size, dataset_tok)
-    cg_output = []
-    for i in range(len(dataset)):
-        cg_output.append(causal_graph.run(inputs=dataset[i].causal_graph_input))
-    baseline_metric = compute_metric(
-        tokenizer, cg_output, logits, dataset, list(range(len(dataset)))
-    )
-    print(f"metric without interchange: {baseline_metric}")
+    if eval_baseline:
+        baseline_metric = evaluate_model(
+            dataset,
+            batch_size,
+            model,
+            causal_graph,
+            compute_metric,
+            tokenizer=tokenizer,
+        )
+    else:
+        baseline_metric = None
 
     # sample the inputs indices for the intervention
     all_indices = np.arange(len(dataset))
@@ -269,7 +299,10 @@ def check_alignement(
         [int(x) for x in input_indices[:, 0]],
     )
 
-    return baseline_metric, interchange_metric
+    if baseline_metric is None:
+        return interchange_metric
+    else:
+        return baseline_metric, interchange_metric
 
 
 def InterchangeInterventionAccuracy(
@@ -279,10 +312,12 @@ def InterchangeInterventionAccuracy(
     dataset: Dataset,
     target_idx: List[int],
     position: WildPosition,
+    compute_mean: bool = True,
+    verbose: bool = False,
 ):
     assert len(batch_logits.shape) == 3
     end_logits = batch_logits[
-        range(len(dataset)), position.positions_from_idx(target_idx), :
+        range(len(target_idx)), position.positions_from_idx(target_idx), :
     ]
     # get the predicted token
     predicted_token = torch.argmax(end_logits, dim=-1)
@@ -290,10 +325,15 @@ def InterchangeInterventionAccuracy(
     predicted_str = tokenizer.batch_decode(predicted_token)  # type: ignore
     # compute the accuracy
 
-    for i in range(len(dataset)):
-        print(f"{predicted_str[i]}, {causal_graph_output[i]}")
+    if verbose:  # TODO maybe remove
+        for i in range(len(dataset)):
+            print(f"{predicted_str[i]}, {causal_graph_output[i]}")
 
-    return [predicted_str[i] == causal_graph_output[i] for i in range(len(dataset))]
+    results = [predicted_str[i] == causal_graph_output[i] for i in range(len(dataset))]
+    if compute_mean:
+        return np.mean(results)
+    else:
+        return results
 
 
 # %%

@@ -17,6 +17,7 @@ from causal_checker.retrieval import (
     Attribute,
     Entity,
     CONTEXT_RETRIEVAL_CAUSAL_GRAPH,
+    FINE_GRAINED_CONTEXT_RETRIEVAL_CAUSAL_GRAPH,
 )
 
 
@@ -34,7 +35,7 @@ def test_entity():
     attr = Attribute(
         relation=Relation("role"), value="Thisisalongvale", tokenizer=model.tokenizer
     )
-    entity = Entity(name="EntityTest", attributes=[attr])
+    entity = Entity(name="EntityTest", attributes=[attr], tokenizer=model.tokenizer)
     assert (
         len(entity.attributes) == 3
     ), f"Entity should have 3 attributes! {entity.attributes}"
@@ -53,8 +54,16 @@ def test_nanoQA_retrieval_dataset():
 
     for prompt in dataset:
         cg_output = CONTEXT_RETRIEVAL_CAUSAL_GRAPH.run(inputs=prompt.causal_graph_input)
+        cg_output2 = FINE_GRAINED_CONTEXT_RETRIEVAL_CAUSAL_GRAPH.run(
+            inputs=prompt.causal_graph_input
+        )
+        print(prompt)
         assert (
             cg_output == prompt.answer
         ), f"Prompt answer is not the same as the causal graph output! {cg_output} vs {prompt.answer}"
+        assert (
+            cg_output2 == prompt.answer
+        ), f"Prompt answer is not the same as the fined grained causal graph output! {cg_output2} vs {prompt.answer}"
+
 
 # %%

@@ -1,5 +1,6 @@
 from attrs import define, field
 from typing import List, Callable, Dict, Tuple, Set, Optional, Any, Literal
+import uuid
 
 a = 0
 
@@ -14,6 +15,7 @@ class CausalGraph:
     f: Callable[..., Any] | NoFunction = field(default=NO_FUNCTION)
     children: List["CausalGraph"] = field(default=[])
     leaf: bool = field(default=False)
+    uuid: str = field(init=False)
 
     def __attrs_post_init__(self):
         if self.leaf:
@@ -22,7 +24,7 @@ class CausalGraph:
         else:
             assert self.f != NO_FUNCTION, "Non-leaf nodes should have a function"
             assert len(self.children) > 0, "Non-leaf nodes should have children"
-
+        self.uuid = str(uuid.uuid4())
         self.check_name_unique()
 
     def run(
@@ -33,7 +35,6 @@ class CausalGraph:
     ) -> Any:
         """Run the causal graph with the given inputs (for leaf nodes) and fixed values (for intermediate nodes). The values of intermediate nodes can also be fixed by passing a dictionary fixed_inputs, forcing them to take the values they have on the fixed input corresponding to their name."""
         if self.name in fixed_inputs:  # fixed_input is highest priority
-            print(f"fixed_inputs: {fixed_inputs}")
             output = self.run(
                 inputs=fixed_inputs[
                     self.name
@@ -58,13 +59,14 @@ class CausalGraph:
             )  # mannualy checking the type
         return output
 
-    def check_name_unique(self, names: Optional[Set[str]] = None) -> None:
+    def check_name_unique(self, names: Optional[Dict[str, str]] = None) -> None:
         """Check that the name of the causal graph is unique among the full graph"""
         if names is None:
-            names = set()  # need to define a new set each time
+            names = {}  # need to define a new set each time
         if self.name in names:
-            raise ValueError(f"Name {self.name} is not unique")
-        names.add(self.name)
+            if names[self.name] != self.uuid:
+                raise ValueError(f"Name {self.name} is not unique")
+        names[self.name] = self.uuid
         for child in self.children:
             child.check_name_unique(names)
 
