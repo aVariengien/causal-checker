@@ -169,9 +169,12 @@ queried_relation = CausalGraph(
     children=[query],
     f=lambda query: query.queried_relation,
 )
+
+
 entity = CausalGraph(
     name="entity", output_type=Entity, children=[query, context], f=find_entity
 )
+
 FINE_GRAINED_CONTEXT_RETRIEVAL_CAUSAL_GRAPH = CausalGraph(
     name="output", output_type=str, children=[entity, queried_relation], f=get_attribute
 )

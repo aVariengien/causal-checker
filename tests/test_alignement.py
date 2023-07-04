@@ -95,7 +95,9 @@ def test_compute_alignement_nanoQA():
         model=model,
         causal_graph=CONTEXT_RETRIEVAL_CAUSAL_GRAPH,
         dataset=dataset,
-        compute_metric=partial(InterchangeInterventionAccuracy, position=end_position),
+        compute_metric=partial(
+            InterchangeInterventionAccuracy, position=end_position, compute_mean=False
+        ),
         variables_inter=["query"],
         nb_inter=100,
         batch_size=10,
@@ -129,7 +131,9 @@ def test_compute_alignement_nanoQA():
         model=model,
         causal_graph=CONTEXT_RETRIEVAL_CAUSAL_GRAPH,
         dataset=dataset,
-        compute_metric=partial(InterchangeInterventionAccuracy, position=end_position),
+        compute_metric=partial(
+            InterchangeInterventionAccuracy, position=end_position, compute_mean=False
+        ),
         variables_inter=["query"],
         nb_inter=100,
         batch_size=10,

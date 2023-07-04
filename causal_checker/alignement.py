@@ -329,7 +329,9 @@ def InterchangeInterventionAccuracy(
         for i in range(len(dataset)):
             print(f"{predicted_str[i]}, {causal_graph_output[i]}")
 
-    results = [predicted_str[i] == causal_graph_output[i] for i in range(len(dataset))]
+    results = [
+        predicted_str[i] == causal_graph_output[i] for i in range(len(target_idx))
+    ]
     if compute_mean:
         return np.mean(results)
     else:
