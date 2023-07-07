@@ -6,17 +6,17 @@ from swap_graphs.core import ModelComponent, WildPosition, ActivationStore
 from transformer_lens import HookedTransformer
 import numpy as np
 import torch
-from causal_checker.retrieval import CausalInput, ContextQueryPrompt
+from causal_checker.retrieval import CausalInput, ContextQueryPrompt, OperationDataset
 from causal_checker.hf_hooks import residual_steam_hook_fn
 
-Dataset = List[CausalInput] | List[ContextQueryPrompt]
-Metric = Callable[[Any, List[Any], torch.Tensor, Dataset, List[int]], Any]
+
+Metric = Callable[[Any, List[Any], torch.Tensor, OperationDataset, List[int]], Any]
 
 
 @define
 class CausalAlignement:
-    mapping_tl: Dict[str, List[ModelComponent]] = field(default={})
-    mapping_hf: Dict[str, Callable] = field(default={})
+    mapping_tl: Dict[str, List[ModelComponent]] = field(factory=dict)
+    mapping_hf: Dict[str, Callable] = field(factory=dict)
     hook_type: Literal["hf", "transformerlens"] = field(default="transformerlens")
 
     def __init__(self, causal_graph, model, **kwargs):
@@ -171,7 +171,7 @@ def batched_forward(
 
 
 def evaluate_model(
-    dataset: Dataset,
+    dataset: OperationDataset,
     batch_size: int,
     model: HookedTransformer,
     causal_graph: CausalGraph,
@@ -184,7 +184,7 @@ def evaluate_model(
         assert (
             tokenizer is not None
         ), "tokenizer must be provided if model is not a HookedTransformer"
-    dataset_str = [i.model_input for i in dataset]
+    dataset_str = [p.model_input for p in dataset]
     dataset_tok = torch.tensor(tokenizer(dataset_str, padding=True)["input_ids"])  # type: ignore
     logits = batched_forward(model, batch_size, dataset_tok)
     cg_output = []
@@ -200,7 +200,7 @@ def check_alignement(
     alignement: CausalAlignement,
     model: HookedTransformer,
     causal_graph: CausalGraph,
-    dataset: Dataset,
+    dataset: OperationDataset,
     compute_metric: Metric,
     variables_inter: Optional[List[str]] = None,
     nb_inter: int = 100,
@@ -305,19 +305,28 @@ def check_alignement(
         return baseline_metric, interchange_metric
 
 
+def is_prefix(s1: str, s2: str) -> bool:
+    """Check if s1 is a prefix of s2"""
+    if len(s1) > len(s2):
+        return False
+    return s1 == s2[: len(s1)]
+
+
 def InterchangeInterventionAccuracy(
     tokenizer: Any,
     causal_graph_output: List[Any],
     batch_logits: torch.Tensor,
-    dataset: Dataset,
+    dataset: OperationDataset,
     target_idx: List[int],
-    position: WildPosition,
     compute_mean: bool = True,
     verbose: bool = False,
+    soft_matching: bool = True,
 ):
     assert len(batch_logits.shape) == 3
     end_logits = batch_logits[
-        range(len(target_idx)), position.positions_from_idx(target_idx), :
+        range(len(target_idx)),
+        dataset.get_end_position().positions_from_idx(target_idx),
+        :,
     ]
     # get the predicted token
     predicted_token = torch.argmax(end_logits, dim=-1)
@@ -329,9 +338,16 @@ def InterchangeInterventionAccuracy(
         for i in range(len(dataset)):
             print(f"{predicted_str[i]}, {causal_graph_output[i]}")
 
-    results = [
-        predicted_str[i] == causal_graph_output[i] for i in range(len(target_idx))
-    ]
+    if not soft_matching:
+        results = [
+            predicted_str[i] == causal_graph_output[i] for i in range(len(target_idx))
+        ]
+    else:
+        results = [
+            is_prefix(predicted_str[i].lower(), causal_graph_output[i].lower())
+            or is_prefix(causal_graph_output[i].lower(), predicted_str[i].lower())
+            for i in range(len(target_idx))
+        ]
     if compute_mean:
         return np.mean(results)
     else:

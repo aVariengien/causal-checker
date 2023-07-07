@@ -15,7 +15,7 @@ import torch
 from causal_checker.retrieval import (
     CONTEXT_RETRIEVAL_CAUSAL_GRAPH,
 )
-from causal_checker.retrieval_datasets import create_nanoQA_retrieval_dataset
+from causal_checker.datasets.nanoQA import create_nanoQA_retrieval_dataset
 from functools import partial
 import numpy as np
 from causal_checker.hf_hooks import residual_steam_hook_fn, dummy_hook
@@ -68,7 +68,7 @@ def test_compute_alignement_nanoQA():
 
     nano_qa_dataset = NanoQADataset(
         nb_samples=100,
-        tokenizer=model.tokenizer,
+        tokenizer=model.tokenizer,  # type: ignore
         nb_variable_values=5,
         seed=42,
         querried_variables=["city", "character_name", "character_occupation"],
@@ -95,9 +95,7 @@ def test_compute_alignement_nanoQA():
         model=model,
         causal_graph=CONTEXT_RETRIEVAL_CAUSAL_GRAPH,
         dataset=dataset,
-        compute_metric=partial(
-            InterchangeInterventionAccuracy, position=end_position, compute_mean=False
-        ),
+        compute_metric=partial(InterchangeInterventionAccuracy, compute_mean=False),
         variables_inter=["query"],
         nb_inter=100,
         batch_size=10,
@@ -131,9 +129,7 @@ def test_compute_alignement_nanoQA():
         model=model,
         causal_graph=CONTEXT_RETRIEVAL_CAUSAL_GRAPH,
         dataset=dataset,
-        compute_metric=partial(
-            InterchangeInterventionAccuracy, position=end_position, compute_mean=False
-        ),
+        compute_metric=partial(InterchangeInterventionAccuracy, compute_mean=False),
         variables_inter=["query"],
         nb_inter=100,
         batch_size=10,

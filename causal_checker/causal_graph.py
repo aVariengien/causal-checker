@@ -13,7 +13,7 @@ class CausalGraph:
     name: str = field()
     output_type: type = field()
     f: Callable[..., Any] | NoFunction = field(default=NO_FUNCTION)
-    children: List["CausalGraph"] = field(default=[])
+    children: List["CausalGraph"] = field(factory=list)
     leaf: bool = field(default=False)
     uuid: str = field(init=False)
 

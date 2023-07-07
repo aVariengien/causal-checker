@@ -13,7 +13,9 @@ def get_model(model_name, dtype=torch.bfloat16):
         torch_dtype=dtype,
         device_map="auto",
     )
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_name, cache_dir="/mnt/ssd-0/alex-dev/hf_models"
+    )
     tokenizer.pad_token = tokenizer.eos_token
     return model, tokenizer
 
