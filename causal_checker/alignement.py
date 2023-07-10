@@ -312,6 +312,12 @@ def is_prefix(s1: str, s2: str) -> bool:
     return s1 == s2[: len(s1)]
 
 
+def soft_match(s1: str, s2: str) -> bool:
+    s1 = s1.lower().replace(" ", "")
+    s2 = s2.lower().replace(" ", "")
+    return is_prefix(s1, s2) or is_prefix(s2, s1)
+
+
 def InterchangeInterventionAccuracy(
     tokenizer: Any,
     causal_graph_output: List[Any],
@@ -320,7 +326,7 @@ def InterchangeInterventionAccuracy(
     target_idx: List[int],
     compute_mean: bool = True,
     verbose: bool = False,
-    soft_matching: bool = True,
+    soft_matching: bool = False,
 ):
     assert len(batch_logits.shape) == 3
     end_logits = batch_logits[
@@ -344,10 +350,10 @@ def InterchangeInterventionAccuracy(
         ]
     else:
         results = [
-            is_prefix(predicted_str[i].lower(), causal_graph_output[i].lower())
-            or is_prefix(causal_graph_output[i].lower(), predicted_str[i].lower())
+            soft_match(predicted_str[i], causal_graph_output[i])
             for i in range(len(target_idx))
         ]
+
     if compute_mean:
         return np.mean(results)
     else:

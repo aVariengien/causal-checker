@@ -210,9 +210,9 @@ def make_translation_prompt(tokenizer, dataset_name: str):
         entities.append(
             Entity(
                 name=" " + name,
-                attributes=[Attribute(value=name_idx, name=str("name_order"))],
+                attributes=[Attribute(value=name_idx, name=str("name_order"), to_tokenize=False)],
                 tokenizer=tokenizer,
-                only_tokenize_name=True,
+                tokenize_name=True,
             )
         )
     query = Query(

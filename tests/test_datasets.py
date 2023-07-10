@@ -1,7 +1,16 @@
 # %%
 from causal_checker.datasets.typehint import create_code_type_retrieval_dataset
 from causal_checker.datasets.translation import create_translation_retrieval_dataset
-from causal_checker.datasets.nanoQA import create_nanoQA_retrieval_dataset
+from causal_checker.datasets.nanoQA import (
+    create_nanoQA_retrieval_dataset,
+    create_nanoQA_uniform_answer_prefix_dataset,
+    create_nanoQA_question_first_dataset,
+    create_nanoQA_mixed_template_dataset,
+)
+from causal_checker.datasets.induction_dataset import (
+    create_induction_dataset_same_prefix,
+)
+from causal_checker.datasets.factual_recall import create_factual_recall_dataset
 from causal_checker.models import get_model_and_tokenizer
 from attrs import define, field
 from typing import List, Callable, Dict, Tuple, Set, Optional, Any, Literal
@@ -56,7 +65,7 @@ def test_tokenize_only_name():
         Entity(
             name=f"{i}_very_long_entity_name_{i}",
             tokenizer=tokenizer,
-            only_tokenize_name=True,
+            tokenize_name=True,
         )
         for i in range(10)
     ]
@@ -111,21 +120,29 @@ def test_nanoQA_dataset_random_guess():
     ), f"Random guess accuracy should be 1/5 {random_guess}"
 
 
-def assert_dataset_perf(model, tokenizer, dataset: OperationDataset, verbose=False):
+def assert_dataset_perf(
+    model,
+    tokenizer,
+    dataset: OperationDataset,
+    verbose=False,
+    threshold: float = 0.8,
+    soft_matching=False,
+    batch_size=10,
+):
     """a generic test for a dataset"""
     perf = evaluate_model(
         dataset=dataset,
-        batch_size=10,
+        batch_size=batch_size,
         model=model,
         causal_graph=FINE_GRAINED_CONTEXT_RETRIEVAL_CAUSAL_GRAPH,
         compute_metric=partial(
             InterchangeInterventionAccuracy,
-            verbose=False,
-            soft_matching=False,
+            verbose=True,
+            soft_matching=soft_matching,
         ),
         tokenizer=tokenizer,
     )
-    assert perf > 0.8, f"Perf should be > 0.8 {perf}, {dataset.name}"
+    assert perf > threshold, f"Perf should be > {threshold} {perf}, {dataset.name}"
     if verbose:
         print(f"Perf {perf}, {dataset.name}")
 
@@ -134,6 +151,28 @@ def test_nanoQA_dataset_perf():
     model, tokenizer = get_model_and_tokenizer("pythia-2.8b")
     dataset = create_nanoQA_retrieval_dataset(nb_sample=100, tokenizer=tokenizer)
     assert_dataset_perf(model, tokenizer, dataset)
+
+
+# nano QA variations
+
+
+def test_nanoQA_variations():
+    model, tokenizer = get_model_and_tokenizer("pythia-2.8b")
+    fns = [
+        create_nanoQA_uniform_answer_prefix_dataset,
+        create_nanoQA_question_first_dataset,
+        create_nanoQA_mixed_template_dataset,
+        create_nanoQA_retrieval_dataset,
+    ]
+    for f in fns:
+        assert_dataset_perf(
+            model,
+            tokenizer,
+            f(nb_sample=50, tokenizer=tokenizer),
+            verbose=False,
+            threshold=0.8,
+            soft_matching=True,
+        )
 
 
 # type hint
@@ -187,3 +226,38 @@ def test_translation_dataset_falcon_perf():
     )
     for dataset in datasets:
         assert_dataset_perf(model, tokenizer, dataset)
+
+
+# induction dataset
+
+
+def test_induction_dataset():
+    model, tokenizer = get_model_and_tokenizer("pythia-160m")
+    datasets = create_induction_dataset_same_prefix(
+        nb_sample=50,
+        tokenizer=tokenizer,
+    )
+    for dataset in datasets:
+        assert_dataset_perf(model, tokenizer, dataset)
+
+
+# test factual recall
+
+
+def test_factual_recall_dataset():
+    model, tokenizer = get_model_and_tokenizer("gpt2-xl")
+    datasets = create_factual_recall_dataset(
+        nb_sample=200, tokenizer=tokenizer, dataset_names=["cvdb", "geography"]
+    )
+    for dataset in datasets:
+        assert_dataset_perf(model, tokenizer, dataset)
+
+    model, tokenizer = get_model_and_tokenizer("falcon-7b")
+    datasets = create_factual_recall_dataset(
+        nb_sample=200, tokenizer=tokenizer, dataset_names=["cvdb", "geography"]
+    )
+    for dataset in datasets:
+        assert_dataset_perf(model, tokenizer, dataset)
+
+
+# %%

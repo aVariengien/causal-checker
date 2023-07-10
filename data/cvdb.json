@@ -1,0 +1,4376 @@
+[
+    {
+        "question": "On which continent did Napoleon live?",
+        "answer": "Europe",
+        "entity": "Napoleon",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Nelson Mandela live?",
+        "answer": "Africa",
+        "entity": "Nelson Mandela",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Che Guevara live?",
+        "answer": "America",
+        "entity": "Che Guevara",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Aristotle live?",
+        "answer": "Europe",
+        "entity": "Aristotle",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Fidel Castro live?",
+        "answer": "America",
+        "entity": "Fidel Castro",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Avicii live?",
+        "answer": "Europe",
+        "entity": "Avicii",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Louis XIV of France live?",
+        "answer": "Europe",
+        "entity": "Louis XIV of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Muammar Gaddafi live?",
+        "answer": "Africa",
+        "entity": "Muammar Gaddafi",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Victor Hugo live?",
+        "answer": "Europe",
+        "entity": "Victor Hugo",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Voltaire live?",
+        "answer": "Europe",
+        "entity": "Voltaire",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Heinrich Himmler live?",
+        "answer": "Europe",
+        "entity": "Heinrich Himmler",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Joseph Goebbels live?",
+        "answer": "Europe",
+        "entity": "Joseph Goebbels",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Francisco Franco live?",
+        "answer": "Europe",
+        "entity": "Francisco Franco",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Leonard Cohen live?",
+        "answer": "America",
+        "entity": "Leonard Cohen",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Louis XVI of France live?",
+        "answer": "Europe",
+        "entity": "Louis XVI of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Charles de Gaulle live?",
+        "answer": "Europe",
+        "entity": "Charles de Gaulle",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Ayrton Senna live?",
+        "answer": "America",
+        "entity": "Ayrton Senna",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Claude Monet live?",
+        "answer": "Europe",
+        "entity": "Claude Monet",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Reinhard Heydrich live?",
+        "answer": "Europe",
+        "entity": "Reinhard Heydrich",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Albert Camus live?",
+        "answer": "Europe",
+        "entity": "Albert Camus",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Louis Pasteur live?",
+        "answer": "Europe",
+        "entity": "Louis Pasteur",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Richard Wagner live?",
+        "answer": "Europe",
+        "entity": "Richard Wagner",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hans Christian Andersen live?",
+        "answer": "Europe",
+        "entity": "Hans Christian Andersen",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Juan Gabriel live?",
+        "answer": "America",
+        "entity": "Juan Gabriel",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Francis II of France live?",
+        "answer": "Europe",
+        "entity": "Francis II of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Ho Chi Minh live?",
+        "answer": "Asia",
+        "entity": "Ho Chi Minh",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Idi Amin live?",
+        "answer": "Africa",
+        "entity": "Idi Amin",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Michel Foucault live?",
+        "answer": "Europe",
+        "entity": "Michel Foucault",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Pablo Neruda live?",
+        "answer": "America",
+        "entity": "Pablo Neruda",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Rudolf Hess live?",
+        "answer": "Europe",
+        "entity": "Rudolf Hess",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Cory Monteith live?",
+        "answer": "America",
+        "entity": "Cory Monteith",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Robert Mugabe live?",
+        "answer": "Africa",
+        "entity": "Robert Mugabe",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Alfred Nobel live?",
+        "answer": "Europe",
+        "entity": "Alfred Nobel",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Arthur Schopenhauer live?",
+        "answer": "Europe",
+        "entity": "Arthur Schopenhauer",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Alexandre Dumas live?",
+        "answer": "Europe",
+        "entity": "Alexandre Dumas",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Georg Wilhelm Friedrich Hegel live?",
+        "answer": "Europe",
+        "entity": "Georg Wilhelm Friedrich Hegel",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Corey Haim live?",
+        "answer": "America",
+        "entity": "Corey Haim",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Johannes Gutenberg live?",
+        "answer": "Europe",
+        "entity": "Johannes Gutenberg",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Louis XV of France live?",
+        "answer": "Europe",
+        "entity": "Louis XV of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Johannes Kepler live?",
+        "answer": "Europe",
+        "entity": "Johannes Kepler",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Guy de Maupassant live?",
+        "answer": "Europe",
+        "entity": "Guy de Maupassant",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Niels Bohr live?",
+        "answer": "Europe",
+        "entity": "Niels Bohr",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Umberto Eco live?",
+        "answer": "Europe",
+        "entity": "Umberto Eco",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Henry II of France live?",
+        "answer": "Europe",
+        "entity": "Henry II of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Akira Kurosawa live?",
+        "answer": "Asia",
+        "entity": "Akira Kurosawa",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Henri Matisse live?",
+        "answer": "Europe",
+        "entity": "Henri Matisse",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did George Frideric Handel live?",
+        "answer": "Europe",
+        "entity": "George Frideric Handel",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Pancho Villa live?",
+        "answer": "America",
+        "entity": "Pancho Villa",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Gamal Abdel Nasser live?",
+        "answer": "Africa",
+        "entity": "Gamal Abdel Nasser",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did James Joyce live?",
+        "answer": "Europe",
+        "entity": "James Joyce",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Friedrich Engels live?",
+        "answer": "Europe",
+        "entity": "Friedrich Engels",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Serge Gainsbourg live?",
+        "answer": "Europe",
+        "entity": "Serge Gainsbourg",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Francis I of France live?",
+        "answer": "Europe",
+        "entity": "Francis I of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Marcel Proust live?",
+        "answer": "Europe",
+        "entity": "Marcel Proust",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Charles II of Spain live?",
+        "answer": "Europe",
+        "entity": "Charles II of Spain",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Ingmar Bergman live?",
+        "answer": "Europe",
+        "entity": "Ingmar Bergman",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Leopold II of Belgium live?",
+        "answer": "Europe",
+        "entity": "Leopold II of Belgium",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Auguste Comte live?",
+        "answer": "Europe",
+        "entity": "Auguste Comte",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Emiliano Zapata live?",
+        "answer": "America",
+        "entity": "Emiliano Zapata",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Charles IX of France live?",
+        "answer": "Europe",
+        "entity": "Charles IX of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Johannes Brahms live?",
+        "answer": "Europe",
+        "entity": "Johannes Brahms",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Louis XVII of France live?",
+        "answer": "Europe",
+        "entity": "Louis XVII of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Louis Philippe I live?",
+        "answer": "Europe",
+        "entity": "Louis Philippe I",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Max Planck live?",
+        "answer": "Europe",
+        "entity": "Max Planck",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Robert Schumann live?",
+        "answer": "Europe",
+        "entity": "Robert Schumann",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Federico Fellini live?",
+        "answer": "Europe",
+        "entity": "Federico Fellini",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Konrad Adenauer live?",
+        "answer": "Europe",
+        "entity": "Konrad Adenauer",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Auguste Rodin live?",
+        "answer": "Europe",
+        "entity": "Auguste Rodin",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Edgar Degas live?",
+        "answer": "Europe",
+        "entity": "Edgar Degas",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Lee Kuan Yew live?",
+        "answer": "Asia",
+        "entity": "Lee Kuan Yew",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Felix Mendelssohn live?",
+        "answer": "Europe",
+        "entity": "Felix Mendelssohn",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Prince Andrew of Greece and Denmark live?",
+        "answer": "Europe",
+        "entity": "Prince Andrew of Greece and Denmark",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Maurice Ravel live?",
+        "answer": "Europe",
+        "entity": "Maurice Ravel",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Louis XVIII of France live?",
+        "answer": "Europe",
+        "entity": "Louis XVIII of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Takeda Shingen live?",
+        "answer": "Asia",
+        "entity": "Takeda Shingen",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Manuel Noriega live?",
+        "answer": "America",
+        "entity": "Manuel Noriega",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Heinz Guderian live?",
+        "answer": "Europe",
+        "entity": "Heinz Guderian",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Chulalongkorn live?",
+        "answer": "Asia",
+        "entity": "Chulalongkorn",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Philip IV of France live?",
+        "answer": "Europe",
+        "entity": "Philip IV of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Gustave Flaubert live?",
+        "answer": "Europe",
+        "entity": "Gustave Flaubert",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Wilhelm Keitel live?",
+        "answer": "Europe",
+        "entity": "Wilhelm Keitel",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Michael Nyqvist live?",
+        "answer": "Europe",
+        "entity": "Michael Nyqvist",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Akechi Mitsuhide live?",
+        "answer": "Asia",
+        "entity": "Akechi Mitsuhide",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Get\u00c3\u00balio Vargas live?",
+        "answer": "America",
+        "entity": "Get\u00c3\u00balio Vargas",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Gustave Eiffel live?",
+        "answer": "Europe",
+        "entity": "Gustave Eiffel",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Jacques Lacan live?",
+        "answer": "Europe",
+        "entity": "Jacques Lacan",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Charles I of Austria live?",
+        "answer": "Europe",
+        "entity": "Charles I of Austria",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Christian Dior live?",
+        "answer": "Europe",
+        "entity": "Christian Dior",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Pieter Bruegel the Elder live?",
+        "answer": "Europe",
+        "entity": "Pieter Bruegel the Elder",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Manuel Belgrano live?",
+        "answer": "America",
+        "entity": "Manuel Belgrano",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Stendhal live?",
+        "answer": "Europe",
+        "entity": "Stendhal",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Garrincha live?",
+        "answer": "America",
+        "entity": "Garrincha",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Paulo Freire live?",
+        "answer": "America",
+        "entity": "Paulo Freire",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Louis IX of France live?",
+        "answer": "Europe",
+        "entity": "Louis IX of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Charles X of France live?",
+        "answer": "Europe",
+        "entity": "Charles X of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Steve Biko live?",
+        "answer": "Africa",
+        "entity": "Steve Biko",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Pedro II of Brazil live?",
+        "answer": "America",
+        "entity": "Pedro II of Brazil",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Erik Satie live?",
+        "answer": "Europe",
+        "entity": "Erik Satie",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Paul Verlaine live?",
+        "answer": "Europe",
+        "entity": "Paul Verlaine",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Heinrich Heine live?",
+        "answer": "Europe",
+        "entity": "Heinrich Heine",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Nicolas Flamel live?",
+        "answer": "Europe",
+        "entity": "Nicolas Flamel",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Dietrich Bonhoeffer live?",
+        "answer": "Europe",
+        "entity": "Dietrich Bonhoeffer",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Gustave Courbet live?",
+        "answer": "Europe",
+        "entity": "Gustave Courbet",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did David Reimer live?",
+        "answer": "America",
+        "entity": "David Reimer",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Erich Hartmann live?",
+        "answer": "Europe",
+        "entity": "Erich Hartmann",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Octavio Paz live?",
+        "answer": "America",
+        "entity": "Octavio Paz",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Emperor Gaozu of Han live?",
+        "answer": "Asia",
+        "entity": "Emperor Gaozu of Han",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Yves Montand live?",
+        "answer": "Europe",
+        "entity": "Yves Montand",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Ludwig Mies van der Rohe live?",
+        "answer": "Europe",
+        "entity": "Ludwig Mies van der Rohe",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Charles XII of Sweden live?",
+        "answer": "Europe",
+        "entity": "Charles XII of Sweden",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Roland Barthes live?",
+        "answer": "Europe",
+        "entity": "Roland Barthes",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Pierre Curie live?",
+        "answer": "Europe",
+        "entity": "Pierre Curie",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Gerd von Rundstedt live?",
+        "answer": "Europe",
+        "entity": "Gerd von Rundstedt",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Francisco de Miranda live?",
+        "answer": "America",
+        "entity": "Francisco de Miranda",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Gordie Howe live?",
+        "answer": "America",
+        "entity": "Gordie Howe",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Georges Seurat live?",
+        "answer": "Europe",
+        "entity": "Georges Seurat",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Gilles Deleuze live?",
+        "answer": "Europe",
+        "entity": "Gilles Deleuze",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Olof Palme live?",
+        "answer": "Europe",
+        "entity": "Olof Palme",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Terry Fox live?",
+        "answer": "America",
+        "entity": "Terry Fox",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Georges Bizet live?",
+        "answer": "Europe",
+        "entity": "Georges Bizet",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Chiyonofuji Mitsugu live?",
+        "answer": "Asia",
+        "entity": "Chiyonofuji Mitsugu",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Andrzej Wajda live?",
+        "answer": "Europe",
+        "entity": "Andrzej Wajda",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Wilhelm Wundt live?",
+        "answer": "Europe",
+        "entity": "Wilhelm Wundt",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Witold Pilecki live?",
+        "answer": "Europe",
+        "entity": "Witold Pilecki",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Lorne Greene live?",
+        "answer": "America",
+        "entity": "Lorne Greene",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Sergei Mavrodi live?",
+        "answer": "Europe",
+        "entity": "Sergei Mavrodi",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Philip II of France live?",
+        "answer": "Europe",
+        "entity": "Philip II of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Edmund Husserl live?",
+        "answer": "Europe",
+        "entity": "Edmund Husserl",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hillel Slovak live?",
+        "answer": "America",
+        "entity": "Hillel Slovak",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Fela Kuti live?",
+        "answer": "Africa",
+        "entity": "Fela Kuti",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Charles VII of France live?",
+        "answer": "Europe",
+        "entity": "Charles VII of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Charles VIII of France live?",
+        "answer": "Europe",
+        "entity": "Charles VIII of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hector Berlioz live?",
+        "answer": "Europe",
+        "entity": "Hector Berlioz",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Mayer Amschel Rothschild live?",
+        "answer": "Europe",
+        "entity": "Mayer Amschel Rothschild",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Farouk of Egypt live?",
+        "answer": "Africa",
+        "entity": "Farouk of Egypt",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Louis XII of France live?",
+        "answer": "Europe",
+        "entity": "Louis XII of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Guido Westerwelle live?",
+        "answer": "Europe",
+        "entity": "Guido Westerwelle",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Fukuzawa Yukichi live?",
+        "answer": "Asia",
+        "entity": "Fukuzawa Yukichi",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hans Frank live?",
+        "answer": "Europe",
+        "entity": "Hans Frank",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Kyu Sakamoto live?",
+        "answer": "Asia",
+        "entity": "Kyu Sakamoto",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Klemens von Metternich live?",
+        "answer": "Europe",
+        "entity": "Klemens von Metternich",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Takasugi Shinsaku live?",
+        "answer": "Asia",
+        "entity": "Takasugi Shinsaku",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Neil Peart live?",
+        "answer": "America",
+        "entity": "Neil Peart",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Georges Braque live?",
+        "answer": "Europe",
+        "entity": "Georges Braque",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Taksin live?",
+        "answer": "Asia",
+        "entity": "Taksin",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Christian IX of Denmark live?",
+        "answer": "Europe",
+        "entity": "Christian IX of Denmark",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hassan II of Morocco live?",
+        "answer": "Africa",
+        "entity": "Hassan II of Morocco",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Louis XI of France live?",
+        "answer": "Europe",
+        "entity": "Louis XI of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Frida Kahlo live?",
+        "answer": "America",
+        "entity": "Frida Kahlo",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Marie Curie live?",
+        "answer": "Europe",
+        "entity": "Marie Curie",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Anne Frank live?",
+        "answer": "Europe",
+        "entity": "Anne Frank",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Ruth Bader Ginsburg live?",
+        "answer": "America",
+        "entity": "Ruth Bader Ginsburg",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Ingrid Bergman live?",
+        "answer": "Europe",
+        "entity": "Ingrid Bergman",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Simone de Beauvoir live?",
+        "answer": "Europe",
+        "entity": "Simone de Beauvoir",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hannah Arendt live?",
+        "answer": "Europe",
+        "entity": "Hannah Arendt",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hirooka Asako live?",
+        "answer": "Asia",
+        "entity": "Hirooka Asako",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Astrid Lindgren live?",
+        "answer": "Europe",
+        "entity": "Astrid Lindgren",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Rosa Luxemburg live?",
+        "answer": "Europe",
+        "entity": "Rosa Luxemburg",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Maria Montessori live?",
+        "answer": "Europe",
+        "entity": "Maria Montessori",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Margot Kidder live?",
+        "answer": "America",
+        "entity": "Margot Kidder",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hildegard of Bingen live?",
+        "answer": "Europe",
+        "entity": "Hildegard of Bingen",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Margaret of Valois live?",
+        "answer": "Europe",
+        "entity": "Margaret of Valois",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Magda Goebbels live?",
+        "answer": "Europe",
+        "entity": "Magda Goebbels",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Catherine of Alexandria live?",
+        "answer": "Africa",
+        "entity": "Catherine of Alexandria",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Ilse Koch live?",
+        "answer": "Europe",
+        "entity": "Ilse Koch",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Isabella of France live?",
+        "answer": "Europe",
+        "entity": "Isabella of France",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Reeva Steenkamp live?",
+        "answer": "Africa",
+        "entity": "Reeva Steenkamp",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Fawzia Fuad of Egypt live?",
+        "answer": "Africa",
+        "entity": "Fawzia Fuad of Egypt",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Simone Weil live?",
+        "answer": "Europe",
+        "entity": "Simone Weil",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Marguerite Duras live?",
+        "answer": "Europe",
+        "entity": "Marguerite Duras",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Ulrike Meinhof live?",
+        "answer": "Europe",
+        "entity": "Ulrike Meinhof",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Simone Signoret live?",
+        "answer": "Europe",
+        "entity": "Simone Signoret",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Gudrun Burwitz live?",
+        "answer": "Europe",
+        "entity": "Gudrun Burwitz",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Anna Magnani live?",
+        "answer": "Europe",
+        "entity": "Anna Magnani",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Princess Victoria of Hesse and by Rhine live?",
+        "answer": "Europe",
+        "entity": "Princess Victoria of Hesse and by Rhine",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Mary of Burgundy live?",
+        "answer": "Europe",
+        "entity": "Mary of Burgundy",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Murasaki Shikibu live?",
+        "answer": "Asia",
+        "entity": "Murasaki Shikibu",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Katharina von Bora live?",
+        "answer": "Europe",
+        "entity": "Katharina von Bora",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Sophia of Hanover live?",
+        "answer": "Europe",
+        "entity": "Sophia of Hanover",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Emmy Noether live?",
+        "answer": "Europe",
+        "entity": "Emmy Noether",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Anne of Brittany live?",
+        "answer": "Europe",
+        "entity": "Anne of Brittany",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Sei Ashina live?",
+        "answer": "Asia",
+        "entity": "Sei Ashina",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Lorena Rojas live?",
+        "answer": "America",
+        "entity": "Lorena Rojas",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Princess Sophie of Bavaria live?",
+        "answer": "Europe",
+        "entity": "Princess Sophie of Bavaria",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Anna Przybylska live?",
+        "answer": "Europe",
+        "entity": "Anna Przybylska",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Wangari Maathai live?",
+        "answer": "Africa",
+        "entity": "Wangari Maathai",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Princess Sophie of Greece and Denmark live?",
+        "answer": "Europe",
+        "entity": "Princess Sophie of Greece and Denmark",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Berthe Morisot live?",
+        "answer": "Europe",
+        "entity": "Berthe Morisot",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hanna Reitsch live?",
+        "answer": "Europe",
+        "entity": "Hanna Reitsch",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Monika Dannemann live?",
+        "answer": "Europe",
+        "entity": "Monika Dannemann",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Ingrid of Sweden live?",
+        "answer": "Europe",
+        "entity": "Ingrid of Sweden",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Rachele Mussolini live?",
+        "answer": "Europe",
+        "entity": "Rachele Mussolini",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Colleen Dewhurst live?",
+        "answer": "America",
+        "entity": "Colleen Dewhurst",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Frederica of Hanover live?",
+        "answer": "Europe",
+        "entity": "Frederica of Hanover",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hildegard Knef live?",
+        "answer": "Europe",
+        "entity": "Hildegard Knef",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Empress Suiko live?",
+        "answer": "Asia",
+        "entity": "Empress Suiko",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Princess Margarita of Greece and Denmark live?",
+        "answer": "Europe",
+        "entity": "Princess Margarita of Greece and Denmark",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Dina Wadia live?",
+        "answer": "America",
+        "entity": "Dina Wadia",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Princess Ludovika of Bavaria live?",
+        "answer": "Europe",
+        "entity": "Princess Ludovika of Bavaria",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Edda Mussolini live?",
+        "answer": "Europe",
+        "entity": "Edda Mussolini",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Toyoko Yamasaki live?",
+        "answer": "Asia",
+        "entity": "Toyoko Yamasaki",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Elisabeth Volkenrath live?",
+        "answer": "Europe",
+        "entity": "Elisabeth Volkenrath",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hannelore Kohl live?",
+        "answer": "Europe",
+        "entity": "Hannelore Kohl",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Duchess Helene in Bavaria live?",
+        "answer": "Europe",
+        "entity": "Duchess Helene in Bavaria",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Astrid of Sweden live?",
+        "answer": "Europe",
+        "entity": "Astrid of Sweden",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Marie Harel live?",
+        "answer": "Europe",
+        "entity": "Marie Harel",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Sophie Germain live?",
+        "answer": "Europe",
+        "entity": "Sophie Germain",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hortense de Beauharnais live?",
+        "answer": "Europe",
+        "entity": "Hortense de Beauharnais",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Archduchess Elisabeth Marie of Austria live?",
+        "answer": "Europe",
+        "entity": "Archduchess Elisabeth Marie of Austria",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Bibi Andersson live?",
+        "answer": "Europe",
+        "entity": "Bibi Andersson",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Kanako Fukaura live?",
+        "answer": "Asia",
+        "entity": "Kanako Fukaura",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hildegard Krekel live?",
+        "answer": "Europe",
+        "entity": "Hildegard Krekel",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Marguerite de Navarre live?",
+        "answer": "Europe",
+        "entity": "Marguerite de Navarre",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Clara Nunes live?",
+        "answer": "America",
+        "entity": "Clara Nunes",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Danuta Siedzik\u00c3\u00b3wna live?",
+        "answer": "Europe",
+        "entity": "Danuta Siedzik\u00c3\u00b3wna",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Kyoko Enami live?",
+        "answer": "Asia",
+        "entity": "Kyoko Enami",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Margherita Hack live?",
+        "answer": "Europe",
+        "entity": "Margherita Hack",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Kamila Skolimowska live?",
+        "answer": "Europe",
+        "entity": "Kamila Skolimowska",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Susanne Lothar live?",
+        "answer": "Europe",
+        "entity": "Susanne Lothar",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Caroline of Ansbach live?",
+        "answer": "Europe",
+        "entity": "Caroline of Ansbach",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Harue Akagi live?",
+        "answer": "Asia",
+        "entity": "Harue Akagi",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Duchess Sophie Charlotte in Bavaria live?",
+        "answer": "Europe",
+        "entity": "Duchess Sophie Charlotte in Bavaria",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Marta Marzotto live?",
+        "answer": "Europe",
+        "entity": "Marta Marzotto",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Agnieszka Osiecka live?",
+        "answer": "Europe",
+        "entity": "Agnieszka Osiecka",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Miyuki Kanbe live?",
+        "answer": "Asia",
+        "entity": "Miyuki Kanbe",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Samia Gamal live?",
+        "answer": "Africa",
+        "entity": "Samia Gamal",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Krystyna Skarbek live?",
+        "answer": "Europe",
+        "entity": "Krystyna Skarbek",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Margarete Himmler live?",
+        "answer": "Europe",
+        "entity": "Margarete Himmler",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Chica da Silva live?",
+        "answer": "America",
+        "entity": "Chica da Silva",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Caroline Bonaparte live?",
+        "answer": "Europe",
+        "entity": "Caroline Bonaparte",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Delphine Seyrig live?",
+        "answer": "Europe",
+        "entity": "Delphine Seyrig",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Sophie Daumier live?",
+        "answer": "Europe",
+        "entity": "Sophie Daumier",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Elisabeth Wiedemann live?",
+        "answer": "Europe",
+        "entity": "Elisabeth Wiedemann",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Kusumoto Ine live?",
+        "answer": "Asia",
+        "entity": "Kusumoto Ine",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Sylvie Joly live?",
+        "answer": "Europe",
+        "entity": "Sylvie Joly",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Marie Laurencin live?",
+        "answer": "Europe",
+        "entity": "Marie Laurencin",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Herta Bothe live?",
+        "answer": "Europe",
+        "entity": "Herta Bothe",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Hedwig of Silesia live?",
+        "answer": "Europe",
+        "entity": "Hedwig of Silesia",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Birgit Nilsson live?",
+        "answer": "Europe",
+        "entity": "Birgit Nilsson",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Agnieszka Kotulanka live?",
+        "answer": "Europe",
+        "entity": "Agnieszka Kotulanka",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Nobuko Otowa live?",
+        "answer": "Asia",
+        "entity": "Nobuko Otowa",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Alina Janowska live?",
+        "answer": "Europe",
+        "entity": "Alina Janowska",
+        "predicate": "continent"
+    },
+    {
+        "question": "On which continent did Empress Dowager Longyu live?",
+        "answer": "Asia",
+        "entity": "Empress Dowager Longyu",
+        "predicate": "continent"
+    },
+    {
+        "question": "What was the country of Napoleon?",
+        "answer": "France",
+        "entity": "Napoleon",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Nelson Mandela?",
+        "answer": "South Africa",
+        "entity": "Nelson Mandela",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Che Guevara?",
+        "answer": "Cuba",
+        "entity": "Che Guevara",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Aristotle?",
+        "answer": "Greece",
+        "entity": "Aristotle",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Fidel Castro?",
+        "answer": "Cuba",
+        "entity": "Fidel Castro",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Avicii?",
+        "answer": "Sweden",
+        "entity": "Avicii",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Louis XIV of France?",
+        "answer": "France",
+        "entity": "Louis XIV of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Muammar Gaddafi?",
+        "answer": "Libya",
+        "entity": "Muammar Gaddafi",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Victor Hugo?",
+        "answer": "France",
+        "entity": "Victor Hugo",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Voltaire?",
+        "answer": "France",
+        "entity": "Voltaire",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Heinrich Himmler?",
+        "answer": "Germany",
+        "entity": "Heinrich Himmler",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Joseph Goebbels?",
+        "answer": "Germany",
+        "entity": "Joseph Goebbels",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Francisco Franco?",
+        "answer": "Spain",
+        "entity": "Francisco Franco",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Leonard Cohen?",
+        "answer": "Canada",
+        "entity": "Leonard Cohen",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Louis XVI of France?",
+        "answer": "France",
+        "entity": "Louis XVI of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Charles de Gaulle?",
+        "answer": "France",
+        "entity": "Charles de Gaulle",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Ayrton Senna?",
+        "answer": "Brazil",
+        "entity": "Ayrton Senna",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Claude Monet?",
+        "answer": "France",
+        "entity": "Claude Monet",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Reinhard Heydrich?",
+        "answer": "Germany",
+        "entity": "Reinhard Heydrich",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Albert Camus?",
+        "answer": "France",
+        "entity": "Albert Camus",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Louis Pasteur?",
+        "answer": "France",
+        "entity": "Louis Pasteur",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Richard Wagner?",
+        "answer": "Germany",
+        "entity": "Richard Wagner",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hans Christian Andersen?",
+        "answer": "Denmark",
+        "entity": "Hans Christian Andersen",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Juan Gabriel?",
+        "answer": "Mexico",
+        "entity": "Juan Gabriel",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Francis II of France?",
+        "answer": "France",
+        "entity": "Francis II of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Ho Chi Minh?",
+        "answer": "Vietnam",
+        "entity": "Ho Chi Minh",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Idi Amin?",
+        "answer": "Uganda",
+        "entity": "Idi Amin",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Michel Foucault?",
+        "answer": "France",
+        "entity": "Michel Foucault",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Pablo Neruda?",
+        "answer": "Chile",
+        "entity": "Pablo Neruda",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Rudolf Hess?",
+        "answer": "Germany",
+        "entity": "Rudolf Hess",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Cory Monteith?",
+        "answer": "Canada",
+        "entity": "Cory Monteith",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Robert Mugabe?",
+        "answer": "Zimbabwe",
+        "entity": "Robert Mugabe",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Alfred Nobel?",
+        "answer": "Sweden",
+        "entity": "Alfred Nobel",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Arthur Schopenhauer?",
+        "answer": "Germany",
+        "entity": "Arthur Schopenhauer",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Alexandre Dumas?",
+        "answer": "France",
+        "entity": "Alexandre Dumas",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Georg Wilhelm Friedrich Hegel?",
+        "answer": "Germany",
+        "entity": "Georg Wilhelm Friedrich Hegel",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Corey Haim?",
+        "answer": "Canada",
+        "entity": "Corey Haim",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Johannes Gutenberg?",
+        "answer": "Germany",
+        "entity": "Johannes Gutenberg",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Louis XV of France?",
+        "answer": "France",
+        "entity": "Louis XV of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Johannes Kepler?",
+        "answer": "Germany",
+        "entity": "Johannes Kepler",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Guy de Maupassant?",
+        "answer": "France",
+        "entity": "Guy de Maupassant",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Niels Bohr?",
+        "answer": "Denmark",
+        "entity": "Niels Bohr",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Umberto Eco?",
+        "answer": "Italy",
+        "entity": "Umberto Eco",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Henry II of France?",
+        "answer": "France",
+        "entity": "Henry II of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Akira Kurosawa?",
+        "answer": "Japan",
+        "entity": "Akira Kurosawa",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Henri Matisse?",
+        "answer": "France",
+        "entity": "Henri Matisse",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of George Frideric Handel?",
+        "answer": "Germany",
+        "entity": "George Frideric Handel",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Pancho Villa?",
+        "answer": "Mexico",
+        "entity": "Pancho Villa",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Gamal Abdel Nasser?",
+        "answer": "Egypt",
+        "entity": "Gamal Abdel Nasser",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of James Joyce?",
+        "answer": "Ireland",
+        "entity": "James Joyce",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Friedrich Engels?",
+        "answer": "Germany",
+        "entity": "Friedrich Engels",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Serge Gainsbourg?",
+        "answer": "France",
+        "entity": "Serge Gainsbourg",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Francis I of France?",
+        "answer": "France",
+        "entity": "Francis I of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Marcel Proust?",
+        "answer": "France",
+        "entity": "Marcel Proust",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Charles II of Spain?",
+        "answer": "Spain",
+        "entity": "Charles II of Spain",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Ingmar Bergman?",
+        "answer": "Sweden",
+        "entity": "Ingmar Bergman",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Leopold II of Belgium?",
+        "answer": "Belgium",
+        "entity": "Leopold II of Belgium",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Auguste Comte?",
+        "answer": "France",
+        "entity": "Auguste Comte",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Emiliano Zapata?",
+        "answer": "Mexico",
+        "entity": "Emiliano Zapata",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Charles IX of France?",
+        "answer": "France",
+        "entity": "Charles IX of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Johannes Brahms?",
+        "answer": "Germany",
+        "entity": "Johannes Brahms",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Louis XVII of France?",
+        "answer": "France",
+        "entity": "Louis XVII of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Louis Philippe I?",
+        "answer": "France",
+        "entity": "Louis Philippe I",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Max Planck?",
+        "answer": "Germany",
+        "entity": "Max Planck",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Robert Schumann?",
+        "answer": "Germany",
+        "entity": "Robert Schumann",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Federico Fellini?",
+        "answer": "Italy",
+        "entity": "Federico Fellini",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Konrad Adenauer?",
+        "answer": "Germany",
+        "entity": "Konrad Adenauer",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Auguste Rodin?",
+        "answer": "France",
+        "entity": "Auguste Rodin",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Edgar Degas?",
+        "answer": "France",
+        "entity": "Edgar Degas",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Lee Kuan Yew?",
+        "answer": "Singapore",
+        "entity": "Lee Kuan Yew",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Felix Mendelssohn?",
+        "answer": "Germany",
+        "entity": "Felix Mendelssohn",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Prince Andrew of Greece and Denmark?",
+        "answer": "Greece",
+        "entity": "Prince Andrew of Greece and Denmark",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Maurice Ravel?",
+        "answer": "France",
+        "entity": "Maurice Ravel",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Louis XVIII of France?",
+        "answer": "France",
+        "entity": "Louis XVIII of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Takeda Shingen?",
+        "answer": "Japan",
+        "entity": "Takeda Shingen",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Manuel Noriega?",
+        "answer": "Panama",
+        "entity": "Manuel Noriega",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Heinz Guderian?",
+        "answer": "Germany",
+        "entity": "Heinz Guderian",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Chulalongkorn?",
+        "answer": "Thailand",
+        "entity": "Chulalongkorn",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Philip IV of France?",
+        "answer": "France",
+        "entity": "Philip IV of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Gustave Flaubert?",
+        "answer": "France",
+        "entity": "Gustave Flaubert",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Wilhelm Keitel?",
+        "answer": "Germany",
+        "entity": "Wilhelm Keitel",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Michael Nyqvist?",
+        "answer": "Sweden",
+        "entity": "Michael Nyqvist",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Akechi Mitsuhide?",
+        "answer": "Japan",
+        "entity": "Akechi Mitsuhide",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Get\u00c3\u00balio Vargas?",
+        "answer": "Brazil",
+        "entity": "Get\u00c3\u00balio Vargas",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Gustave Eiffel?",
+        "answer": "France",
+        "entity": "Gustave Eiffel",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Jacques Lacan?",
+        "answer": "France",
+        "entity": "Jacques Lacan",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Charles I of Austria?",
+        "answer": "Austria",
+        "entity": "Charles I of Austria",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Christian Dior?",
+        "answer": "France",
+        "entity": "Christian Dior",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Pieter Bruegel the Elder?",
+        "answer": "Netherlands",
+        "entity": "Pieter Bruegel the Elder",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Manuel Belgrano?",
+        "answer": "Argentina",
+        "entity": "Manuel Belgrano",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Stendhal?",
+        "answer": "France",
+        "entity": "Stendhal",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Garrincha?",
+        "answer": "Brazil",
+        "entity": "Garrincha",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Paulo Freire?",
+        "answer": "Brazil",
+        "entity": "Paulo Freire",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Louis IX of France?",
+        "answer": "France",
+        "entity": "Louis IX of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Charles X of France?",
+        "answer": "France",
+        "entity": "Charles X of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Steve Biko?",
+        "answer": "South Africa",
+        "entity": "Steve Biko",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Pedro II of Brazil?",
+        "answer": "Brazil",
+        "entity": "Pedro II of Brazil",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Erik Satie?",
+        "answer": "France",
+        "entity": "Erik Satie",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Paul Verlaine?",
+        "answer": "France",
+        "entity": "Paul Verlaine",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Heinrich Heine?",
+        "answer": "Germany",
+        "entity": "Heinrich Heine",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Nicolas Flamel?",
+        "answer": "France",
+        "entity": "Nicolas Flamel",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Dietrich Bonhoeffer?",
+        "answer": "Germany",
+        "entity": "Dietrich Bonhoeffer",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Gustave Courbet?",
+        "answer": "France",
+        "entity": "Gustave Courbet",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of David Reimer?",
+        "answer": "Canada",
+        "entity": "David Reimer",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Erich Hartmann?",
+        "answer": "Germany",
+        "entity": "Erich Hartmann",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Octavio Paz?",
+        "answer": "Mexico",
+        "entity": "Octavio Paz",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Emperor Gaozu of Han?",
+        "answer": "China",
+        "entity": "Emperor Gaozu of Han",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Yves Montand?",
+        "answer": "France",
+        "entity": "Yves Montand",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Ludwig Mies van der Rohe?",
+        "answer": "Germany",
+        "entity": "Ludwig Mies van der Rohe",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Charles XII of Sweden?",
+        "answer": "Sweden",
+        "entity": "Charles XII of Sweden",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Roland Barthes?",
+        "answer": "France",
+        "entity": "Roland Barthes",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Pierre Curie?",
+        "answer": "France",
+        "entity": "Pierre Curie",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Gerd von Rundstedt?",
+        "answer": "Germany",
+        "entity": "Gerd von Rundstedt",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Francisco de Miranda?",
+        "answer": "Spain",
+        "entity": "Francisco de Miranda",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Gordie Howe?",
+        "answer": "Canada",
+        "entity": "Gordie Howe",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Georges Seurat?",
+        "answer": "France",
+        "entity": "Georges Seurat",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Gilles Deleuze?",
+        "answer": "France",
+        "entity": "Gilles Deleuze",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Olof Palme?",
+        "answer": "Sweden",
+        "entity": "Olof Palme",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Terry Fox?",
+        "answer": "Canada",
+        "entity": "Terry Fox",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Georges Bizet?",
+        "answer": "France",
+        "entity": "Georges Bizet",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Chiyonofuji Mitsugu?",
+        "answer": "Japan",
+        "entity": "Chiyonofuji Mitsugu",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Andrzej Wajda?",
+        "answer": "Poland",
+        "entity": "Andrzej Wajda",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Wilhelm Wundt?",
+        "answer": "Germany",
+        "entity": "Wilhelm Wundt",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Witold Pilecki?",
+        "answer": "Poland",
+        "entity": "Witold Pilecki",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Lorne Greene?",
+        "answer": "Canada",
+        "entity": "Lorne Greene",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Sergei Mavrodi?",
+        "answer": "Russia",
+        "entity": "Sergei Mavrodi",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Philip II of France?",
+        "answer": "France",
+        "entity": "Philip II of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Edmund Husserl?",
+        "answer": "Germany",
+        "entity": "Edmund Husserl",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hillel Slovak?",
+        "answer": "Israel",
+        "entity": "Hillel Slovak",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Fela Kuti?",
+        "answer": "Nigeria",
+        "entity": "Fela Kuti",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Charles VII of France?",
+        "answer": "France",
+        "entity": "Charles VII of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Charles VIII of France?",
+        "answer": "France",
+        "entity": "Charles VIII of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hector Berlioz?",
+        "answer": "France",
+        "entity": "Hector Berlioz",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Mayer Amschel Rothschild?",
+        "answer": "Germany",
+        "entity": "Mayer Amschel Rothschild",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Farouk of Egypt?",
+        "answer": "Egypt",
+        "entity": "Farouk of Egypt",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Louis XII of France?",
+        "answer": "France",
+        "entity": "Louis XII of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Guido Westerwelle?",
+        "answer": "Germany",
+        "entity": "Guido Westerwelle",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Fukuzawa Yukichi?",
+        "answer": "Japan",
+        "entity": "Fukuzawa Yukichi",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hans Frank?",
+        "answer": "Germany",
+        "entity": "Hans Frank",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Kyu Sakamoto?",
+        "answer": "Japan",
+        "entity": "Kyu Sakamoto",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Klemens von Metternich?",
+        "answer": "Germany",
+        "entity": "Klemens von Metternich",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Takasugi Shinsaku?",
+        "answer": "Japan",
+        "entity": "Takasugi Shinsaku",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Neil Peart?",
+        "answer": "Canada",
+        "entity": "Neil Peart",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Georges Braque?",
+        "answer": "France",
+        "entity": "Georges Braque",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Taksin?",
+        "answer": "Thailand",
+        "entity": "Taksin",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Christian IX of Denmark?",
+        "answer": "Denmark",
+        "entity": "Christian IX of Denmark",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hassan II of Morocco?",
+        "answer": "Morocco",
+        "entity": "Hassan II of Morocco",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Louis XI of France?",
+        "answer": "France",
+        "entity": "Louis XI of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Frida Kahlo?",
+        "answer": "Mexico",
+        "entity": "Frida Kahlo",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Marie Curie?",
+        "answer": "France",
+        "entity": "Marie Curie",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Anne Frank?",
+        "answer": "Germany",
+        "entity": "Anne Frank",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Ruth Bader Ginsburg?",
+        "answer": "US",
+        "entity": "Ruth Bader Ginsburg",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Ingrid Bergman?",
+        "answer": "Sweden",
+        "entity": "Ingrid Bergman",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Simone de Beauvoir?",
+        "answer": "France",
+        "entity": "Simone de Beauvoir",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hannah Arendt?",
+        "answer": "Germany",
+        "entity": "Hannah Arendt",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hirooka Asako?",
+        "answer": "Japan",
+        "entity": "Hirooka Asako",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Astrid Lindgren?",
+        "answer": "Sweden",
+        "entity": "Astrid Lindgren",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Rosa Luxemburg?",
+        "answer": "Germany",
+        "entity": "Rosa Luxemburg",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Maria Montessori?",
+        "answer": "Italy",
+        "entity": "Maria Montessori",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Margot Kidder?",
+        "answer": "Canada",
+        "entity": "Margot Kidder",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hildegard of Bingen?",
+        "answer": "Germany",
+        "entity": "Hildegard of Bingen",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Margaret of Valois?",
+        "answer": "France",
+        "entity": "Margaret of Valois",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Magda Goebbels?",
+        "answer": "Germany",
+        "entity": "Magda Goebbels",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Catherine of Alexandria?",
+        "answer": "Egypt",
+        "entity": "Catherine of Alexandria",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Ilse Koch?",
+        "answer": "Germany",
+        "entity": "Ilse Koch",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Isabella of France?",
+        "answer": "France",
+        "entity": "Isabella of France",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Reeva Steenkamp?",
+        "answer": "South Africa",
+        "entity": "Reeva Steenkamp",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Fawzia Fuad of Egypt?",
+        "answer": "Egypt",
+        "entity": "Fawzia Fuad of Egypt",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Simone Weil?",
+        "answer": "France",
+        "entity": "Simone Weil",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Marguerite Duras?",
+        "answer": "France",
+        "entity": "Marguerite Duras",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Ulrike Meinhof?",
+        "answer": "Germany",
+        "entity": "Ulrike Meinhof",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Simone Signoret?",
+        "answer": "France",
+        "entity": "Simone Signoret",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Gudrun Burwitz?",
+        "answer": "Germany",
+        "entity": "Gudrun Burwitz",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Anna Magnani?",
+        "answer": "Italy",
+        "entity": "Anna Magnani",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Princess Victoria of Hesse and by Rhine?",
+        "answer": "Germany",
+        "entity": "Princess Victoria of Hesse and by Rhine",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Mary of Burgundy?",
+        "answer": "France",
+        "entity": "Mary of Burgundy",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Murasaki Shikibu?",
+        "answer": "Japan",
+        "entity": "Murasaki Shikibu",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Katharina von Bora?",
+        "answer": "Germany",
+        "entity": "Katharina von Bora",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Sophia of Hanover?",
+        "answer": "Germany",
+        "entity": "Sophia of Hanover",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Emmy Noether?",
+        "answer": "Germany",
+        "entity": "Emmy Noether",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Anne of Brittany?",
+        "answer": "France",
+        "entity": "Anne of Brittany",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Sei Ashina?",
+        "answer": "Japan",
+        "entity": "Sei Ashina",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Lorena Rojas?",
+        "answer": "Mexico",
+        "entity": "Lorena Rojas",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Princess Sophie of Bavaria?",
+        "answer": "Germany",
+        "entity": "Princess Sophie of Bavaria",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Anna Przybylska?",
+        "answer": "Poland",
+        "entity": "Anna Przybylska",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Wangari Maathai?",
+        "answer": "Kenya",
+        "entity": "Wangari Maathai",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Princess Sophie of Greece and Denmark?",
+        "answer": "Greece",
+        "entity": "Princess Sophie of Greece and Denmark",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Berthe Morisot?",
+        "answer": "France",
+        "entity": "Berthe Morisot",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hanna Reitsch?",
+        "answer": "Germany",
+        "entity": "Hanna Reitsch",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Monika Dannemann?",
+        "answer": "Germany",
+        "entity": "Monika Dannemann",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Ingrid of Sweden?",
+        "answer": "Sweden",
+        "entity": "Ingrid of Sweden",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Rachele Mussolini?",
+        "answer": "Italy",
+        "entity": "Rachele Mussolini",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Colleen Dewhurst?",
+        "answer": "Canada",
+        "entity": "Colleen Dewhurst",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Frederica of Hanover?",
+        "answer": "Germany",
+        "entity": "Frederica of Hanover",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hildegard Knef?",
+        "answer": "Germany",
+        "entity": "Hildegard Knef",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Empress Suiko?",
+        "answer": "Japan",
+        "entity": "Empress Suiko",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Princess Margarita of Greece and Denmark?",
+        "answer": "Greece",
+        "entity": "Princess Margarita of Greece and Denmark",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Dina Wadia?",
+        "answer": "India",
+        "entity": "Dina Wadia",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Princess Ludovika of Bavaria?",
+        "answer": "Germany",
+        "entity": "Princess Ludovika of Bavaria",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Edda Mussolini?",
+        "answer": "Italy",
+        "entity": "Edda Mussolini",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Toyoko Yamasaki?",
+        "answer": "Japan",
+        "entity": "Toyoko Yamasaki",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Elisabeth Volkenrath?",
+        "answer": "Germany",
+        "entity": "Elisabeth Volkenrath",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hannelore Kohl?",
+        "answer": "Germany",
+        "entity": "Hannelore Kohl",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Duchess Helene in Bavaria?",
+        "answer": "Germany",
+        "entity": "Duchess Helene in Bavaria",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Astrid of Sweden?",
+        "answer": "Sweden",
+        "entity": "Astrid of Sweden",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Marie Harel?",
+        "answer": "France",
+        "entity": "Marie Harel",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Sophie Germain?",
+        "answer": "France",
+        "entity": "Sophie Germain",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hortense de Beauharnais?",
+        "answer": "France",
+        "entity": "Hortense de Beauharnais",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Archduchess Elisabeth Marie of Austria?",
+        "answer": "Austria",
+        "entity": "Archduchess Elisabeth Marie of Austria",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Bibi Andersson?",
+        "answer": "Sweden",
+        "entity": "Bibi Andersson",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Kanako Fukaura?",
+        "answer": "Japan",
+        "entity": "Kanako Fukaura",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hildegard Krekel?",
+        "answer": "Germany",
+        "entity": "Hildegard Krekel",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Marguerite de Navarre?",
+        "answer": "France",
+        "entity": "Marguerite de Navarre",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Clara Nunes?",
+        "answer": "Brazil",
+        "entity": "Clara Nunes",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Danuta Siedzik\u00c3\u00b3wna?",
+        "answer": "Poland",
+        "entity": "Danuta Siedzik\u00c3\u00b3wna",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Kyoko Enami?",
+        "answer": "Japan",
+        "entity": "Kyoko Enami",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Margherita Hack?",
+        "answer": "Italy",
+        "entity": "Margherita Hack",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Kamila Skolimowska?",
+        "answer": "Poland",
+        "entity": "Kamila Skolimowska",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Susanne Lothar?",
+        "answer": "Germany",
+        "entity": "Susanne Lothar",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Caroline of Ansbach?",
+        "answer": "Germany",
+        "entity": "Caroline of Ansbach",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Harue Akagi?",
+        "answer": "Japan",
+        "entity": "Harue Akagi",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Duchess Sophie Charlotte in Bavaria?",
+        "answer": "Germany",
+        "entity": "Duchess Sophie Charlotte in Bavaria",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Marta Marzotto?",
+        "answer": "Italy",
+        "entity": "Marta Marzotto",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Agnieszka Osiecka?",
+        "answer": "Poland",
+        "entity": "Agnieszka Osiecka",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Miyuki Kanbe?",
+        "answer": "Japan",
+        "entity": "Miyuki Kanbe",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Samia Gamal?",
+        "answer": "Egypt",
+        "entity": "Samia Gamal",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Krystyna Skarbek?",
+        "answer": "Poland",
+        "entity": "Krystyna Skarbek",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Margarete Himmler?",
+        "answer": "Germany",
+        "entity": "Margarete Himmler",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Chica da Silva?",
+        "answer": "Brazil",
+        "entity": "Chica da Silva",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Caroline Bonaparte?",
+        "answer": "France",
+        "entity": "Caroline Bonaparte",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Delphine Seyrig?",
+        "answer": "France",
+        "entity": "Delphine Seyrig",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Sophie Daumier?",
+        "answer": "France",
+        "entity": "Sophie Daumier",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Elisabeth Wiedemann?",
+        "answer": "Germany",
+        "entity": "Elisabeth Wiedemann",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Kusumoto Ine?",
+        "answer": "Japan",
+        "entity": "Kusumoto Ine",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Sylvie Joly?",
+        "answer": "France",
+        "entity": "Sylvie Joly",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Marie Laurencin?",
+        "answer": "France",
+        "entity": "Marie Laurencin",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Herta Bothe?",
+        "answer": "Germany",
+        "entity": "Herta Bothe",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Hedwig of Silesia?",
+        "answer": "Germany",
+        "entity": "Hedwig of Silesia",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Birgit Nilsson?",
+        "answer": "Sweden",
+        "entity": "Birgit Nilsson",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Agnieszka Kotulanka?",
+        "answer": "Poland",
+        "entity": "Agnieszka Kotulanka",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Nobuko Otowa?",
+        "answer": "Japan",
+        "entity": "Nobuko Otowa",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Alina Janowska?",
+        "answer": "Poland",
+        "entity": "Alina Janowska",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the country of Empress Dowager Longyu?",
+        "answer": "China",
+        "entity": "Empress Dowager Longyu",
+        "predicate": "nationality"
+    },
+    {
+        "question": "What was the gender of Napoleon?",
+        "answer": "Male",
+        "entity": "Napoleon",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Nelson Mandela?",
+        "answer": "Male",
+        "entity": "Nelson Mandela",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Che Guevara?",
+        "answer": "Male",
+        "entity": "Che Guevara",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Aristotle?",
+        "answer": "Male",
+        "entity": "Aristotle",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Fidel Castro?",
+        "answer": "Male",
+        "entity": "Fidel Castro",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Avicii?",
+        "answer": "Male",
+        "entity": "Avicii",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Louis XIV of France?",
+        "answer": "Male",
+        "entity": "Louis XIV of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Muammar Gaddafi?",
+        "answer": "Male",
+        "entity": "Muammar Gaddafi",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Victor Hugo?",
+        "answer": "Male",
+        "entity": "Victor Hugo",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Voltaire?",
+        "answer": "Male",
+        "entity": "Voltaire",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Heinrich Himmler?",
+        "answer": "Male",
+        "entity": "Heinrich Himmler",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Joseph Goebbels?",
+        "answer": "Male",
+        "entity": "Joseph Goebbels",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Francisco Franco?",
+        "answer": "Male",
+        "entity": "Francisco Franco",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Leonard Cohen?",
+        "answer": "Male",
+        "entity": "Leonard Cohen",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Louis XVI of France?",
+        "answer": "Male",
+        "entity": "Louis XVI of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Charles de Gaulle?",
+        "answer": "Male",
+        "entity": "Charles de Gaulle",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Ayrton Senna?",
+        "answer": "Male",
+        "entity": "Ayrton Senna",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Claude Monet?",
+        "answer": "Male",
+        "entity": "Claude Monet",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Reinhard Heydrich?",
+        "answer": "Male",
+        "entity": "Reinhard Heydrich",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Albert Camus?",
+        "answer": "Male",
+        "entity": "Albert Camus",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Louis Pasteur?",
+        "answer": "Male",
+        "entity": "Louis Pasteur",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Richard Wagner?",
+        "answer": "Male",
+        "entity": "Richard Wagner",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hans Christian Andersen?",
+        "answer": "Male",
+        "entity": "Hans Christian Andersen",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Juan Gabriel?",
+        "answer": "Male",
+        "entity": "Juan Gabriel",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Francis II of France?",
+        "answer": "Male",
+        "entity": "Francis II of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Ho Chi Minh?",
+        "answer": "Male",
+        "entity": "Ho Chi Minh",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Idi Amin?",
+        "answer": "Male",
+        "entity": "Idi Amin",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Michel Foucault?",
+        "answer": "Male",
+        "entity": "Michel Foucault",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Pablo Neruda?",
+        "answer": "Male",
+        "entity": "Pablo Neruda",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Rudolf Hess?",
+        "answer": "Male",
+        "entity": "Rudolf Hess",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Cory Monteith?",
+        "answer": "Male",
+        "entity": "Cory Monteith",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Robert Mugabe?",
+        "answer": "Male",
+        "entity": "Robert Mugabe",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Alfred Nobel?",
+        "answer": "Male",
+        "entity": "Alfred Nobel",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Arthur Schopenhauer?",
+        "answer": "Male",
+        "entity": "Arthur Schopenhauer",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Alexandre Dumas?",
+        "answer": "Male",
+        "entity": "Alexandre Dumas",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Georg Wilhelm Friedrich Hegel?",
+        "answer": "Male",
+        "entity": "Georg Wilhelm Friedrich Hegel",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Corey Haim?",
+        "answer": "Male",
+        "entity": "Corey Haim",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Johannes Gutenberg?",
+        "answer": "Male",
+        "entity": "Johannes Gutenberg",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Louis XV of France?",
+        "answer": "Male",
+        "entity": "Louis XV of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Johannes Kepler?",
+        "answer": "Male",
+        "entity": "Johannes Kepler",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Guy de Maupassant?",
+        "answer": "Male",
+        "entity": "Guy de Maupassant",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Niels Bohr?",
+        "answer": "Male",
+        "entity": "Niels Bohr",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Umberto Eco?",
+        "answer": "Male",
+        "entity": "Umberto Eco",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Henry II of France?",
+        "answer": "Male",
+        "entity": "Henry II of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Akira Kurosawa?",
+        "answer": "Male",
+        "entity": "Akira Kurosawa",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Henri Matisse?",
+        "answer": "Male",
+        "entity": "Henri Matisse",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of George Frideric Handel?",
+        "answer": "Male",
+        "entity": "George Frideric Handel",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Pancho Villa?",
+        "answer": "Male",
+        "entity": "Pancho Villa",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Gamal Abdel Nasser?",
+        "answer": "Male",
+        "entity": "Gamal Abdel Nasser",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of James Joyce?",
+        "answer": "Male",
+        "entity": "James Joyce",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Friedrich Engels?",
+        "answer": "Male",
+        "entity": "Friedrich Engels",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Serge Gainsbourg?",
+        "answer": "Male",
+        "entity": "Serge Gainsbourg",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Francis I of France?",
+        "answer": "Male",
+        "entity": "Francis I of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Marcel Proust?",
+        "answer": "Male",
+        "entity": "Marcel Proust",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Charles II of Spain?",
+        "answer": "Male",
+        "entity": "Charles II of Spain",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Ingmar Bergman?",
+        "answer": "Male",
+        "entity": "Ingmar Bergman",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Leopold II of Belgium?",
+        "answer": "Male",
+        "entity": "Leopold II of Belgium",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Auguste Comte?",
+        "answer": "Male",
+        "entity": "Auguste Comte",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Emiliano Zapata?",
+        "answer": "Male",
+        "entity": "Emiliano Zapata",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Charles IX of France?",
+        "answer": "Male",
+        "entity": "Charles IX of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Johannes Brahms?",
+        "answer": "Male",
+        "entity": "Johannes Brahms",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Louis XVII of France?",
+        "answer": "Male",
+        "entity": "Louis XVII of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Louis Philippe I?",
+        "answer": "Male",
+        "entity": "Louis Philippe I",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Max Planck?",
+        "answer": "Male",
+        "entity": "Max Planck",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Robert Schumann?",
+        "answer": "Male",
+        "entity": "Robert Schumann",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Federico Fellini?",
+        "answer": "Male",
+        "entity": "Federico Fellini",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Konrad Adenauer?",
+        "answer": "Male",
+        "entity": "Konrad Adenauer",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Auguste Rodin?",
+        "answer": "Male",
+        "entity": "Auguste Rodin",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Edgar Degas?",
+        "answer": "Male",
+        "entity": "Edgar Degas",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Lee Kuan Yew?",
+        "answer": "Male",
+        "entity": "Lee Kuan Yew",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Felix Mendelssohn?",
+        "answer": "Male",
+        "entity": "Felix Mendelssohn",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Prince Andrew of Greece and Denmark?",
+        "answer": "Male",
+        "entity": "Prince Andrew of Greece and Denmark",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Maurice Ravel?",
+        "answer": "Male",
+        "entity": "Maurice Ravel",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Louis XVIII of France?",
+        "answer": "Male",
+        "entity": "Louis XVIII of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Takeda Shingen?",
+        "answer": "Male",
+        "entity": "Takeda Shingen",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Manuel Noriega?",
+        "answer": "Male",
+        "entity": "Manuel Noriega",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Heinz Guderian?",
+        "answer": "Male",
+        "entity": "Heinz Guderian",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Chulalongkorn?",
+        "answer": "Male",
+        "entity": "Chulalongkorn",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Philip IV of France?",
+        "answer": "Male",
+        "entity": "Philip IV of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Gustave Flaubert?",
+        "answer": "Male",
+        "entity": "Gustave Flaubert",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Wilhelm Keitel?",
+        "answer": "Male",
+        "entity": "Wilhelm Keitel",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Michael Nyqvist?",
+        "answer": "Male",
+        "entity": "Michael Nyqvist",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Akechi Mitsuhide?",
+        "answer": "Male",
+        "entity": "Akechi Mitsuhide",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Get\u00c3\u00balio Vargas?",
+        "answer": "Male",
+        "entity": "Get\u00c3\u00balio Vargas",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Gustave Eiffel?",
+        "answer": "Male",
+        "entity": "Gustave Eiffel",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Jacques Lacan?",
+        "answer": "Male",
+        "entity": "Jacques Lacan",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Charles I of Austria?",
+        "answer": "Male",
+        "entity": "Charles I of Austria",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Christian Dior?",
+        "answer": "Male",
+        "entity": "Christian Dior",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Pieter Bruegel the Elder?",
+        "answer": "Male",
+        "entity": "Pieter Bruegel the Elder",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Manuel Belgrano?",
+        "answer": "Male",
+        "entity": "Manuel Belgrano",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Stendhal?",
+        "answer": "Male",
+        "entity": "Stendhal",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Garrincha?",
+        "answer": "Male",
+        "entity": "Garrincha",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Paulo Freire?",
+        "answer": "Male",
+        "entity": "Paulo Freire",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Louis IX of France?",
+        "answer": "Male",
+        "entity": "Louis IX of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Charles X of France?",
+        "answer": "Male",
+        "entity": "Charles X of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Steve Biko?",
+        "answer": "Male",
+        "entity": "Steve Biko",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Pedro II of Brazil?",
+        "answer": "Male",
+        "entity": "Pedro II of Brazil",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Erik Satie?",
+        "answer": "Male",
+        "entity": "Erik Satie",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Paul Verlaine?",
+        "answer": "Male",
+        "entity": "Paul Verlaine",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Heinrich Heine?",
+        "answer": "Male",
+        "entity": "Heinrich Heine",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Nicolas Flamel?",
+        "answer": "Male",
+        "entity": "Nicolas Flamel",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Dietrich Bonhoeffer?",
+        "answer": "Male",
+        "entity": "Dietrich Bonhoeffer",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Gustave Courbet?",
+        "answer": "Male",
+        "entity": "Gustave Courbet",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of David Reimer?",
+        "answer": "Male",
+        "entity": "David Reimer",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Erich Hartmann?",
+        "answer": "Male",
+        "entity": "Erich Hartmann",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Octavio Paz?",
+        "answer": "Male",
+        "entity": "Octavio Paz",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Emperor Gaozu of Han?",
+        "answer": "Male",
+        "entity": "Emperor Gaozu of Han",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Yves Montand?",
+        "answer": "Male",
+        "entity": "Yves Montand",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Ludwig Mies van der Rohe?",
+        "answer": "Male",
+        "entity": "Ludwig Mies van der Rohe",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Charles XII of Sweden?",
+        "answer": "Male",
+        "entity": "Charles XII of Sweden",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Roland Barthes?",
+        "answer": "Male",
+        "entity": "Roland Barthes",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Pierre Curie?",
+        "answer": "Male",
+        "entity": "Pierre Curie",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Gerd von Rundstedt?",
+        "answer": "Male",
+        "entity": "Gerd von Rundstedt",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Francisco de Miranda?",
+        "answer": "Male",
+        "entity": "Francisco de Miranda",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Gordie Howe?",
+        "answer": "Male",
+        "entity": "Gordie Howe",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Georges Seurat?",
+        "answer": "Male",
+        "entity": "Georges Seurat",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Gilles Deleuze?",
+        "answer": "Male",
+        "entity": "Gilles Deleuze",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Olof Palme?",
+        "answer": "Male",
+        "entity": "Olof Palme",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Terry Fox?",
+        "answer": "Male",
+        "entity": "Terry Fox",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Georges Bizet?",
+        "answer": "Male",
+        "entity": "Georges Bizet",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Chiyonofuji Mitsugu?",
+        "answer": "Male",
+        "entity": "Chiyonofuji Mitsugu",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Andrzej Wajda?",
+        "answer": "Male",
+        "entity": "Andrzej Wajda",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Wilhelm Wundt?",
+        "answer": "Male",
+        "entity": "Wilhelm Wundt",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Witold Pilecki?",
+        "answer": "Male",
+        "entity": "Witold Pilecki",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Lorne Greene?",
+        "answer": "Male",
+        "entity": "Lorne Greene",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Sergei Mavrodi?",
+        "answer": "Male",
+        "entity": "Sergei Mavrodi",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Philip II of France?",
+        "answer": "Male",
+        "entity": "Philip II of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Edmund Husserl?",
+        "answer": "Male",
+        "entity": "Edmund Husserl",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hillel Slovak?",
+        "answer": "Male",
+        "entity": "Hillel Slovak",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Fela Kuti?",
+        "answer": "Male",
+        "entity": "Fela Kuti",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Charles VII of France?",
+        "answer": "Male",
+        "entity": "Charles VII of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Charles VIII of France?",
+        "answer": "Male",
+        "entity": "Charles VIII of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hector Berlioz?",
+        "answer": "Male",
+        "entity": "Hector Berlioz",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Mayer Amschel Rothschild?",
+        "answer": "Male",
+        "entity": "Mayer Amschel Rothschild",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Farouk of Egypt?",
+        "answer": "Male",
+        "entity": "Farouk of Egypt",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Louis XII of France?",
+        "answer": "Male",
+        "entity": "Louis XII of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Guido Westerwelle?",
+        "answer": "Male",
+        "entity": "Guido Westerwelle",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Fukuzawa Yukichi?",
+        "answer": "Male",
+        "entity": "Fukuzawa Yukichi",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hans Frank?",
+        "answer": "Male",
+        "entity": "Hans Frank",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Kyu Sakamoto?",
+        "answer": "Male",
+        "entity": "Kyu Sakamoto",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Klemens von Metternich?",
+        "answer": "Male",
+        "entity": "Klemens von Metternich",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Takasugi Shinsaku?",
+        "answer": "Male",
+        "entity": "Takasugi Shinsaku",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Neil Peart?",
+        "answer": "Male",
+        "entity": "Neil Peart",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Georges Braque?",
+        "answer": "Male",
+        "entity": "Georges Braque",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Taksin?",
+        "answer": "Male",
+        "entity": "Taksin",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Christian IX of Denmark?",
+        "answer": "Male",
+        "entity": "Christian IX of Denmark",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hassan II of Morocco?",
+        "answer": "Male",
+        "entity": "Hassan II of Morocco",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Louis XI of France?",
+        "answer": "Male",
+        "entity": "Louis XI of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Frida Kahlo?",
+        "answer": "Female",
+        "entity": "Frida Kahlo",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Marie Curie?",
+        "answer": "Female",
+        "entity": "Marie Curie",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Anne Frank?",
+        "answer": "Female",
+        "entity": "Anne Frank",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Ruth Bader Ginsburg?",
+        "answer": "Female",
+        "entity": "Ruth Bader Ginsburg",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Ingrid Bergman?",
+        "answer": "Female",
+        "entity": "Ingrid Bergman",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Simone de Beauvoir?",
+        "answer": "Female",
+        "entity": "Simone de Beauvoir",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hannah Arendt?",
+        "answer": "Female",
+        "entity": "Hannah Arendt",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hirooka Asako?",
+        "answer": "Female",
+        "entity": "Hirooka Asako",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Astrid Lindgren?",
+        "answer": "Female",
+        "entity": "Astrid Lindgren",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Rosa Luxemburg?",
+        "answer": "Female",
+        "entity": "Rosa Luxemburg",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Maria Montessori?",
+        "answer": "Female",
+        "entity": "Maria Montessori",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Margot Kidder?",
+        "answer": "Female",
+        "entity": "Margot Kidder",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hildegard of Bingen?",
+        "answer": "Female",
+        "entity": "Hildegard of Bingen",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Margaret of Valois?",
+        "answer": "Female",
+        "entity": "Margaret of Valois",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Magda Goebbels?",
+        "answer": "Female",
+        "entity": "Magda Goebbels",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Catherine of Alexandria?",
+        "answer": "Female",
+        "entity": "Catherine of Alexandria",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Ilse Koch?",
+        "answer": "Female",
+        "entity": "Ilse Koch",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Isabella of France?",
+        "answer": "Female",
+        "entity": "Isabella of France",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Reeva Steenkamp?",
+        "answer": "Female",
+        "entity": "Reeva Steenkamp",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Fawzia Fuad of Egypt?",
+        "answer": "Female",
+        "entity": "Fawzia Fuad of Egypt",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Simone Weil?",
+        "answer": "Female",
+        "entity": "Simone Weil",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Marguerite Duras?",
+        "answer": "Female",
+        "entity": "Marguerite Duras",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Ulrike Meinhof?",
+        "answer": "Female",
+        "entity": "Ulrike Meinhof",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Simone Signoret?",
+        "answer": "Female",
+        "entity": "Simone Signoret",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Gudrun Burwitz?",
+        "answer": "Female",
+        "entity": "Gudrun Burwitz",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Anna Magnani?",
+        "answer": "Female",
+        "entity": "Anna Magnani",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Princess Victoria of Hesse and by Rhine?",
+        "answer": "Female",
+        "entity": "Princess Victoria of Hesse and by Rhine",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Mary of Burgundy?",
+        "answer": "Female",
+        "entity": "Mary of Burgundy",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Murasaki Shikibu?",
+        "answer": "Female",
+        "entity": "Murasaki Shikibu",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Katharina von Bora?",
+        "answer": "Female",
+        "entity": "Katharina von Bora",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Sophia of Hanover?",
+        "answer": "Female",
+        "entity": "Sophia of Hanover",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Emmy Noether?",
+        "answer": "Female",
+        "entity": "Emmy Noether",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Anne of Brittany?",
+        "answer": "Female",
+        "entity": "Anne of Brittany",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Sei Ashina?",
+        "answer": "Female",
+        "entity": "Sei Ashina",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Lorena Rojas?",
+        "answer": "Female",
+        "entity": "Lorena Rojas",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Princess Sophie of Bavaria?",
+        "answer": "Female",
+        "entity": "Princess Sophie of Bavaria",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Anna Przybylska?",
+        "answer": "Female",
+        "entity": "Anna Przybylska",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Wangari Maathai?",
+        "answer": "Female",
+        "entity": "Wangari Maathai",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Princess Sophie of Greece and Denmark?",
+        "answer": "Female",
+        "entity": "Princess Sophie of Greece and Denmark",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Berthe Morisot?",
+        "answer": "Female",
+        "entity": "Berthe Morisot",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hanna Reitsch?",
+        "answer": "Female",
+        "entity": "Hanna Reitsch",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Monika Dannemann?",
+        "answer": "Female",
+        "entity": "Monika Dannemann",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Ingrid of Sweden?",
+        "answer": "Female",
+        "entity": "Ingrid of Sweden",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Rachele Mussolini?",
+        "answer": "Female",
+        "entity": "Rachele Mussolini",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Colleen Dewhurst?",
+        "answer": "Female",
+        "entity": "Colleen Dewhurst",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Frederica of Hanover?",
+        "answer": "Female",
+        "entity": "Frederica of Hanover",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hildegard Knef?",
+        "answer": "Female",
+        "entity": "Hildegard Knef",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Empress Suiko?",
+        "answer": "Female",
+        "entity": "Empress Suiko",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Princess Margarita of Greece and Denmark?",
+        "answer": "Female",
+        "entity": "Princess Margarita of Greece and Denmark",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Dina Wadia?",
+        "answer": "Female",
+        "entity": "Dina Wadia",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Princess Ludovika of Bavaria?",
+        "answer": "Female",
+        "entity": "Princess Ludovika of Bavaria",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Edda Mussolini?",
+        "answer": "Female",
+        "entity": "Edda Mussolini",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Toyoko Yamasaki?",
+        "answer": "Female",
+        "entity": "Toyoko Yamasaki",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Elisabeth Volkenrath?",
+        "answer": "Female",
+        "entity": "Elisabeth Volkenrath",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hannelore Kohl?",
+        "answer": "Female",
+        "entity": "Hannelore Kohl",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Duchess Helene in Bavaria?",
+        "answer": "Female",
+        "entity": "Duchess Helene in Bavaria",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Astrid of Sweden?",
+        "answer": "Female",
+        "entity": "Astrid of Sweden",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Marie Harel?",
+        "answer": "Female",
+        "entity": "Marie Harel",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Sophie Germain?",
+        "answer": "Female",
+        "entity": "Sophie Germain",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hortense de Beauharnais?",
+        "answer": "Female",
+        "entity": "Hortense de Beauharnais",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Archduchess Elisabeth Marie of Austria?",
+        "answer": "Female",
+        "entity": "Archduchess Elisabeth Marie of Austria",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Bibi Andersson?",
+        "answer": "Female",
+        "entity": "Bibi Andersson",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Kanako Fukaura?",
+        "answer": "Female",
+        "entity": "Kanako Fukaura",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hildegard Krekel?",
+        "answer": "Female",
+        "entity": "Hildegard Krekel",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Marguerite de Navarre?",
+        "answer": "Female",
+        "entity": "Marguerite de Navarre",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Clara Nunes?",
+        "answer": "Female",
+        "entity": "Clara Nunes",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Danuta Siedzik\u00c3\u00b3wna?",
+        "answer": "Female",
+        "entity": "Danuta Siedzik\u00c3\u00b3wna",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Kyoko Enami?",
+        "answer": "Female",
+        "entity": "Kyoko Enami",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Margherita Hack?",
+        "answer": "Female",
+        "entity": "Margherita Hack",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Kamila Skolimowska?",
+        "answer": "Female",
+        "entity": "Kamila Skolimowska",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Susanne Lothar?",
+        "answer": "Female",
+        "entity": "Susanne Lothar",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Caroline of Ansbach?",
+        "answer": "Female",
+        "entity": "Caroline of Ansbach",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Harue Akagi?",
+        "answer": "Female",
+        "entity": "Harue Akagi",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Duchess Sophie Charlotte in Bavaria?",
+        "answer": "Female",
+        "entity": "Duchess Sophie Charlotte in Bavaria",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Marta Marzotto?",
+        "answer": "Female",
+        "entity": "Marta Marzotto",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Agnieszka Osiecka?",
+        "answer": "Female",
+        "entity": "Agnieszka Osiecka",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Miyuki Kanbe?",
+        "answer": "Female",
+        "entity": "Miyuki Kanbe",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Samia Gamal?",
+        "answer": "Female",
+        "entity": "Samia Gamal",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Krystyna Skarbek?",
+        "answer": "Female",
+        "entity": "Krystyna Skarbek",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Margarete Himmler?",
+        "answer": "Female",
+        "entity": "Margarete Himmler",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Chica da Silva?",
+        "answer": "Female",
+        "entity": "Chica da Silva",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Caroline Bonaparte?",
+        "answer": "Female",
+        "entity": "Caroline Bonaparte",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Delphine Seyrig?",
+        "answer": "Female",
+        "entity": "Delphine Seyrig",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Sophie Daumier?",
+        "answer": "Female",
+        "entity": "Sophie Daumier",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Elisabeth Wiedemann?",
+        "answer": "Female",
+        "entity": "Elisabeth Wiedemann",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Kusumoto Ine?",
+        "answer": "Female",
+        "entity": "Kusumoto Ine",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Sylvie Joly?",
+        "answer": "Female",
+        "entity": "Sylvie Joly",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Marie Laurencin?",
+        "answer": "Female",
+        "entity": "Marie Laurencin",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Herta Bothe?",
+        "answer": "Female",
+        "entity": "Herta Bothe",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Hedwig of Silesia?",
+        "answer": "Female",
+        "entity": "Hedwig of Silesia",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Birgit Nilsson?",
+        "answer": "Female",
+        "entity": "Birgit Nilsson",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Agnieszka Kotulanka?",
+        "answer": "Female",
+        "entity": "Agnieszka Kotulanka",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Nobuko Otowa?",
+        "answer": "Female",
+        "entity": "Nobuko Otowa",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Alina Janowska?",
+        "answer": "Female",
+        "entity": "Alina Janowska",
+        "predicate": "gender"
+    },
+    {
+        "question": "What was the gender of Empress Dowager Longyu?",
+        "answer": "Female",
+        "entity": "Empress Dowager Longyu",
+        "predicate": "gender"
+    }
+]

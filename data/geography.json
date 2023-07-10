@@ -1,0 +1,1694 @@
+[
+    {
+        "question": "What is the language spoken in Armenia?",
+        "answer": "Armenian",
+        "entity": "Armenia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Armenia?",
+        "answer": "Yerevan",
+        "entity": "Armenia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Armenia in?",
+        "answer": "Asia",
+        "entity": "Armenia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Argentina?",
+        "answer": "Spanish",
+        "entity": "Argentina",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Argentina?",
+        "answer": "Buenos Aires",
+        "entity": "Argentina",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Argentina in?",
+        "answer": "South America",
+        "entity": "Argentina",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Austria?",
+        "answer": "German",
+        "entity": "Austria",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Austria?",
+        "answer": "Vienna",
+        "entity": "Austria",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Austria in?",
+        "answer": "Europe",
+        "entity": "Austria",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Bosnia and Herzegovina?",
+        "answer": "Bosnian",
+        "entity": "Bosnia and Herzegovina",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Bosnia and Herzegovina?",
+        "answer": "Sarajevo",
+        "entity": "Bosnia and Herzegovina",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Bosnia and Herzegovina in?",
+        "answer": "Europe",
+        "entity": "Bosnia and Herzegovina",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Bangladesh?",
+        "answer": "Bengali",
+        "entity": "Bangladesh",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Bangladesh?",
+        "answer": "Dhaka",
+        "entity": "Bangladesh",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Bangladesh in?",
+        "answer": "Asia",
+        "entity": "Bangladesh",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Burkina Faso?",
+        "answer": "French",
+        "entity": "Burkina Faso",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Burkina Faso?",
+        "answer": "Ouagadougou",
+        "entity": "Burkina Faso",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Burkina Faso in?",
+        "answer": "Africa",
+        "entity": "Burkina Faso",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Bulgaria?",
+        "answer": "Bulgarian",
+        "entity": "Bulgaria",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Bulgaria?",
+        "answer": "Sofia",
+        "entity": "Bulgaria",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Bulgaria in?",
+        "answer": "Europe",
+        "entity": "Bulgaria",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Burundi?",
+        "answer": "French",
+        "entity": "Burundi",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Burundi?",
+        "answer": "Bujumbura",
+        "entity": "Burundi",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Burundi in?",
+        "answer": "Africa",
+        "entity": "Burundi",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Brazil?",
+        "answer": "Portuguese",
+        "entity": "Brazil",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Brazil?",
+        "answer": "Bras\u00edlia",
+        "entity": "Brazil",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Brazil in?",
+        "answer": "South America",
+        "entity": "Brazil",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Botswana?",
+        "answer": "English",
+        "entity": "Botswana",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Botswana?",
+        "answer": "Gaborone",
+        "entity": "Botswana",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Botswana in?",
+        "answer": "Africa",
+        "entity": "Botswana",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Belarus?",
+        "answer": "Belarusian",
+        "entity": "Belarus",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Belarus?",
+        "answer": "Minsk",
+        "entity": "Belarus",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Belarus in?",
+        "answer": "Europe",
+        "entity": "Belarus",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Central African Republic?",
+        "answer": "French",
+        "entity": "Central African Republic",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Central African Republic?",
+        "answer": "Bangui",
+        "entity": "Central African Republic",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Central African Republic in?",
+        "answer": "Africa",
+        "entity": "Central African Republic",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Chile?",
+        "answer": "Spanish",
+        "entity": "Chile",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Chile?",
+        "answer": "Santiago",
+        "entity": "Chile",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Chile in?",
+        "answer": "South America",
+        "entity": "Chile",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Colombia?",
+        "answer": "Spanish",
+        "entity": "Colombia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Colombia?",
+        "answer": "Bogot\u00e1",
+        "entity": "Colombia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Colombia in?",
+        "answer": "South America",
+        "entity": "Colombia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Costa Rica?",
+        "answer": "Spanish",
+        "entity": "Costa Rica",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Costa Rica?",
+        "answer": "San Jos\u00e9",
+        "entity": "Costa Rica",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Costa Rica in?",
+        "answer": "North America",
+        "entity": "Costa Rica",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Cyprus?",
+        "answer": "Greek",
+        "entity": "Cyprus",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Cyprus?",
+        "answer": "Nicosia",
+        "entity": "Cyprus",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Cyprus in?",
+        "answer": "Europe",
+        "entity": "Cyprus",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Czech Republic?",
+        "answer": "Czech",
+        "entity": "Czech Republic",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Czech Republic?",
+        "answer": "Prague",
+        "entity": "Czech Republic",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Czech Republic in?",
+        "answer": "Europe",
+        "entity": "Czech Republic",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Germany?",
+        "answer": "German",
+        "entity": "Germany",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Germany?",
+        "answer": "Berlin",
+        "entity": "Germany",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Germany in?",
+        "answer": "Europe",
+        "entity": "Germany",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Djibouti?",
+        "answer": "French",
+        "entity": "Djibouti",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Djibouti?",
+        "answer": "Djibouti",
+        "entity": "Djibouti",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Djibouti in?",
+        "answer": "Africa",
+        "entity": "Djibouti",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Denmark?",
+        "answer": "Danish",
+        "entity": "Denmark",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Denmark?",
+        "answer": "Copenhagen",
+        "entity": "Denmark",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Denmark in?",
+        "answer": "Europe",
+        "entity": "Denmark",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Algeria?",
+        "answer": "Arabic",
+        "entity": "Algeria",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Algeria?",
+        "answer": "Algiers",
+        "entity": "Algeria",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Algeria in?",
+        "answer": "Africa",
+        "entity": "Algeria",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Ecuador?",
+        "answer": "Spanish",
+        "entity": "Ecuador",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Ecuador?",
+        "answer": "Quito",
+        "entity": "Ecuador",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Ecuador in?",
+        "answer": "South America",
+        "entity": "Ecuador",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Estonia?",
+        "answer": "Estonian",
+        "entity": "Estonia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Estonia?",
+        "answer": "Tallinn",
+        "entity": "Estonia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Estonia in?",
+        "answer": "Europe",
+        "entity": "Estonia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Egypt?",
+        "answer": "Arabic",
+        "entity": "Egypt",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Egypt?",
+        "answer": "Cairo",
+        "entity": "Egypt",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Egypt in?",
+        "answer": "Africa",
+        "entity": "Egypt",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Finland?",
+        "answer": "Finnish",
+        "entity": "Finland",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Finland?",
+        "answer": "Helsinki",
+        "entity": "Finland",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Finland in?",
+        "answer": "Europe",
+        "entity": "Finland",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in France?",
+        "answer": "French",
+        "entity": "France",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of France?",
+        "answer": "Paris",
+        "entity": "France",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is France in?",
+        "answer": "Europe",
+        "entity": "France",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Gabon?",
+        "answer": "French",
+        "entity": "Gabon",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Gabon?",
+        "answer": "Libreville",
+        "entity": "Gabon",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Gabon in?",
+        "answer": "Africa",
+        "entity": "Gabon",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in United Kingdom?",
+        "answer": "English",
+        "entity": "United Kingdom",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of United Kingdom?",
+        "answer": "London",
+        "entity": "United Kingdom",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is United Kingdom in?",
+        "answer": "Europe",
+        "entity": "United Kingdom",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Ghana?",
+        "answer": "English",
+        "entity": "Ghana",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Ghana?",
+        "answer": "Accra",
+        "entity": "Ghana",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Ghana in?",
+        "answer": "Africa",
+        "entity": "Ghana",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Gambia?",
+        "answer": "English",
+        "entity": "Gambia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Gambia?",
+        "answer": "Banjul",
+        "entity": "Gambia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Gambia in?",
+        "answer": "Africa",
+        "entity": "Gambia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Guinea?",
+        "answer": "French",
+        "entity": "Guinea",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Guinea?",
+        "answer": "Conakry",
+        "entity": "Guinea",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Guinea in?",
+        "answer": "Africa",
+        "entity": "Guinea",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Greece?",
+        "answer": "Greek",
+        "entity": "Greece",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Greece?",
+        "answer": "Athens",
+        "entity": "Greece",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Greece in?",
+        "answer": "Europe",
+        "entity": "Greece",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Guyana?",
+        "answer": "English",
+        "entity": "Guyana",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Guyana?",
+        "answer": "Georgetown",
+        "entity": "Guyana",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Guyana in?",
+        "answer": "South America",
+        "entity": "Guyana",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Croatia?",
+        "answer": "Croatian",
+        "entity": "Croatia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Croatia?",
+        "answer": "Zagreb",
+        "entity": "Croatia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Croatia in?",
+        "answer": "Europe",
+        "entity": "Croatia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Hungary?",
+        "answer": "Hungarian",
+        "entity": "Hungary",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Hungary?",
+        "answer": "Budapest",
+        "entity": "Hungary",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Hungary in?",
+        "answer": "Europe",
+        "entity": "Hungary",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Indonesia?",
+        "answer": "Indonesian",
+        "entity": "Indonesia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Indonesia?",
+        "answer": "Jakarta",
+        "entity": "Indonesia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Indonesia in?",
+        "answer": "Asia",
+        "entity": "Indonesia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Ireland?",
+        "answer": "Irish",
+        "entity": "Ireland",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Ireland?",
+        "answer": "Dublin",
+        "entity": "Ireland",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Ireland in?",
+        "answer": "Europe",
+        "entity": "Ireland",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Iran?",
+        "answer": "Persian",
+        "entity": "Iran",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Iran?",
+        "answer": "Tehran",
+        "entity": "Iran",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Iran in?",
+        "answer": "Asia",
+        "entity": "Iran",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Japan?",
+        "answer": "Japanese",
+        "entity": "Japan",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Japan?",
+        "answer": "Tokyo",
+        "entity": "Japan",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Japan in?",
+        "answer": "Asia",
+        "entity": "Japan",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Kyrgyzstan?",
+        "answer": "Kyrgyz",
+        "entity": "Kyrgyzstan",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Kyrgyzstan?",
+        "answer": "Bishkek",
+        "entity": "Kyrgyzstan",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Kyrgyzstan in?",
+        "answer": "Asia",
+        "entity": "Kyrgyzstan",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in North Korea?",
+        "answer": "Korean",
+        "entity": "North Korea",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of North Korea?",
+        "answer": "Pyongyang",
+        "entity": "North Korea",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is North Korea in?",
+        "answer": "Asia",
+        "entity": "North Korea",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in South Korea?",
+        "answer": "Korean",
+        "entity": "South Korea",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of South Korea?",
+        "answer": "Seoul",
+        "entity": "South Korea",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is South Korea in?",
+        "answer": "Asia",
+        "entity": "South Korea",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Kazakhstan?",
+        "answer": "Kazakh",
+        "entity": "Kazakhstan",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Kazakhstan?",
+        "answer": "Astana",
+        "entity": "Kazakhstan",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Kazakhstan in?",
+        "answer": "Asia",
+        "entity": "Kazakhstan",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Laos?",
+        "answer": "Laotian",
+        "entity": "Laos",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Laos?",
+        "answer": "Vientiane",
+        "entity": "Laos",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Laos in?",
+        "answer": "Asia",
+        "entity": "Laos",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Sri Lanka?",
+        "answer": "Sinhalese",
+        "entity": "Sri Lanka",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Sri Lanka?",
+        "answer": "Colombo",
+        "entity": "Sri Lanka",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Sri Lanka in?",
+        "answer": "Asia",
+        "entity": "Sri Lanka",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Liberia?",
+        "answer": "English",
+        "entity": "Liberia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Liberia?",
+        "answer": "Monrovia",
+        "entity": "Liberia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Liberia in?",
+        "answer": "Africa",
+        "entity": "Liberia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Lithuania?",
+        "answer": "Lithuanian",
+        "entity": "Lithuania",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Lithuania?",
+        "answer": "Vilnius",
+        "entity": "Lithuania",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Lithuania in?",
+        "answer": "Europe",
+        "entity": "Lithuania",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Luxembourg?",
+        "answer": "French",
+        "entity": "Luxembourg",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Luxembourg?",
+        "answer": "Luxembourg",
+        "entity": "Luxembourg",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Luxembourg in?",
+        "answer": "Europe",
+        "entity": "Luxembourg",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Latvia?",
+        "answer": "Latvian",
+        "entity": "Latvia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Latvia?",
+        "answer": "Riga",
+        "entity": "Latvia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Latvia in?",
+        "answer": "Europe",
+        "entity": "Latvia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Libya?",
+        "answer": "Arabic",
+        "entity": "Libya",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Libya?",
+        "answer": "Tripoli",
+        "entity": "Libya",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Libya in?",
+        "answer": "Africa",
+        "entity": "Libya",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Morocco?",
+        "answer": "Arabic",
+        "entity": "Morocco",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Morocco?",
+        "answer": "Rabat",
+        "entity": "Morocco",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Morocco in?",
+        "answer": "Africa",
+        "entity": "Morocco",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Montenegro?",
+        "answer": "Serbian",
+        "entity": "Montenegro",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Montenegro?",
+        "answer": "Podgorica",
+        "entity": "Montenegro",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Montenegro in?",
+        "answer": "Europe",
+        "entity": "Montenegro",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Mongolia?",
+        "answer": "Mongolian",
+        "entity": "Mongolia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Mongolia?",
+        "answer": "Ulan Bator",
+        "entity": "Mongolia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Mongolia in?",
+        "answer": "Asia",
+        "entity": "Mongolia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Mauritania?",
+        "answer": "Arabic",
+        "entity": "Mauritania",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Mauritania?",
+        "answer": "Nouakchott",
+        "entity": "Mauritania",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Mauritania in?",
+        "answer": "Africa",
+        "entity": "Mauritania",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Mauritius?",
+        "answer": "English",
+        "entity": "Mauritius",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Mauritius?",
+        "answer": "Port Louis",
+        "entity": "Mauritius",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Mauritius in?",
+        "answer": "Africa",
+        "entity": "Mauritius",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Malawi?",
+        "answer": "English",
+        "entity": "Malawi",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Malawi?",
+        "answer": "Lilongwe",
+        "entity": "Malawi",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Malawi in?",
+        "answer": "Africa",
+        "entity": "Malawi",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Mexico?",
+        "answer": "Spanish",
+        "entity": "Mexico",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Mexico?",
+        "answer": "Mexico City",
+        "entity": "Mexico",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Mexico in?",
+        "answer": "North America",
+        "entity": "Mexico",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Malaysia?",
+        "answer": "Malay",
+        "entity": "Malaysia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Malaysia?",
+        "answer": "Kuala Lumpur",
+        "entity": "Malaysia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Malaysia in?",
+        "answer": "Asia",
+        "entity": "Malaysia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Mozambique?",
+        "answer": "Portuguese",
+        "entity": "Mozambique",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Mozambique?",
+        "answer": "Maputo",
+        "entity": "Mozambique",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Mozambique in?",
+        "answer": "Africa",
+        "entity": "Mozambique",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Namibia?",
+        "answer": "English",
+        "entity": "Namibia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Namibia?",
+        "answer": "Windhoek",
+        "entity": "Namibia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Namibia in?",
+        "answer": "Africa",
+        "entity": "Namibia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Niger?",
+        "answer": "French",
+        "entity": "Niger",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Niger?",
+        "answer": "Niamey",
+        "entity": "Niger",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Niger in?",
+        "answer": "Africa",
+        "entity": "Niger",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Nigeria?",
+        "answer": "English",
+        "entity": "Nigeria",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Nigeria?",
+        "answer": "Abuja",
+        "entity": "Nigeria",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Nigeria in?",
+        "answer": "Africa",
+        "entity": "Nigeria",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Netherlands?",
+        "answer": "Dutch",
+        "entity": "Netherlands",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Netherlands?",
+        "answer": "Amsterdam",
+        "entity": "Netherlands",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Netherlands in?",
+        "answer": "Europe",
+        "entity": "Netherlands",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Norway?",
+        "answer": "Norwegian",
+        "entity": "Norway",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Norway?",
+        "answer": "Oslo",
+        "entity": "Norway",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Norway in?",
+        "answer": "Europe",
+        "entity": "Norway",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Nepal?",
+        "answer": "Nepali",
+        "entity": "Nepal",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Nepal?",
+        "answer": "Kathmandu",
+        "entity": "Nepal",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Nepal in?",
+        "answer": "Asia",
+        "entity": "Nepal",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Panama?",
+        "answer": "Spanish",
+        "entity": "Panama",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Panama?",
+        "answer": "Panama City",
+        "entity": "Panama",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Panama in?",
+        "answer": "North America",
+        "entity": "Panama",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Poland?",
+        "answer": "Polish",
+        "entity": "Poland",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Poland?",
+        "answer": "Warsaw",
+        "entity": "Poland",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Poland in?",
+        "answer": "Europe",
+        "entity": "Poland",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Saint Pierre and Miquelon?",
+        "answer": "French",
+        "entity": "Saint Pierre and Miquelon",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Saint Pierre and Miquelon?",
+        "answer": "Saint-Pierre",
+        "entity": "Saint Pierre and Miquelon",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Saint Pierre and Miquelon in?",
+        "answer": "North America",
+        "entity": "Saint Pierre and Miquelon",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Paraguay?",
+        "answer": "Spanish",
+        "entity": "Paraguay",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Paraguay?",
+        "answer": "Asunci\u00f3n",
+        "entity": "Paraguay",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Paraguay in?",
+        "answer": "South America",
+        "entity": "Paraguay",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Romania?",
+        "answer": "Romanian",
+        "entity": "Romania",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Romania?",
+        "answer": "Bucharest",
+        "entity": "Romania",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Romania in?",
+        "answer": "Europe",
+        "entity": "Romania",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Serbia?",
+        "answer": "Serbian",
+        "entity": "Serbia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Serbia?",
+        "answer": "Belgrade",
+        "entity": "Serbia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Serbia in?",
+        "answer": "Europe",
+        "entity": "Serbia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Russia?",
+        "answer": "Russian",
+        "entity": "Russia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Russia?",
+        "answer": "Moscow",
+        "entity": "Russia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Russia in?",
+        "answer": "Europe",
+        "entity": "Russia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Sudan?",
+        "answer": "Arabic",
+        "entity": "Sudan",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Sudan?",
+        "answer": "Khartoum",
+        "entity": "Sudan",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Sudan in?",
+        "answer": "Africa",
+        "entity": "Sudan",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Sweden?",
+        "answer": "Swedish",
+        "entity": "Sweden",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Sweden?",
+        "answer": "Stockholm",
+        "entity": "Sweden",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Sweden in?",
+        "answer": "Europe",
+        "entity": "Sweden",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Singapore?",
+        "answer": "English",
+        "entity": "Singapore",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Singapore?",
+        "answer": "Singapore",
+        "entity": "Singapore",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Singapore in?",
+        "answer": "Asia",
+        "entity": "Singapore",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Slovenia?",
+        "answer": "Slovenian",
+        "entity": "Slovenia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Slovenia?",
+        "answer": "Ljubljana",
+        "entity": "Slovenia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Slovenia in?",
+        "answer": "Europe",
+        "entity": "Slovenia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Slovakia?",
+        "answer": "Slovak",
+        "entity": "Slovakia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Slovakia?",
+        "answer": "Bratislava",
+        "entity": "Slovakia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Slovakia in?",
+        "answer": "Europe",
+        "entity": "Slovakia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Sierra Leone?",
+        "answer": "English",
+        "entity": "Sierra Leone",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Sierra Leone?",
+        "answer": "Freetown",
+        "entity": "Sierra Leone",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Sierra Leone in?",
+        "answer": "Africa",
+        "entity": "Sierra Leone",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Senegal?",
+        "answer": "French",
+        "entity": "Senegal",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Senegal?",
+        "answer": "Dakar",
+        "entity": "Senegal",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Senegal in?",
+        "answer": "Africa",
+        "entity": "Senegal",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in South Sudan?",
+        "answer": "English",
+        "entity": "South Sudan",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of South Sudan?",
+        "answer": "Juba",
+        "entity": "South Sudan",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is South Sudan in?",
+        "answer": "Africa",
+        "entity": "South Sudan",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in S\u00e3o Tom\u00e9 and Pr\u00edncipe?",
+        "answer": "Portuguese",
+        "entity": "S\u00e3o Tom\u00e9 and Pr\u00edncipe",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of S\u00e3o Tom\u00e9 and Pr\u00edncipe?",
+        "answer": "S\u00e3o Tom\u00e9",
+        "entity": "S\u00e3o Tom\u00e9 and Pr\u00edncipe",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is S\u00e3o Tom\u00e9 and Pr\u00edncipe in?",
+        "answer": "Africa",
+        "entity": "S\u00e3o Tom\u00e9 and Pr\u00edncipe",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Chad?",
+        "answer": "French",
+        "entity": "Chad",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Chad?",
+        "answer": "N'Djamena",
+        "entity": "Chad",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Chad in?",
+        "answer": "Africa",
+        "entity": "Chad",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Togo?",
+        "answer": "French",
+        "entity": "Togo",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Togo?",
+        "answer": "Lom\u00e9",
+        "entity": "Togo",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Togo in?",
+        "answer": "Africa",
+        "entity": "Togo",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Thailand?",
+        "answer": "Thai",
+        "entity": "Thailand",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Thailand?",
+        "answer": "Bangkok",
+        "entity": "Thailand",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Thailand in?",
+        "answer": "Asia",
+        "entity": "Thailand",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Uganda?",
+        "answer": "English",
+        "entity": "Uganda",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Uganda?",
+        "answer": "Kampala",
+        "entity": "Uganda",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Uganda in?",
+        "answer": "Africa",
+        "entity": "Uganda",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in United States?",
+        "answer": "English",
+        "entity": "United States",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of United States?",
+        "answer": "Washington D.C.",
+        "entity": "United States",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is United States in?",
+        "answer": "North America",
+        "entity": "United States",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Uruguay?",
+        "answer": "Spanish",
+        "entity": "Uruguay",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Uruguay?",
+        "answer": "Montevideo",
+        "entity": "Uruguay",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Uruguay in?",
+        "answer": "South America",
+        "entity": "Uruguay",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Uzbekistan?",
+        "answer": "Uzbek",
+        "entity": "Uzbekistan",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Uzbekistan?",
+        "answer": "Tashkent",
+        "entity": "Uzbekistan",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Uzbekistan in?",
+        "answer": "Asia",
+        "entity": "Uzbekistan",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Venezuela?",
+        "answer": "Spanish",
+        "entity": "Venezuela",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Venezuela?",
+        "answer": "Caracas",
+        "entity": "Venezuela",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Venezuela in?",
+        "answer": "South America",
+        "entity": "Venezuela",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Vietnam?",
+        "answer": "Vietnamese",
+        "entity": "Vietnam",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Vietnam?",
+        "answer": "Hanoi",
+        "entity": "Vietnam",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Vietnam in?",
+        "answer": "Asia",
+        "entity": "Vietnam",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Kosovo?",
+        "answer": "Albanian",
+        "entity": "Kosovo",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Kosovo?",
+        "answer": "Pristina",
+        "entity": "Kosovo",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Kosovo in?",
+        "answer": "Europe",
+        "entity": "Kosovo",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in South Africa?",
+        "answer": "Afrikaans",
+        "entity": "South Africa",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of South Africa?",
+        "answer": "Pretoria",
+        "entity": "South Africa",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is South Africa in?",
+        "answer": "Africa",
+        "entity": "South Africa",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Zambia?",
+        "answer": "English",
+        "entity": "Zambia",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Zambia?",
+        "answer": "Lusaka",
+        "entity": "Zambia",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Zambia in?",
+        "answer": "Africa",
+        "entity": "Zambia",
+        "predicate": "continent"
+    },
+    {
+        "question": "What is the language spoken in Zimbabwe?",
+        "answer": "English",
+        "entity": "Zimbabwe",
+        "predicate": "language"
+    },
+    {
+        "question": "What is the capital of Zimbabwe?",
+        "answer": "Harare",
+        "entity": "Zimbabwe",
+        "predicate": "capital"
+    },
+    {
+        "question": "What continent is Zimbabwe in?",
+        "answer": "Africa",
+        "entity": "Zimbabwe",
+        "predicate": "continent"
+    }
+]

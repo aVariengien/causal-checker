@@ -22,8 +22,11 @@ class Attribute:
     first_token: str = field(init=False)
     name: str = field()
     tokenizer: Any = field(init=True, default=None)
+    to_tokenize: bool = field(default=True)
 
     def __attrs_post_init__(self):
+        if not self.to_tokenize:
+            self.tokenizer = None
         self.first_token = get_first_token(self.tokenizer, self.value)
 
     def __hash__(self):
@@ -45,18 +48,23 @@ class Entity:
     name: str = field()
     attributes: List[Attribute] = field(factory=list)
     tokenizer: Any = field(init=True, default=None)
-    only_tokenize_name: bool = field(default=False)
+    tokenize_name: bool = field(default=False)
 
     def __attrs_post_init__(self):
         self.attributes.append(
-            Attribute(name="name", value=self.name, tokenizer=self.tokenizer)
+            Attribute(
+                name="name",
+                value=self.name,
+                tokenizer=self.tokenizer,
+                to_tokenize=self.tokenize_name,
+            )
         )
-        self.attributes.append(Attribute(name="exists", value="yes"))
+        self.attributes.append(Attribute(name="exists", value="yes", to_tokenize=False))
         for a in self.attributes:
             assert isinstance(a, Attribute)
             assert isinstance(a.name, str)
             assert isinstance(a.value, str)
-            if not self.only_tokenize_name:
+            if a.to_tokenize:
                 if a.tokenizer is None:
                     a.tokenizer = self.tokenizer
                     a.first_token = get_first_token(self.tokenizer, a.value)
@@ -151,9 +159,9 @@ class ContextQueryPrompt(CausalInput):
         self.check_tokenisation_incoherence()
 
     def check_tokenisation_incoherence(self):
-        """Verify that if the flag `only_tokenize_name` is on on at least one entity, then the query is asking for the name."""
+        """Verify that if the flag `tokenize_name` is on on at least one entity, then the query is asking for the name."""
         for entity in self.context:
-            if entity.only_tokenize_name:
+            if entity.tokenize_name:
                 if self.query.queried_attribute != "name":
                     raise ValueError(
                         f"If an entity has the flag `only_tokenize_name` on, then the query must ask for the name. {entity} {self.query}"
@@ -166,9 +174,11 @@ class OperationDataset:
 
     operations: List[ContextQueryPrompt] = field()
     name: str = field()
+    enforce_tokenisation: bool = field(default=True)
 
     def __attrs_post_init__(self):
-        self.check_tokenisation()
+        if self.enforce_tokenisation:
+            self.check_tokenisation()
 
     def check_tokenisation(self):
         all_attributes = {}

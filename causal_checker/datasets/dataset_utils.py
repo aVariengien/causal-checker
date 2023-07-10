@@ -17,22 +17,25 @@ from swap_graphs.core import ModelComponent, WildPosition, ActivationStore
 
 
 def gen_dataset_family(
-    prompt_gen_fn: Callable[[str], ContextQueryPrompt],
+    prompt_gen_fn: Callable[..., ContextQueryPrompt],
     dataset_prefix_name: str,
     dataset_names: List[str],
     nb_sample: int,
+    kwargs_prompt_gen_fn: Dict[str, Dict[str, Any]] = {},
+    kwargs_dataset: Any = {},
 ) -> List[OperationDataset]:
     """Generic template to create a list of operations dataset from a prompt generation function."""
     datasets = []
     for dataset_name in dataset_names:
+        if dataset_name not in kwargs_prompt_gen_fn:
+            kwargs_prompt_gen_fn[dataset_name] = {}
         operations = []
-        for _ in range(nb_sample):
-            operations.append(prompt_gen_fn(dataset_name))
+        for i in range(nb_sample):
+            operations.append(
+                prompt_gen_fn(dataset_name, **kwargs_prompt_gen_fn[dataset_name])
+            )
 
         datasets.append(
-            OperationDataset(
-                operations=operations,
-                name=f"code_type_retrieval_{dataset_name}",
-            )
+            OperationDataset(operations=operations, name=dataset_name, **kwargs_dataset)
         )
     return datasets

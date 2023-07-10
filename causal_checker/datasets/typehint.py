@@ -359,9 +359,11 @@ def gen_code_prompt(tokenizer, dataset_name: str) -> ContextQueryPrompt:
         entities.append(
             Entity(
                 name=v,
-                attributes=[Attribute(value=types[i], name=str("type"))],
+                attributes=[
+                    Attribute(value=types[i], name=str("type"), to_tokenize=False)
+                ],
                 tokenizer=tokenizer,
-                only_tokenize_name=True,
+                tokenize_name=True,
             )
         )
     query = Query(
