@@ -11,6 +11,9 @@ from causal_checker.datasets.induction_dataset import (
     create_induction_dataset_same_prefix,
 )
 from causal_checker.datasets.factual_recall import create_factual_recall_dataset
+from causal_checker.datasets.quantity_retrieval import (
+    create_math_quantity_retrieval_dataset,
+)
 from causal_checker.models import get_model_and_tokenizer
 from attrs import define, field
 from typing import List, Callable, Dict, Tuple, Set, Optional, Any, Literal
@@ -43,11 +46,79 @@ def get_default_tokenizer():
     return tokenizer
 
 
+def test_collision_detection():
+    tokenizer = get_default_tokenizer()
+    context = [
+        Entity(
+            name=f"{i}_entity_{i}",
+            attributes=[
+                Attribute(
+                    value=f"very_long_attr_{i}",
+                    name="decorator",
+                    to_tokenize=True,  # same attribute prefix
+                )
+            ],
+        )
+        for i in range(10)
+    ]
+    query = Query(
+        filter_by=[Attribute(name="name", value="1_entity_1")],
+        queried_attribute="decorator",
+    )
+    prompt1 = ContextQueryPrompt(
+        context=context,
+        query=query,
+        model_input="I am looking for entity 1",
+        tokenizer=tokenizer,
+    )
+    with pytest.raises(ValueError):  # collision
+        dataset = OperationDataset(
+            operations=[prompt1],
+            name="with_collision",
+        )
+
+    dataset = OperationDataset(
+        operations=[prompt1],
+        name="with_collision",
+        check_for_collision=False,  # deactivate collision detection
+    )
+
+    context2 = [
+        Entity(
+            name=f"{i}_entity_{i}",
+            attributes=[
+                Attribute(
+                    value=f"{chr(i)}very_long_attr_{i}",
+                    name="decorator",
+                    to_tokenize=True,  # attribute starts with a different letter
+                )
+            ],
+        )
+        for i in range(10)
+    ]
+
+    prompt2 = ContextQueryPrompt(
+        context=context2,
+        query=query,
+        model_input="I am looking for entity 1",
+        tokenizer=tokenizer,
+    )
+
+    dataset2 = OperationDataset(
+        operations=[prompt2],
+        name="without_collision",
+    )
+
+
 def test_end_of_text_detection():
+    tokenizer = get_default_tokenizer()
     context = [Entity(name=f"entity_{i}") for i in range(10)]
     query = Query(filter_by=[Attribute(name="name", value="entity_1")])
     prompt1 = ContextQueryPrompt(
-        context=context, query=query, model_input="I am looking for entity 1"
+        context=context,
+        query=query,
+        model_input="I am looking for entity 1",
+        tokenizer=tokenizer,
     )
     assert prompt1.model_input == "<|endoftext|>" + "I am looking for entity 1"
 
@@ -55,6 +126,7 @@ def test_end_of_text_detection():
         context=context,
         query=query,
         model_input="<|endoftext|>I am looking for entity 1",
+        tokenizer=tokenizer,
     )
     assert prompt2.model_input == "<|endoftext|>" + "I am looking for entity 1"
 
@@ -73,7 +145,10 @@ def test_tokenize_only_name():
         filter_by=[Attribute(name="name", value="1_very_long_entity_name_1")]
     )
     prompt1 = ContextQueryPrompt(
-        context=context, query=query1, model_input="I am looking for entity 1"
+        context=context,
+        query=query1,
+        model_input="I am looking for entity 1:",
+        tokenizer=tokenizer,
     )
 
     with pytest.raises(ValueError):
@@ -82,8 +157,41 @@ def test_tokenize_only_name():
             filter_by=[Attribute(name="name", value="1_very_long_entity_name_1")],
         )
         prompt2 = ContextQueryPrompt(
-            context=context, query=query2, model_input="I am looking for entity 1"
+            context=context,
+            query=query2,
+            model_input="I am looking for entity 1:",
+            tokenizer=tokenizer,
         )
+
+
+def test_tokenisation_fit():
+    tokenizer = get_default_tokenizer()
+    context = [
+        Entity(
+            name=f"{i}. very_long_entity_name_{i}",
+            tokenizer=tokenizer,
+            tokenize_name=True,
+        )
+        for i in range(10)
+    ]
+    query1 = Query(
+        queried_attribute="name",
+        filter_by=[Attribute(name="name", value="1. very_long_entity_name_1")],
+    )
+    with pytest.raises(ValueError):
+        prompt1 = ContextQueryPrompt(
+            context=context,
+            query=query1,
+            model_input="The name of the entity 1. is ",
+            tokenizer=tokenizer,  # model input ends with a space
+        )
+
+    prompt1 = ContextQueryPrompt(
+        context=context,
+        query=query1,
+        model_input="The name of the entity 1. is",
+        tokenizer=tokenizer,  # model input doesn't end with a space
+    )
 
 
 def test_nanoQA_retrieval_dataset():
@@ -202,7 +310,7 @@ def test_typehint_dataset_pythia_perf():
         assert_dataset_perf(model, tokenizer, dataset)
 
 
-# translation dataset
+# # translation dataset
 
 
 def test_translation_dataset():
@@ -241,23 +349,31 @@ def test_induction_dataset():
         assert_dataset_perf(model, tokenizer, dataset)
 
 
-# test factual recall
+# # test factual recall
 
 
 def test_factual_recall_dataset():
     model, tokenizer = get_model_and_tokenizer("gpt2-xl")
     datasets = create_factual_recall_dataset(
-        nb_sample=200, tokenizer=tokenizer, dataset_names=["cvdb", "geography"]
+        nb_sample=200,
+        tokenizer=tokenizer,
     )
     for dataset in datasets:
         assert_dataset_perf(model, tokenizer, dataset)
 
     model, tokenizer = get_model_and_tokenizer("falcon-7b")
-    datasets = create_factual_recall_dataset(
-        nb_sample=200, tokenizer=tokenizer, dataset_names=["cvdb", "geography"]
-    )
     for dataset in datasets:
         assert_dataset_perf(model, tokenizer, dataset)
 
 
-# %%
+# # test math quantity retreival
+
+
+def test_quantity_retrieval_dataset():
+    model, tokenizer = get_model_and_tokenizer("pythia-2.8b")
+    datasets = create_math_quantity_retrieval_dataset(
+        nb_sample=200,
+        tokenizer=tokenizer,
+    )
+    for dataset in datasets:
+        assert_dataset_perf(model, tokenizer, dataset)

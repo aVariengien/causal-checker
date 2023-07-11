@@ -139,3 +139,7 @@ def test_compute_alignement_nanoQA():
     )
     assert hf_baseline == baseline
     assert hf_interchange_intervention_acc == interchange_intervention_acc
+
+# %%
+test_compute_alignement_nanoQA()
+# %%

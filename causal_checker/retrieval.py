@@ -60,6 +60,9 @@ class Entity:
             )
         )
         self.attributes.append(Attribute(name="exists", value="yes", to_tokenize=False))
+        self.propagate_tokenizer()
+
+    def propagate_tokenizer(self):
         for a in self.attributes:
             assert isinstance(a, Attribute)
             assert isinstance(a.name, str)
@@ -72,6 +75,8 @@ class Entity:
                     self.tokenizer, a.value
                 ), "Incompatible tokenizer for entity and attribute"
 
+    def __hash__(self):
+        return hash(self.name)
 
 @define
 class Query:
@@ -152,11 +157,20 @@ class ContextQueryPrompt(CausalInput):
     answer: str = field(init=False)
 
     def __attrs_post_init__(self):
+        self.propagate_tokenizer()
         self.causal_graph_input = {"query": self.query, "context": self.context}
         self.answer = find_answer(self.query, self.context)
         if self.model_input[:13] != "<|endoftext|>":
             self.model_input = "<|endoftext|>" + self.model_input
         self.check_tokenisation_incoherence()
+        self.check_tokenisation_fit()
+        
+
+    def propagate_tokenizer(self):
+        for entity in self.context:
+            if entity.tokenizer is None:
+                entity.tokenizer = self.tokenizer
+                entity.propagate_tokenizer()
 
     def check_tokenisation_incoherence(self):
         """Verify that if the flag `tokenize_name` is on on at least one entity, then the query is asking for the name."""
@@ -164,8 +178,40 @@ class ContextQueryPrompt(CausalInput):
             if entity.tokenize_name:
                 if self.query.queried_attribute != "name":
                     raise ValueError(
-                        f"If an entity has the flag `only_tokenize_name` on, then the query must ask for the name. {entity} {self.query}"
+                        f"If an entity has the flag `tokenize_name` on, then the query must ask for the name. {entity} {self.query}"
                     )
+
+    def check_tokenisation_fit(self):
+        """Assert that tokenize(prompt+answer) = tokenize(prompt) + tokenize(answer)."""
+        prompt = self.model_input
+        answer = self.answer
+        prompt_tokenized = self.tokenizer.tokenize(prompt)
+        answer_tokenized = self.tokenizer.tokenize(answer)
+        prompt_answer_tokenized = self.tokenizer.tokenize(prompt + answer)
+        if prompt_tokenized + answer_tokenized != prompt_answer_tokenized:
+            raise ValueError(
+                f"Tokenization doesn't fit! {prompt} {answer} | {prompt_tokenized} + {answer_tokenized} != {prompt_answer_tokenized}"
+            )
+
+
+def detect_first_token_collision(entities: list[Entity]):
+    """Detect if two entities have an attribute of different value but with the the same first token. This would create ambiguity in the model input."""
+    first_tokens = []
+    all_attributes = {}
+    for entity in entities:
+        for attribute in entity.attributes:
+            if attribute.first_token not in all_attributes:
+                all_attributes[attribute.first_token] = attribute.value
+            else:
+                if (
+                    all_attributes[attribute.first_token] != attribute.value
+                ):  # different value but same first token
+                    return (
+                        attribute.value,
+                        all_attributes[attribute.first_token],
+                        attribute.first_token,
+                    )
+    return None
 
 
 @define
@@ -174,23 +220,23 @@ class OperationDataset:
 
     operations: List[ContextQueryPrompt] = field()
     name: str = field()
-    enforce_tokenisation: bool = field(default=True)
+    check_for_collision: bool = field(default=True)
 
     def __attrs_post_init__(self):
-        if self.enforce_tokenisation:
-            self.check_tokenisation()
+        if self.check_for_collision:
+            self.check_collision()
 
-    def check_tokenisation(self):
-        all_attributes = {}
+    def check_collision(self):
+        all_entities = []
         for prompt in self.operations:
             for entity in prompt.context:
-                for attribute in entity.attributes:
-                    if attribute.first_token not in all_attributes:
-                        all_attributes[attribute.first_token] = attribute.value
-                    else:
-                        assert (
-                            all_attributes[attribute.first_token] == attribute.value
-                        ), f"Two different attribute values gives the same first token! {attribute.first_token} {attribute.value} {all_attributes[attribute.first_token]}"
+                all_entities.append(entity)
+        collision = detect_first_token_collision(all_entities)
+        if collision is not None:
+            val1, val2, first_tok = collision
+            raise ValueError(
+                f"Two different attribute values gives the same first token! {first_tok} {val1} {val2}"
+            )
 
     def get_end_position(self) -> WildPosition:
         """Return the position of the last token of the model input."""

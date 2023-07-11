@@ -3,6 +3,7 @@ from typing import List, Callable, Dict, Tuple, Set, Optional, Any, Literal
 import torch
 
 
+
 def get_first_token(tokenizer: Any, text: str) -> str:
     if tokenizer is None:
         return text

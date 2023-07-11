@@ -360,7 +360,7 @@ def gen_code_prompt(tokenizer, dataset_name: str) -> ContextQueryPrompt:
             Entity(
                 name=v,
                 attributes=[
-                    Attribute(value=types[i], name=str("type"), to_tokenize=False)
+                    Attribute(value=types[i], name="type", to_tokenize=False)
                 ],
                 tokenizer=tokenizer,
                 tokenize_name=True,

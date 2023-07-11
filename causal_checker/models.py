@@ -12,6 +12,7 @@ def get_model(model_name, dtype=torch.bfloat16):
         trust_remote_code=True,
         torch_dtype=dtype,
         device_map="auto",
+        cache_dir="/mnt/ssd-0/alex-dev/hf_models",
     )
     tokenizer = AutoTokenizer.from_pretrained(
         model_name, cache_dir="/mnt/ssd-0/alex-dev/hf_models"

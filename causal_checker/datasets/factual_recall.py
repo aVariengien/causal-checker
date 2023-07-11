@@ -22,6 +22,8 @@ from causal_checker.datasets.dataset_utils import gen_dataset_family
 from functools import partial
 import random as rd
 import json
+from causal_checker.retrieval import detect_first_token_collision
+
 
 QUERIED_VARIABLES = {
     "cvdb": ["continent", "gender", "nationality"],
@@ -37,32 +39,17 @@ def read_json(name: str):
     return d
 
 
-def find_entity(json: List, queried_variable: str, entity_txt: str, tokenizer: Any):
-    attributes = []
+def find_prompt(json: List, queried_variable: str, entity_txt: str, tokenizer: Any):
     prompt = None
     for x in json:
         if x["entity"] == entity_txt:
-            attributes.append(
-                Attribute(
-                    name=x["predicate"],
-                    value=" " + x["answer"],
-                    tokenizer=tokenizer,
-                    to_tokenize=True,
-                )
-            )
             if x["predicate"] == queried_variable:
                 prompt = x["question"]
 
     assert (
         prompt is not None
     ), f"entity not found in json {entity_txt} {queried_variable}"
-    entity = Entity(
-        name=entity_txt,
-        attributes=attributes,
-        tokenizer=tokenizer,
-        tokenize_name=False,  # also tokenize the non-name attributes as they'll be asked for
-    )
-    return prompt, entity
+    return prompt
 
 
 PROMPT_TEMPLATE = {
@@ -82,20 +69,76 @@ Answer:""",
 }
 
 
+def to_entities(json: List[dict], tokenizer: Any) -> list[Entity]:
+    attribute_dict = {}
+    for x in json:
+        attributes = []
+        name = x["entity"]
+        if not name in attribute_dict:
+            attribute_dict[name] = []
+        attribute_dict[name].append((x["predicate"], x["answer"]))
+
+    entities = []
+    for name, attributes in attribute_dict.items():
+        entities.append(
+            Entity(
+                name=name,
+                attributes=[
+                    Attribute(
+                        name=attribute_name,
+                        value=" " + attribute_value,  # prepend a space
+                        to_tokenize=True,
+                    )
+                    for (attribute_name, attribute_value) in attributes
+                ],
+                tokenizer=tokenizer,
+                tokenize_name=False,
+            )
+        )
+    return entities
+
+
+def get_entity_from_attribute(entities: list[Entity], attribute_value: str):
+    for entity in entities:
+        for attribute in entity.attributes:
+            if attribute.value == attribute_value:
+                return entity
+    raise ValueError(f"attribute {attribute_value} not found in entities")
+
+
+def collision_free_entities(json: list, tokenizer: Any) -> list[Entity]:
+    """A collision arrves when two entities have an attribute that shares the same first token.
+    json is a list of dict with the fileds "entity", "predicate", "answer", "question".
+    Return a list of entities from json that are collision free.
+    """
+    entities_population = set(to_entities(json, tokenizer))
+    collision = detect_first_token_collision(list(entities_population))
+
+    while collision is not None:
+        val1, val2, first_tok = collision
+        coliding_entity = get_entity_from_attribute(list(entities_population), val1)
+        entities_population.remove(coliding_entity)
+        collision = detect_first_token_collision(list(entities_population))
+
+    return list(entities_population)
+
+
 def make_factual_recall_prompt(
-    tokenizer: Any, name: Literal["geography", "cvdb"], preloaded_json: List
+    tokenizer: Any,
+    name: Literal["geography", "cvdb"],
+    collision_free_entities: list[Entity],
+    preloaded_json: List,
 ) -> ContextQueryPrompt:
-    entities = [x["entity"] for x in preloaded_json]
-    entity_txt = rd.choice(entities)
+    entity = rd.choice(collision_free_entities)
     queried_variable = rd.choice(QUERIED_VARIABLES[name])
 
-    prompt_txt, entity = find_entity(
-        preloaded_json, queried_variable, entity_txt, tokenizer=tokenizer
+    prompt_txt = find_prompt(
+        preloaded_json, queried_variable, entity.name, tokenizer=tokenizer
     )
 
     query = Query(
         queried_attribute=queried_variable,
-        filter_by=[Attribute(name="name", value=entity_txt)],
+        filter_by=[Attribute(name="name", value=entity.name)],
     )
     return ContextQueryPrompt(
         query=query,
@@ -104,11 +147,12 @@ def make_factual_recall_prompt(
         tokenizer=tokenizer,
     )
 
-    # TODO: maybe add few shot
-
 
 def create_factual_recall_dataset(
-    nb_sample=100, tokenizer=None, dataset_names: List[str] = []
+    nb_sample=100,
+    tokenizer=None,
+    dataset_names: List[str] = [],
+    verbose=False,
 ) -> List[OperationDataset]:
     datasets = []
     if dataset_names == []:
@@ -118,6 +162,16 @@ def create_factual_recall_dataset(
     for dataset_name in dataset_names:
         kwargs_prompt_gen_fn[dataset_name] = {}
         kwargs_prompt_gen_fn[dataset_name]["preloaded_json"] = read_json(dataset_name)
+        kwargs_prompt_gen_fn[dataset_name][
+            "collision_free_entities"
+        ] = collision_free_entities(  # collision free entities are computed at run time because of the dependency on the tokenizer
+            kwargs_prompt_gen_fn[dataset_name]["preloaded_json"],
+            tokenizer=tokenizer,
+        )
+        if verbose:
+            print(
+                f"dataset {dataset_name} has {len(kwargs_prompt_gen_fn[dataset_name]['collision_free_entities'])} collision free entities"
+            )
 
     return gen_dataset_family(
         partial(make_factual_recall_prompt, tokenizer),
@@ -125,7 +179,6 @@ def create_factual_recall_dataset(
         dataset_names=dataset_names,
         nb_sample=nb_sample,
         kwargs_prompt_gen_fn=kwargs_prompt_gen_fn,
-        kwargs_dataset={"enforce_tokenisation": False},
     )
 
 
