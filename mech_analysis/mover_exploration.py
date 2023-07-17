@@ -166,7 +166,13 @@ mlp_output_filter = lambda x: "hook_mlp_out" in x
 layer_norm_scale_filter = lambda x: "ln_final.hook_scale" in x
 
 
-def fill_cache(cache, model, nano_qa_dataset: NanoQADataset, mid_layer: int):
+def fill_cache(
+    cache,
+    model,
+    nano_qa_dataset: NanoQADataset,
+    mid_layer: int,
+    additional_hooks: List[Tuple[str, Callable]] = [],
+):
     end_position = WildPosition(position=nano_qa_dataset.word_idx["END"], label="END")
     get_final_state_head = partial(
         cache_final_state_heads,
@@ -193,7 +199,8 @@ def fill_cache(cache, model, nano_qa_dataset: NanoQADataset, mid_layer: int):
             (mlp_output_filter, get_final_state_general),
             (layer_norm_scale_filter, get_final_state_general),
             (f"blocks.{mid_layer}.hook_resid_pre", get_final_state_general),
-        ],
+        ]
+        + additional_hooks,
     )
 
 
@@ -214,7 +221,11 @@ def get_component_output(
 
 
 def direct_logit_attribution(
-    dataset: NanoQADataset, model: Any, cache: Dict, narrative_variable: str
+    dataset: NanoQADataset,
+    model: Any,
+    cache: Dict,
+    narrative_variable: str,
+    ref_narrative_variable: Optional[str] = None,
 ):
     all_outputs = torch.zeros(
         model.cfg.n_layers, model.cfg.n_heads + 1, len(dataset), model.cfg.d_model
@@ -226,15 +237,32 @@ def direct_logit_attribution(
                 compo_type, layer, h, cache
             )  # tensor of size (dataset_size,d_model)
 
-    unembeds = torch.cat(
-        [
-            model.W_U[
-                :, dataset.narrative_variables_token_id[narrative_variable][i]
-            ].unsqueeze(0)
-            for i in range(len(dataset))
-        ],
-        dim=0,  # (dataset_size, d_model)
-    ).cpu()
+    if ref_narrative_variable is None:
+        unembeds = torch.cat(
+            [
+                model.W_U[
+                    :, dataset.narrative_variables_token_id[narrative_variable][i]
+                ].unsqueeze(0)
+                for i in range(len(dataset))
+            ],
+            dim=0,  # (dataset_size, d_model)
+        ).cpu()
+    else:
+        unembeds = torch.cat(
+            [
+                (
+                    model.W_U[
+                        :, dataset.narrative_variables_token_id[narrative_variable][i]
+                    ]
+                    - model.W_U[
+                        :,
+                        dataset.narrative_variables_token_id[ref_narrative_variable][i],
+                    ]
+                ).unsqueeze(0)
+                for i in range(len(dataset))
+            ],
+            dim=0,  # (dataset_size, d_model)
+        ).cpu()
 
     layer_norms = cache["ln_final.hook_scale-out-END"].flatten()  # (dataset_size, 1)
     print(all_outputs.shape, unembeds.shape, layer_norms.shape)
@@ -248,9 +276,6 @@ def direct_logit_attribution(
     )  # (n_layers, n_heads+1, dataset_size)
 
     return dla
-
-
-# %%
 
 
 def get_attn_to_correct_tok(
@@ -312,9 +337,6 @@ def act_names(cache):
         print(k, a.shape)
 
 
-# %%
-
-
 def apply_steering(
     target_dataset: NanoQADataset,
     model: Any,
@@ -332,9 +354,6 @@ def apply_steering(
             end_position=end_position_target,
         ),
     )
-
-
-# %%
 
 
 def get_mover_df(
@@ -437,10 +456,10 @@ model_name = "pythia-2.8b"
 model = HookedTransformer.from_pretrained(
     model_name=model_name, cache_dir="/mnt/ssd-0/alex-dev/hf_models"
 )
-# %%
+
 MID_LAYER = None
 if model_name == "pythia-2.8b":
-    MID_LAYER = 16
+    MID_LAYER = 17
 else:
     raise ValueError(f"no mid layer set for {model_name}")
 # %%
@@ -457,13 +476,15 @@ c2_q1_dataset = c2_q2_dataset.question_from(c1_q1_dataset)
 d = evaluate_model(model, c1_q1_dataset, batch_size=10)
 print_performance_table(d)
 # %%
-pprint_nanoqa_prompt(c1_q1_dataset, 0, separator="")
+pprint_nanoqa_prompt(c1_q1_dataset, 0, separator="|")
+# %%
 pprint_nanoqa_prompt(c2_q2_dataset, 0, separator="")
 pprint_nanoqa_prompt(c2_q1_dataset, 0, separator="")
 
 # %%
 cache = {}
 fill_cache(cache, model, c1_q1_dataset, mid_layer=MID_LAYER)
+
 
 # %%
 dla = direct_logit_attribution(
@@ -472,8 +493,154 @@ dla = direct_logit_attribution(
 dla_mean = dla.mean(dim=-1)
 dla_std = dla.std(dim=-1)
 px.imshow(dla_mean, aspect="auto")
+
 # %%
-plt.hist(dla[20, 25], bins=30)
+import pandas as pd
+import matplotlib.pyplot as plt
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+def plot_sorted_dla_bar_chart(
+    dataset: NanoQADataset,
+    model: HookedTransformer,
+    cache: Dict,
+    variable: str,
+    alt_variable: Optional[str] = None,
+    figsize=(10, 6),
+    title_suffix="",
+    error_bar=True,
+):
+    dla = direct_logit_attribution(
+        dataset,
+        model,
+        cache,
+        narrative_variable=variable,
+        ref_narrative_variable=alt_variable,
+    )
+    dla_mean = dla.mean(dim=-1)
+    dla_std = dla.std(dim=-1)
+    df = []
+
+    for l in range(model.cfg.n_layers):
+        for h in range(model.cfg.n_heads + 1):
+            if h == model.cfg.n_heads:
+                name = f"mlp {l}"
+            else:
+                name = f"head {l} {h}"
+            df.append(
+                {
+                    "layer": l,
+                    "name": name,
+                    "dla_mean": dla_mean[l, h].numpy(),
+                    "abs_dla_mean": dla_mean[l, h].abs().numpy(),
+                    "dla_std": dla_std[l, h].numpy(),
+                }
+            )
+    df = pd.DataFrame(df)
+
+    df_sorted = df.sort_values("abs_dla_mean", ascending=False)
+    threshold = df_sorted["abs_dla_mean"].quantile(0.95)
+    df_filtered = df_sorted[df_sorted["abs_dla_mean"] > threshold]
+
+    x = df_filtered["name"]
+    y = df_filtered["dla_mean"]
+    plt.figure(figsize=figsize)
+    if error_bar:
+        error = df_filtered["dla_std"]
+        plt.bar(x, y, yerr=error, capsize=4)
+    else:
+        plt.bar(df_filtered["name"], df_filtered["dla_mean"])
+
+    plt.xlabel("Name")
+    plt.ylabel("dla_mean")
+    plt.title("Top 5% of Largest abs_dla_mean Entries" + title_suffix)
+    plt.xticks(rotation=90)
+    plt.show()
+    return df
+
+
+df = plot_sorted_dla_bar_chart(
+    c1_q1_dataset, model, cache, variable="correct", figsize=(15, 8)
+)
+
+# %%
+model.reset_hooks()
+
+var = "character_name"
+alt_var = "city"
+
+mono_sample_dataset = NanoQADataset(
+    nb_samples=100,
+    tokenizer=model.tokenizer,  # type: ignore
+    querried_variables=[var],
+    nb_variable_values=5,
+)
+mono_cache = {}
+fill_cache(mono_cache, model, mono_sample_dataset, mid_layer=MID_LAYER)
+df = plot_sorted_dla_bar_chart(
+    mono_sample_dataset,
+    model,
+    mono_cache,
+    variable=var,
+    alt_variable=alt_var,
+    figsize=(15, 8),
+    error_bar=False,
+    title_suffix=f" - dataset: {mono_sample_dataset.name}",
+)
+# %%
+dla = direct_logit_attribution(
+    mono_sample_dataset,
+    model,
+    mono_cache,
+    narrative_variable=var,
+    ref_narrative_variable=alt_var,
+)
+
+print(dla.mean(dim=-1).sum())
+# %%
+pprint_nanoqa_prompt(mono_sample_dataset, 0, separator="")
+# %%
+
+
+def calculate_components(df, proportion=0.8):
+    df_sorted = df.sort_values("abs_dla_mean", ascending=False)
+    df_sorted["abs_dla_mean_pct"] = (
+        df_sorted["abs_dla_mean"] / df_sorted["abs_dla_mean"].sum()
+    )
+    df_sorted["cumulative_pct"] = df_sorted["abs_dla_mean_pct"].cumsum()
+    num_components = len(df_sorted[df_sorted["cumulative_pct"] <= proportion])
+    return num_components
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+
+def plot_num_components(df, proportions):
+    df_sorted = df.sort_values("abs_dla_mean", ascending=False)
+    df_sorted["abs_dla_mean_pct"] = (
+        df_sorted["abs_dla_mean"] / df_sorted["abs_dla_mean"].sum()
+    )
+    df_sorted["cumulative_pct"] = df_sorted["abs_dla_mean_pct"].cumsum()
+    num_components = []
+
+    for proportion in proportions:
+        components = len(df_sorted[df_sorted["cumulative_pct"] <= proportion])
+        num_components.append(components)
+
+    plt.plot(proportions, num_components, marker="o")
+    plt.xlabel("Proportion of Cumulative abs_dla_mean")
+    plt.ylabel("Number of Components")
+    plt.title(
+        "Number of Components for Different Proportions of Cumulative abs_dla_mean"
+    )
+    plt.show()
+
+
+plot_num_components(df, np.linspace(0.0, 0.8, 50))
+
 
 # %%
 attn_to_cor_tok = attention_to_nar_var_tok(
@@ -483,6 +650,11 @@ attn_to_cor_tok = attention_to_nar_var_tok(
 attn_mean = attn_to_cor_tok.mean(axis=-1)
 
 px.imshow(attn_mean, aspect="auto")
+
+# %%
+
+
+plot_movers(c1_q1_dataset, model, title="Probed variable: correct", mid_layer=MID_LAYER)
 
 # %%
 
@@ -496,7 +668,7 @@ for variable in variables:
         nb_variable_values=5,
         querried_variables=[variable],
         tokenizer=model.tokenizer,  # type: ignore
-        seed=rd.randint(0, 100000),
+        seed=None,
     )
 
 # %%
@@ -504,19 +676,21 @@ movers_df = {}
 for d in variable_datasets.values():
     movers_df[d.name] = get_mover_df(d, model, mid_layer=MID_LAYER)
 
-# %%
+
 for d in variable_datasets.values():
     fig = plot_movers(d, model, df=movers_df[d.name])
     fig.write_image(f"figs/movers_{model_name}_{d.name}.png")
 
-
 # %%
 movers = {}
+percentile = 0.7
 for d in variable_datasets.values():
-    movers[d.name] = get_movers_names(d, model, percentile=0.9, df=movers_df[d.name])
+    movers[d.name] = get_movers_names(
+        d, model, percentile=percentile, df=movers_df[d.name]
+    )
 
 #  compute and print the matrix of intersection of movers for the three different datasets
-# %%
+
 movers_matrix = np.zeros((len(movers), len(movers)))
 for i, (k1, v1) in enumerate(movers.items()):
     for j, (k2, v2) in enumerate(movers.items()):
@@ -537,9 +711,33 @@ fig.update_layout(
         tickvals=list(range(len(movers_matrix))),
         ticktext=variables,
     ),
-    title="Movers intersection matrix - percentile = 0.9",
+    title=f"Movers intersection matrix - percentile = {percentile}",
 )
 fig.show()
+
+# %%
+
+caches_per_qvar = {}
+for d in variable_datasets.values():
+    caches_per_qvar[d.name] = {}
+    fill_cache(caches_per_qvar[d.name], model, d, mid_layer=MID_LAYER)
+
+
+# %%
+# TODO maybe a facet plot here with different color for the bars depending on the type
+
+for d in variable_datasets.values():
+    for var in ["city", "character_name", "character_occupation", "season", "day_time"]:
+        plot_sorted_dla_bar_chart(
+            d,
+            model,
+            caches_per_qvar[d.name],
+            variable=var,
+            figsize=(15, 8),
+            title_suffix=f" - dataset: {d.name} - var: {var}",
+        )
+    print(" ==== ")
+
 
 # %%
 
@@ -548,17 +746,17 @@ fig.show()
 city_dataset = variable_datasets["city"]
 char_name_dataset = variable_datasets["character_name"]
 
-# %%
+
 city_cache = {}
 fill_cache(city_cache, model, city_dataset, mid_layer=MID_LAYER)
 
 char_name_cache = {}
 fill_cache(char_name_cache, model, char_name_dataset, mid_layer=MID_LAYER)
-# %%
+
 chimera_dataset = char_name_dataset.question_from(city_dataset)
 chimera_cache = {}
 fill_cache(chimera_cache, model, chimera_dataset, mid_layer=MID_LAYER)
-# %%
+
 
 df_target_char_name = get_mover_df(
     char_name_dataset, model, narrative_variable="character_name", mid_layer=MID_LAYER
@@ -567,12 +765,19 @@ df_target_city = get_mover_df(
     char_name_dataset, model, narrative_variable="city", mid_layer=MID_LAYER
 )
 
+df_source_city = get_mover_df(
+    city_dataset, model, narrative_variable="city", mid_layer=MID_LAYER
+)
 # %%
 plot_movers(
     char_name_dataset, model, df=df_target_char_name, title="Probed variable: char_name"
 )
 # %%
 plot_movers(char_name_dataset, model, df=df_target_city, title="Probed variable: city")
+
+# %%
+
+
 # %%
 model.reset_hooks()
 apply_steering(
@@ -627,12 +832,6 @@ model.reset_hooks()
 d = evaluate_model(model, char_name_dataset, batch_size=100)
 print_performance_table(d)
 
-# %%
-
-
-df_source_city = get_mover_df(
-    city_dataset, model, narrative_variable="city", mid_layer=MID_LAYER
-)
 # %%
 plot_movers(
     city_dataset,
@@ -792,17 +991,17 @@ plot_movers(char_name_dataset, model, df=df_target_city_post_steering)
 char_name_movers = get_movers_names(
     char_name_dataset,
     model,
-    percentile=0.5,
+    percentile=0.0,
     df=df_target_char_name,
-    filter_by_layer=True,
+    filter_by_layer=False,
     mid_layer=MID_LAYER,
 )
 city_movers = get_movers_names(
     city_dataset,
     model,
-    percentile=0.5,
+    percentile=0.0,
     df=df_source_city,
-    filter_by_layer=True,
+    filter_by_layer=False,
     mid_layer=MID_LAYER,
 )
 all_movers = char_name_movers
@@ -860,6 +1059,7 @@ def attention_pattern_hook_all_seq(
     end_position: WildPosition,
     movers: List[Tuple[int, int]],
     source_cache: Dict,
+    end_of_story_pos: List[int],
 ):
     """Extract the output of the end at the end position and multiply by the ouput matrix of the attention layer."""
     assert isinstance(hook.name, str)
@@ -873,11 +1073,13 @@ def attention_pattern_hook_all_seq(
     batch_size = z.shape[0]
     max_len = z.shape[2]
     for h in heads:
-        z[
-            range(batch_size),
-            h,
-            end_position.positions_from_idx(list(range(batch_size))),
-        ] = source_pattern[:, h, :max_len].cuda()
+        for i in range(batch_size):
+            z[
+                range(batch_size),
+                h,
+                end_position.positions_from_idx(list(range(batch_size))),
+                : end_of_story_pos[i],
+            ] = source_pattern[:, h, : end_of_story_pos[i]].cuda()
 
     return z
 
@@ -890,7 +1092,7 @@ def apply_attention_patch(
     movers: List[Tuple[int, int]],
     source_cache: Dict,
     target_dataset: NanoQADataset,
-    source_dataset: Optional[NanoQADataset] = None,
+    source_dataset: NanoQADataset,
     mode: str = "precise",
 ):
     assert mode in ["precise", "all_seq"]
@@ -898,12 +1100,19 @@ def apply_attention_patch(
         position=target_dataset.word_idx["END"], label="END"
     )
 
+    for i in range(len(target_dataset)):
+        assert (
+            target_dataset.nanostory_end_token_pos[i]
+            == source_dataset.nanostory_end_token_pos[i]
+        )
+
     if mode == "all_seq":
         hook_fn = partial(
             attention_pattern_hook_all_seq,
             movers=movers,
             source_cache=source_cache,
             end_position=end_position_target,
+            end_of_story_pos=target_dataset.nanostory_end_token_pos,
         )
     else:
         assert source_dataset is not None
@@ -926,10 +1135,15 @@ def apply_attention_patch(
 # %%
 model.reset_hooks()
 
-# apply_steering(char_name_dataset, model, city_cache, mid_layer=MID_LAYER)
-apply_attention_patch(
-    model, all_movers, city_cache, char_name_dataset, source_dataset=city_dataset, mode="precise"
-)
+apply_steering(char_name_dataset, model, city_cache, mid_layer=MID_LAYER)
+# apply_attention_patch(
+#     model,
+#     all_movers,
+#     chimera_cache,
+#     char_name_dataset,
+#     source_dataset=chimera_dataset,
+#     mode="all_seq",
+# )
 
 # %%
 
@@ -943,9 +1157,6 @@ d = evaluate_model(
 )
 print_performance_table(d)
 
-
-# %%
-
 d = evaluate_model(
     model,
     char_name_dataset,
@@ -954,5 +1165,36 @@ d = evaluate_model(
     label_nano_qa_dataset=chimera_dataset,
 )
 print_performance_table(d)
+# %%
+
+patched_cache = {}
+fill_cache(patched_cache, model, char_name_dataset, mid_layer=MID_LAYER)
+
+# %%
+for var in ["character_name", "city"]:
+    plot_sorted_dla_bar_chart(
+        char_name_dataset,
+        model,
+        patched_cache,
+        variable=var,
+        figsize=(15, 8),
+        title_suffix=f" {var} (post attn pattern patching)",
+    )
+
+# %%
+model.reset_hooks()
+wt_cache = {}
+fill_cache(wt_cache, model, char_name_dataset, mid_layer=MID_LAYER)
+
+# %%
+for var in ["character_name", "city"]:
+    plot_sorted_dla_bar_chart(
+        char_name_dataset,
+        model,
+        wt_cache,
+        variable=var,
+        figsize=(15, 8),
+        title_suffix=f" {var} (pre-patching)",
+    )
 
 # %%
