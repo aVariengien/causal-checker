@@ -14,6 +14,7 @@ from swap_graphs.datasets.nano_qa.narrative_variables import (
 )
 import random as rd
 from swap_graphs.core import ModelComponent, WildPosition, ActivationStore
+import torch
 
 
 def gen_dataset_family(
@@ -39,3 +40,13 @@ def gen_dataset_family(
             OperationDataset(operations=operations, name=dataset_name, **kwargs_dataset)
         )
     return datasets
+
+
+def tokenize_dataset(
+    dataset: OperationDataset,
+    tokenizer: Any,
+) -> torch.Tensor:
+    """Tokenize a dataset with a given tokenizer."""
+    dataset_str = [i.model_input for i in dataset]
+    dataset_tok = torch.tensor(tokenizer(dataset_str, padding=True)["input_ids"])  # type: ignore
+    return dataset_tok
