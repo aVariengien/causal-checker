@@ -8,3 +8,8 @@ def get_first_token(tokenizer: Any, text: str) -> str:
         return text
     first_token_id = torch.tensor(tokenizer([text])["input_ids"])[0][0]
     return tokenizer.decode(first_token_id)
+
+
+def get_first_token_id(tokenizer: Any, text: str) -> int:
+    first_token_id = torch.tensor(tokenizer([text])["input_ids"])[0][0]
+    return int(first_token_id)

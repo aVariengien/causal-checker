@@ -8,7 +8,7 @@ import numpy as np
 import torch
 from causal_checker.retrieval import CausalInput, ContextQueryPrompt, OperationDataset
 from causal_checker.hf_hooks import residual_steam_hook_fn
-
+from causal_checker.utils import get_first_token_id
 
 Metric = Callable[[Any, List[Any], torch.Tensor, OperationDataset, List[int]], Any]
 
@@ -185,7 +185,7 @@ def evaluate_model(
             tokenizer is not None
         ), "tokenizer must be provided if model is not a HookedTransformer"
     dataset_str = [p.model_input for p in dataset]
-    dataset_tok = torch.tensor(tokenizer(dataset_str, padding=True)["input_ids"])  # type: ignore
+    dataset_tok = torch.tensor(tokenizer(dataset_str, padding=True)["input_ids"]).cuda()  # type: ignore
     logits = batched_forward(model, batch_size, dataset_tok)
     cg_output = []
     for i in range(len(dataset)):
@@ -231,7 +231,7 @@ def check_alignement(
         ), "tokenizer must be provided if model is not a HookedTransformer"
 
     dataset_str = [i.model_input for i in dataset]
-    dataset_tok = torch.tensor(tokenizer(dataset_str, padding=True)["input_ids"])  # type: ignore
+    dataset_tok = torch.tensor(tokenizer(dataset_str, padding=True)["input_ids"]).cuda()  # type: ignore
 
     if eval_baseline:
         baseline_metric = evaluate_model(
@@ -305,6 +305,113 @@ def check_alignement(
         return baseline_metric, interchange_metric
 
 
+def fn_eq(f1: Callable, f2: Callable) -> bool:
+    return (
+        f1.__code__.co_code == f2.__code__.co_code
+        and f1.__closure__ == f2.__closure__
+        and f1.__code__.co_consts == f2.__code__.co_consts
+    )
+
+
+def check_alignement_batched_graphs(
+    alignements: List[CausalAlignement],
+    model: HookedTransformer,
+    causal_graphs: List[CausalGraph],
+    dataset: OperationDataset,
+    metrics: Dict[str, Metric],
+    list_variables_inter: List[List[str]],
+    nb_inter: int = 100,
+    batch_size: int = 10,
+    verbose: bool = False,
+    tokenizer: Any = None,
+    seed: Optional[int] = None,
+) -> Any:
+    """
+    When the aligment of different high-level causal graphs lead to the same intervention on the low-level graph (NN),
+    we can perform a single set of intervention on the low-level graph and compare the output to the different high-level graphs on the same intervention.
+    Only support hunging face models for now.
+    """
+    np.random.seed(seed)
+    assert len(causal_graphs) == len(list_variables_inter) == len(alignements)
+    for alig in alignements:
+        assert alig.hook_type == "hf"
+
+    # check that the aligments lead to the same intervention on the low-level graph (NN)
+    fns = [
+        alignements[0].mapping_hf[node_name] for node_name in list_variables_inter[0]
+    ]
+    for i in range(len(alignements)):
+        for j, node_name in enumerate(list_variables_inter[i]):
+            if not fn_eq(alignements[i].mapping_hf[node_name], fns[j]):
+                raise ValueError(
+                    "Hook function of different alignements should be the same"
+                )
+    ref_alignement, ref_variables_inter = alignements[0], list_variables_inter[0]
+    # since all alignements lead to the same intervention on the low-level graph (NN), we can use the first one as a reference
+
+    nb_variable_inter = len(ref_variables_inter)
+
+    assert (
+        tokenizer is not None
+    ), "tokenizer must be provided if model is not a HookedTransformer"
+
+    dataset_str = [i.model_input for i in dataset]
+    dataset_tok = torch.tensor(tokenizer(dataset_str, padding=True)["input_ids"]).cuda()  # type: ignore
+
+    # sample the inputs indices for the intervention
+    all_indices = np.arange(len(dataset))
+    input_indices = np.random.choice(
+        all_indices,
+        size=(nb_inter, nb_variable_inter + 1),
+        replace=True,  # indice 0 is the ref input
+    )
+
+    # run interchange on the model
+    batch_logits = hf_apply_hooks(
+        model,
+        dataset_tok,
+        ref_variables_inter,
+        ref_alignement,
+        input_indices,
+        batch_size,
+        nb_inter,
+        verbose,
+    )
+
+    # run interchange the high-level causal model
+    all_causal_graph_outputs = []
+
+    for setup_idx in range(len(causal_graphs)):
+        causal_graph_outputs = []
+        for i in range(nb_inter):
+            ref_input = dataset[input_indices[i, 0]].causal_graph_input
+            fixed_inputs = {
+                variable: dataset[input_indices[i, k + 1]].causal_graph_input
+                for k, variable in enumerate(list_variables_inter[setup_idx])
+            }
+            causal_graph_outputs.append(
+                causal_graphs[setup_idx].run(
+                    inputs=ref_input, fixed_inputs=fixed_inputs
+                )
+            )
+        all_causal_graph_outputs.append(causal_graph_outputs)
+
+    # check that the output of the model and the causal graph are the same
+    all_metrics = {metric_name: [] for metric_name in metrics.keys()}
+    for metric_name, metric in metrics.items():
+        for causal_graph_outputs in all_causal_graph_outputs:
+            interchange_metric = metric(
+                tokenizer,
+                causal_graph_outputs,
+                batch_logits,
+                dataset,
+                [int(x) for x in input_indices[:, 0]],
+            )
+            all_metrics[metric_name].append(interchange_metric)
+
+    return all_metrics
+
+
 def is_prefix(s1: str, s2: str) -> bool:
     """Check if s1 is a prefix of s2"""
     if len(s1) > len(s2):
@@ -357,7 +464,89 @@ def InterchangeInterventionAccuracy(
     if compute_mean:
         return np.mean(results)
     else:
-        return results
+        return np.array(results, dtype=int)
 
+
+def InterchangeInterventionTokenProbability(
+    tokenizer: Any,
+    causal_graph_output: List[Any],
+    batch_logits: torch.Tensor,
+    dataset: OperationDataset,
+    target_idx: List[int],
+    compute_mean: bool = True,
+    verbose: bool = False,
+):
+    assert len(batch_logits.shape) == 3
+    end_logits = batch_logits[
+        range(len(target_idx)),
+        dataset.get_end_position().positions_from_idx(target_idx),
+        :,
+    ]
+    probas = torch.softmax(end_logits, dim=-1)
+
+    corrected_tokens_id = [
+        get_first_token_id(tokenizer, causal_graph_output[i])
+        for i in range(len(target_idx))
+    ]
+
+    correct_probs = probas[range(len(target_idx)), corrected_tokens_id]
+
+    if verbose:  # TODO maybe remove
+        print(correct_probs.shape)
+        for i in range(len(dataset)):
+            print(f"{causal_graph_output[i]}, {correct_probs[i]}")
+
+    if compute_mean:
+        return torch.mean(correct_probs).float().cpu().numpy()
+    else:
+        return correct_probs.float().cpu().numpy()
+
+
+def InterchangeInterventionLogitDiff(
+    tokenizer: Any,
+    causal_graph_output: List[Any],
+    batch_logits: torch.Tensor,
+    dataset: OperationDataset,
+    target_idx: List[int],
+    compute_mean: bool = True,
+    verbose: bool = False,
+):
+    assert len(batch_logits.shape) == 3
+    end_logits = batch_logits[
+        range(len(target_idx)),
+        dataset.get_end_position().positions_from_idx(target_idx),
+        :,
+    ]
+    corrected_tokens_id = [
+        get_first_token_id(tokenizer, causal_graph_output[i])
+        for i in range(len(target_idx))
+    ]
+    correct_logits = end_logits[range(len(corrected_tokens_id)), corrected_tokens_id]
+
+    suffled_idx = np.random.permutation(len(target_idx))
+    suffled_ids = [
+        get_first_token_id(tokenizer, causal_graph_output[i]) for i in suffled_idx
+    ]
+    suffled_logits = end_logits[range(len(suffled_ids)), suffled_ids]
+
+    logit_diff = correct_logits - suffled_logits
+    if verbose:  # TODO maybe remove
+        print(logit_diff.shape)
+        for i in range(len(dataset)):
+            print(f"{causal_graph_output[i]}, {logit_diff[i]}")
+
+    if compute_mean:
+        return torch.mean(logit_diff).float().cpu().numpy()
+    else:
+        return logit_diff.float().cpu().numpy()
+
+
+# %%
+
+# %%
+
+# %%
+
+# %%
 
 # %%

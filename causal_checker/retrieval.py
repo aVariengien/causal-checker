@@ -78,6 +78,7 @@ class Entity:
     def __hash__(self):
         return hash(self.name)
 
+
 @define
 class Query:
     """A query is asking for the value of an attribute defined by the relation `query`. The entities find are the one that have all the attributes `filter_by`."""
@@ -91,7 +92,7 @@ class Query:
         self.filter_by.append(Attribute(name="exists", value="yes"))
 
 
-def find_answer(query: Query, context: List[Entity]):
+def find_answer(query: Query, context: List[Entity], nil: str = "nil"):
     """Apply the query on the context. Retruns the first token of the answer. Returns an error if no answer is found or if multiple answers are found."""
     answer_found = False
     answer = "NotFound!"
@@ -164,7 +165,6 @@ class ContextQueryPrompt(CausalInput):
             self.model_input = "<|endoftext|>" + self.model_input
         self.check_tokenisation_incoherence()
         self.check_tokenisation_fit()
-        
 
     def propagate_tokenizer(self):
         for entity in self.context:
@@ -225,6 +225,7 @@ class OperationDataset:
     def __attrs_post_init__(self):
         if self.check_for_collision:
             self.check_collision()
+        self.compute_random_guess_accuracy()
 
     def check_collision(self):
         all_entities = []
@@ -280,9 +281,13 @@ class OperationDataset:
 
 query = CausalGraph(name="query", output_type=Query, leaf=True)
 context = CausalGraph(name="context", output_type=List, leaf=True)
+nil = CausalGraph(
+    name="nil", output_type=str, f=lambda context: "nil", children=[context]
+)  # dummy variable that has no effect
 CONTEXT_RETRIEVAL_CAUSAL_GRAPH = CausalGraph(
-    name="output", output_type=str, f=find_answer, children=[query, context]
+    name="output", output_type=str, f=find_answer, children=[query, context, nil]
 )
+
 
 # define a fine-grained causal graph
 

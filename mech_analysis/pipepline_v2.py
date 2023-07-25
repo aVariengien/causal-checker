@@ -63,8 +63,8 @@ for variable in variables:
     )
 
 
-var_source = "character_occupation"
-var_target = "day_time"
+var_source = "character_name"
+var_target = "season"
 variable_dataset = variable_datasets
 
 
@@ -220,7 +220,7 @@ df_movers_t_data_s_token_post_patching = get_mover_df(
     corrupted_cache=cache["baseline"],
     ref_narrative_variable=baseline_vars,
 )
-
+# %%
 plot_dataframe_comparison(
     df_movers_t_data_t_token,
     df_movers_t_data_t_token_post_patching,
@@ -233,10 +233,10 @@ plot_dataframe_comparison(
 # Target token target data post patching
 
 plot_dataframe_comparison(
-    df_movers_t_data_s_token,
     df_movers_t_data_s_token_post_patching,
-    name1="Pre Request patching - Source token Q_s(C_t)",
-    name2="Post Request patching - Source token Q_s(C_t)",
+    df_movers_t_data_s_token,
+    name2="Pre Request patching - Source token Q_s(C_t)",
+    name1="Post Request patching - Source token Q_s(C_t)",
     variable_name=var_source,
     error_bars=False,
 )

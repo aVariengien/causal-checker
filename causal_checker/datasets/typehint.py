@@ -171,49 +171,18 @@ class BankAccount:
         self.account_number = account_number
         self.owner_name = owner_name
         self.balance = balance
-
-    def deposit(self, amount: float) -> None:
-        self.balance += amount
-        print(f"Deposited {{amount}} into account {{self.account_number}}. New balance: {{self.balance}}")
-
-    def withdraw(self, amount: float) -> None:
-        if self.balance >= amount:
-            self.balance -= amount
-            print(f"Withdrew {{amount}} from account {{self.account_number}}. New balance: {{self.balance}}")
-        else:
-            print("Insufficient funds.")
-
+        
     def check_balance(self) -> float:
         return self.balance
-
 
 class CheckingAccount:
     def __init__(self, account_number: str, owner_name: str, balance: float = 0.0):
         self.bank_account = BankAccount(account_number, owner_name, balance)
 
-    def deposit(self, amount: float) -> None:
-        self.bank_account.deposit(amount)
-
-    def withdraw(self, amount: float) -> None:
-        self.bank_account.withdraw(amount)
-
-    def check_balance(self) -> float:
-        return self.bank_account.check_balance()
-
-
 class SavingsAccount:
     def __init__(self, account_number: str, owner_name: str, interest_rate: float, balance: float = 0.0):
         self.bank_account = BankAccount(account_number, owner_name, balance)
         self.interest_rate = interest_rate
-
-    def deposit(self, amount: float) -> None:
-        self.bank_account.deposit(amount)
-
-    def withdraw(self, amount: float) -> None:
-        self.bank_account.withdraw(amount)
-
-    def check_balance(self) -> float:
-        return self.bank_account.check_balance()
 
     def calculate_interest(self) -> float:
         return self.bank_account.balance * self.interest_rate
@@ -227,15 +196,11 @@ class CreditCardAccount:
     def make_purchase(self, amount: float) -> None:
         if self.bank_account.balance + amount <= self.credit_limit:
             self.bank_account.balance += amount
-            print(f"Made a purchase of {{amount}} with credit card {{self.bank_account.account_number}}. "
-                  f"New balance: {{self.bank_account.balance}}")
         else:
             print("Purchase declined. Exceeds credit limit.")
 
     def make_payment(self, amount: float) -> None:
         self.bank_account.balance -= amount
-        print(f"Made a payment of {{amount}} towards credit card {{self.bank_account.account_number}}. "
-              f"New balance: {{self.bank_account.balance}}")
               
 def get_account_details(account: CheckingAccount) -> dict:
     return {{
@@ -250,9 +215,7 @@ def is_credit_limit_exceeded(account: CreditCardAccount) -> bool:
 def get_account_summary(account: BankAccount) -> str:
     summary = f"Account Number: {{account.account_number}}\n"
     summary += f"Owner Name: {{account.owner_name}}\n"
-    summary += f"Balance: {{account.balance}}"
     return summary
-
 
 def calculate_interest_earned(account: SavingsAccount) -> float:
     return account.calculate_interest()
@@ -260,17 +223,11 @@ def calculate_interest_earned(account: SavingsAccount) -> float:
 # define accounts
 
 {CheckingAccount} = CheckingAccount("123456789", "John Doe", 1000.0)
-{CheckingAccount}.deposit(1000.0)
-{CheckingAccount}.withdraw(500.0)
-
 
 {CreditCardAccount} = CreditCardAccount("246813579", "Alice Johnson", 5000.0)
 {CreditCardAccount}.make_purchase(1000.0)
-{CreditCardAccount}.make_purchase(5000.0)
 
 {SavingsAccount} = SavingsAccount("0987654321", "Jane Smith", 0.05)
-{SavingsAccount}.deposit(2000.0)
-{SavingsAccount}.withdraw(1000.0)
 
 # Test the accounts function. 
 
@@ -359,9 +316,7 @@ def gen_code_prompt(tokenizer, dataset_name: str) -> ContextQueryPrompt:
         entities.append(
             Entity(
                 name=v,
-                attributes=[
-                    Attribute(value=types[i], name="type", to_tokenize=False)
-                ],
+                attributes=[Attribute(value=types[i], name="type", to_tokenize=False)],
                 tokenizer=tokenizer,
                 tokenize_name=True,
             )

@@ -138,7 +138,9 @@ def make_factual_recall_prompt(
 
     query = Query(
         queried_attribute=queried_variable,
-        filter_by=[Attribute(name="name", value=entity.name)],
+        filter_by=[
+            Attribute(name="exists", value="yes")
+        ],  # only one entity per query. No need to filter
     )
     return ContextQueryPrompt(
         query=query,

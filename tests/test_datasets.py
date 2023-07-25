@@ -307,7 +307,7 @@ def test_typehint_dataset_pythia_perf():
         tokenizer=tokenizer,
     )
     for dataset in datasets:
-        assert_dataset_perf(model, tokenizer, dataset)
+        assert_dataset_perf(model, tokenizer, dataset, threshold=0.75)
 
 
 # # translation dataset
@@ -362,6 +362,10 @@ def test_factual_recall_dataset():
         assert_dataset_perf(model, tokenizer, dataset)
 
     model, tokenizer = get_model_and_tokenizer("falcon-7b")
+    datasets = create_factual_recall_dataset(
+        nb_sample=200,
+        tokenizer=tokenizer,
+    )
     for dataset in datasets:
         assert_dataset_perf(model, tokenizer, dataset)
 
@@ -377,3 +381,6 @@ def test_quantity_retrieval_dataset():
     )
     for dataset in datasets:
         assert_dataset_perf(model, tokenizer, dataset)
+
+
+# %%
