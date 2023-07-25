@@ -464,7 +464,7 @@ def InterchangeInterventionAccuracy(
     if compute_mean:
         return np.mean(results)
     else:
-        return np.array(results, dtype=int)
+        return list(np.array(results, dtype=int))
 
 
 def InterchangeInterventionTokenProbability(

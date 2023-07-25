@@ -333,7 +333,7 @@ def test_translation_dataset_falcon_perf():
         tokenizer=tokenizer,
     )
     for dataset in datasets:
-        assert_dataset_perf(model, tokenizer, dataset)
+        assert_dataset_perf(model, tokenizer, dataset, threshold=0.75)
 
 
 # induction dataset

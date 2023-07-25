@@ -141,7 +141,7 @@ def graphs_alignments_variables(layer):
 batch_size = 5
 
 layer_increment = None
-relative_layer_increment = 0.5
+relative_layer_increment = 0.1
 
 assert layer_increment is not None or relative_layer_increment is not None
 # pd.DataFrame.from_records(results)

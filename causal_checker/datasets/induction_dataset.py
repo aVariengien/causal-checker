@@ -95,7 +95,7 @@ def create_induction_dataset_same_prefix(
     nb_sample=100,
     tokenizer=None,
 ) -> List[OperationDataset]:
-    dataset_names = ["random_dataset_" + str(i) for i in range(5)]
+    dataset_names = ["random_dataset_" + str(i) for i in range(3)]
     kwargs_prompt_gen_fn = {}
     for name in dataset_names:
         kwargs_prompt_gen_fn[name] = {}
