@@ -417,3 +417,175 @@ def test_quantity_retrieval_dataset():
 # # %%
 
 # %%
+model_hf, tokenizer = get_model_and_tokenizer("pythia-2.8b")
+# %%
+fns = [
+    create_nanoQA_uniform_answer_prefix_dataset,
+    create_nanoQA_question_first_dataset,
+    # create_nanoQA_mixed_template_dataset,
+    # create_nanoQA_retrieval_dataset,
+]
+for f in fns:
+    assert_dataset_perf(
+        model_hf,
+        tokenizer,
+        f(nb_sample=50, tokenizer=tokenizer),
+        verbose=True,
+        threshold=0.0,
+        soft_matching=False,
+    )
+# %%
+
+dataset = create_nanoQA_question_first_dataset(nb_sample=10, tokenizer=tokenizer)
+
+assert_dataset_perf(
+    model_hf,
+    tokenizer,
+    dataset,
+    verbose=True,
+    threshold=-1,
+    soft_matching=False,
+)
+# %%
+from swap_graphs.utils import printw
+
+for x in dataset.operations[:10]:
+    printw(x.model_input)
+    print("===" * 7)
+
+# %%
+
+
+model = HookedTransformer.from_pretrained(
+    "EleutherAI/pythia-2.8b", device="cuda"  # EleutherAI/pythia-2.8b
+)
+
+# %%
+x = dataset.operations[0].model_input
+
+# %%
+printw(model.generate(x, max_new_tokens=1, temperature=0, prepend_bos=False))
+# %%
+tokenizer.pad_token_id = tokenizer.eos_token_id
+toks = tokenizer(x, return_tensors="pt")["input_ids"].cuda()
+outpt = model_hf.generate(toks, max_new_tokens=1, temperature=0)
+
+printw(tokenizer.decode(outpt[0]))
+# %%
+
+input_string = """| Ashley|, | Ashley|
+|C|, |C|
+|art|, |fl|
+|Flor|, |fl|
+|Bus|, |Bus|
+|arch|, |arch|
+|art|, |fl|
+|Jess|, |Jessica|
+|Jess|, |Jess|
+|The|, |C|
+|Matthew|, |Matthew|
+| Ashley|, | Ashley|
+|ast|, |astronomer|
+|arch|, |architect|
+|Jess|, |Jessica|
+| astr|, | astr|
+|The|, |An|
+| Matthew|, | Matthew|
+|ast|, |ast|
+|V|, |v|
+|The|, |Porto|
+| Ashley|, | Ashley|
+| chef|, | architect|
+|An|, |Antwerp|
+|C|, |l|
+|Port|, |Christopher|
+|Val|, |Valencia|
+| Jessica|, | Jessica|
+|The|, |An|
+| C|, | C|
+|Michael|, |Michael|
+|Val|, |florist|
+| libr|, | libr|
+|Port|, |Porto|
+| astr|, | astr|
+|Val|, |Valencia|
+|C|, |C|
+|Arch|, |Bus|
+| fisher|, | libr|
+|Ash|, |Ash|
+| C|, | C|
+|C|, |architect|
+|The|, |florist|
+|flower|, |fl|
+| architect|, | architect|
+|v|, |v|
+|Matthew|, |Matthew|
+|Ash|, |Ash|
+| architect|, | architect|
+|Port|, |Porto|
+| C|, | C|
+|Jess|, |Jess|
+|Michael|, |Michael|
+| Matthew|, | Matthew|
+|art|, |fl|
+|art|, |fl|
+|a|, |Porto|
+|C|, |C|
+|art|, |fl|
+|Val|, |Val|
+|Flor|, |florist|
+|C|, |C|
+| C|, | C|
+|flower|, |fl|
+| Valencia|, | Valencia|
+|C|, |C|
+|ast|, |ast|
+|An|, |An|
+|A|, |ast|
+|Val|, |Val|
+|C|, |Cusco|
+|arch|, |arch|
+|The|, |fl|
+|ast|, |ast|
+|arch|, |arch|
+|C|, |C|
+| Bus|, | Bus|
+| C|, | C|
+|Matthew|, |Matthew|
+|C|, |C|
+| flor|, | flor|
+|arch|, |architect|
+| flor|, | flor|
+|C|, |ast|
+|Michael|, |Michael|
+|Michael|, |fl|
+|Michael|, |florist|
+|Jess|, |Jess|
+|arch|, |architect|
+|art|, |l|
+| astr|, | astr|
+|Port|, |Port|
+|C|, |C|
+|C|, |C|
+|Matthew|, |Matthew|
+|Matthew|, |Matthew|
+| Matthew|, | Matthew|
+|arch|, |Val|
+|l|, |l|
+|Bus|, |Busan|"""
+lines = input_string.strip().split("\n")
+result_list = []
+
+for line in lines:
+    content = line.split("|")[1:-1]
+    content_tuple = tuple(map(str.strip, content))
+    result_list.append((content_tuple[0], content_tuple[2]))
+
+print(result_list)
+# %%
+from causal_checker.alignement import soft_match
+
+for x, y in result_list:
+    if x != y and soft_match(x, y):
+        print(f"|{x}|, |{y}|")
+# %%

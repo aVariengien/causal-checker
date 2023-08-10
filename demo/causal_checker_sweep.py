@@ -73,15 +73,15 @@ else:
     xp_name = generate_name()
 
 dataset_gen_fn = [
-    (create_math_quantity_retrieval_dataset, "math_quantity"),
-    (create_nanoQA_uniform_answer_prefix_dataset, "nanoQA_uniform_answer_prefix"),
-    (create_nanoQA_question_first_dataset, "nanoQA_question_start"),
-    (create_code_type_retrieval_dataset, "type_hint"),
-    (create_factual_recall_dataset, "factual_recall"),
-    (create_induction_dataset_same_prefix, "induction_same_prefix"),
+    # (create_math_quantity_retrieval_dataset, "math_quantity"),
+    # (create_nanoQA_uniform_answer_prefix_dataset, "nanoQA_uniform_answer_prefix"),
+    # (create_nanoQA_question_first_dataset, "nanoQA_question_start"),
+    # (create_code_type_retrieval_dataset, "type_hint"),
+    # (create_factual_recall_dataset, "factual_recall"),
+    # (create_induction_dataset_same_prefix, "induction_same_prefix"),
     (create_nanoQA_mixed_template_dataset, "nanoQA_mixed_template"),
-    (create_nanoQA_retrieval_dataset, "nanoQA_3Q"),
-    (create_translation_retrieval_dataset, "translation"),
+    # (create_nanoQA_retrieval_dataset, "nanoQA_3Q"),
+    # (create_translation_retrieval_dataset, "translation"),
 ]
 
 model_names = [
@@ -104,6 +104,9 @@ metrics = {
     "IIA": partial(InterchangeInterventionAccuracy, compute_mean=False),
     "logit_diff": partial(InterchangeInterventionLogitDiff, compute_mean=False),
     "token_prob": partial(InterchangeInterventionTokenProbability, compute_mean=False),
+    "IIA_softmatch": partial(
+        InterchangeInterventionAccuracy, compute_mean=False, soft_matching=True
+    ),
 }
 
 

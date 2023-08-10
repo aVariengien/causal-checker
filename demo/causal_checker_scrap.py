@@ -30,18 +30,24 @@ from causal_checker.models import (
     get_pythia_model,
     get_model_and_tokenizer,
 )
-from swap_graphs.utils import wrap_str, save_object, load_object
+from swap_graphs.utils import wrap_str, save_object, load_object, printw
 import pandas as pd
 from causal_checker.hf_hooks import get_blocks
 
 # %%
-model, tokenizer = get_model_and_tokenizer("pythia-2.8b")
+model, tokenizer = get_model_and_tokenizer("pythia-6.9b")
 
 
 # %%
-dataset = create_nanoQA_mixed_template_dataset(nb_sample=30, tokenizer=tokenizer)
+dataset = create_nanoQA_mixed_template_dataset(nb_sample=100, tokenizer=tokenizer)
 if isinstance(dataset, list):
     dataset = dataset[0]
+
+# %%
+
+for x in dataset.operations[:10]:
+    printw(x.model_input)
+    print("===" * 7)
 
 
 # %%
@@ -84,9 +90,14 @@ baseline, interchange_intervention_acc = check_alignement(
     model=model,
     causal_graph=CONTEXT_RETRIEVAL_CAUSAL_GRAPH,
     dataset=dataset,
-    compute_metric=partial(InterchangeInterventionAccuracy, compute_mean=False, verbose=True, soft_matching=True),
+    compute_metric=partial(
+        InterchangeInterventionAccuracy,
+        compute_mean=False,
+        verbose=True,
+        soft_matching=False,
+    ),
     variables_inter=["query"],
-    nb_inter=50,
+    nb_inter=100,
     batch_size=10,
     verbose=True,
     tokenizer=tokenizer,

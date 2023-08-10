@@ -23,23 +23,31 @@ import random as rd
 
 
 def gen_nanoQA_entities(
-    nanostory: Dict[str, Any], tokenizer: Any, prepend_space: bool = True
+    nanostory: Dict[str, Any],
+    tokenizer: Any,
+    tokenize_name: bool = True,
 ) -> List[Entity]:
     entities = []
     for nar_var in QUERRIED_NARRATIVE_VARIABLES_PRETTY_NAMES:
-        entity_name = " " * prepend_space + nanostory["seed"][nar_var]
+        entity_name = nanostory["seed"][nar_var]
         attr = Attribute(
             value=nar_var,
             name="narrative_variable",
             tokenizer=None,  # no tokenizer, values will not be recovered
             to_tokenize=False,
         )
+        name_with_space = Attribute(
+            value=" " + entity_name,
+            name="name_with_space",
+            tokenizer=tokenizer,
+            to_tokenize=True,
+        )
         entities.append(
             Entity(
                 name=entity_name,
-                attributes=[attr],
+                attributes=[attr, name_with_space],
                 tokenizer=tokenizer,
-                tokenize_name=True,
+                tokenize_name=tokenize_name,
             )
         )
     return entities
@@ -49,19 +57,25 @@ def nanoQA_data_to_prompt(
     nano_qa_dataset: NanoQADataset,
     idx: int,
     model_input: str,
-    prepend_space: bool = True,
+    name_with_space: bool = True,
     check_answer: bool = True,
 ):
     """Turn the idx th nanostory of the nanoQA dataset into a ContextQueryPrompt"""
     q_var = nano_qa_dataset.questions[idx]["querried_variable"]
-    query = Query(
-        queried_attribute=str("name"),
-        filter_by=[Attribute(value=q_var, name=str("narrative_variable"))],
-    )
+    if name_with_space:
+        query = Query(
+            queried_attribute="name_with_space",
+            filter_by=[Attribute(value=q_var, name=str("narrative_variable"))],
+        )
+    else:
+        query = Query(
+            queried_attribute="name",
+            filter_by=[Attribute(value=q_var, name=str("narrative_variable"))],
+        )
     entities = gen_nanoQA_entities(
         nano_qa_dataset.nanostories[idx],
         nano_qa_dataset.tokenizer,
-        prepend_space=prepend_space,
+        tokenize_name=not name_with_space,
     )
 
     prompt = ContextQueryPrompt(
@@ -134,6 +148,23 @@ Question: {question}
 )
 
 
+QUESTION_FIRST_TEMPLATE = (
+    """<|endoftext|>
+
+Read the question below, then answer it after reading the story using a keyword from the text. Here is the format of the answer: 'The answer is "xxx".'
+
+Question: {question}
+
+Story: {nanostory_text}
+
+"""
+    + UNIFORM_PREFIX
+)
+
+
+leading_space = False
+
+
 def create_nanoQA_uniform_answer_prefix_dataset(
     tokenizer: Any,
     nb_sample: int,
@@ -155,7 +186,7 @@ def create_nanoQA_uniform_answer_prefix_dataset(
             nano_qa_dataset,
             i,
             model_input=model_input,
-            prepend_space=False,
+            name_with_space=leading_space,
             check_answer=False,
         )
         dataset.append(prompt)
@@ -164,20 +195,6 @@ def create_nanoQA_uniform_answer_prefix_dataset(
         operations=dataset,
         name="nanoQA_uniform_answer_prefix",
     )
-
-
-QUESTION_FIRST_TEMPLATE = (
-    """<|endoftext|>
-
-Read the question below, then answer it after reading the story using a keyword from the text. Here is the format of the answer: 'The answer is "xxx".'
-
-Question: {question}
-
-Story: {nanostory_text}
-
-"""
-    + UNIFORM_PREFIX
-)
 
 
 def create_nanoQA_question_first_dataset(
@@ -201,7 +218,7 @@ def create_nanoQA_question_first_dataset(
             nano_qa_dataset,
             i,
             model_input=model_input,
-            prepend_space=False,
+            name_with_space=leading_space,
             check_answer=False,
         )
         dataset.append(prompt)

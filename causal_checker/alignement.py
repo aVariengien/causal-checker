@@ -459,8 +459,8 @@ def InterchangeInterventionAccuracy(
     # compute the accuracy
 
     if verbose:  # TODO maybe remove
-        for i in range(len(dataset)):
-            print(f"{predicted_str[i]}, {causal_graph_output[i]}")
+        for i in range(len(target_idx)):
+            print(f"|{predicted_str[i]}|, |{causal_graph_output[i]}|")
 
     if not soft_matching:
         results = [
@@ -505,7 +505,7 @@ def InterchangeInterventionTokenProbability(
 
     if verbose:  # TODO maybe remove
         print(correct_probs.shape)
-        for i in range(len(dataset)):
+        for i in range(len(target_idx)):
             print(f"{causal_graph_output[i]}, {correct_probs[i]}")
 
     if compute_mean:
@@ -575,7 +575,7 @@ def InterchangeInterventionLogitDiff(
     logit_diff = correct_logits - alt_logits
     if verbose:  # TODO maybe remove
         print(logit_diff.shape)
-        for i in range(len(dataset)):
+        for i in range(len(target_idx)):
             print(f"{causal_graph_output[i]}, {logit_diff[i]}")
 
     if compute_mean:
