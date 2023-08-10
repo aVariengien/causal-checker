@@ -279,7 +279,7 @@ def test_nanoQA_variations():
             f(nb_sample=50, tokenizer=tokenizer),
             verbose=False,
             threshold=0.8,
-            soft_matching=True,
+            soft_matching=False,
         )
 
 
@@ -382,5 +382,38 @@ def test_quantity_retrieval_dataset():
     for dataset in datasets:
         assert_dataset_perf(model, tokenizer, dataset)
 
+
+# # %%
+
+
+# model, tokenizer = get_model_and_tokenizer("pythia-12b")
+# # %%
+# f = create_nanoQA_uniform_answer_prefix_dataset
+# d = f(nb_sample=100, tokenizer=tokenizer)
+
+# assert_dataset_perf(
+#     model,
+#     tokenizer,
+#     d,
+#     verbose=True,
+#     threshold=0.0,
+#     soft_matching=False,
+# )
+
+# # %%
+
+# # %%
+# from swap_graphs.utils import printw
+
+# printw(d[2].model_input)
+# # %%
+
+# tok = tokenizer(d[2].model_input, return_tensors="pt")["input_ids"].cuda()
+# t = model.generate(tok, max_new_tokens=10)
+# # %%
+
+
+# printw(tokenizer.decode(t[0]))
+# # %%
 
 # %%

@@ -22,10 +22,12 @@ from swap_graphs.datasets.nano_qa.narrative_variables import (
 import random as rd
 
 
-def gen_nanoQA_entities(nanostory: Dict[str, Any], tokenizer: Any) -> List[Entity]:
+def gen_nanoQA_entities(
+    nanostory: Dict[str, Any], tokenizer: Any, prepend_space: bool = True
+) -> List[Entity]:
     entities = []
     for nar_var in QUERRIED_NARRATIVE_VARIABLES_PRETTY_NAMES:
-        entity_name = " " + nanostory["seed"][nar_var]
+        entity_name = " " * prepend_space + nanostory["seed"][nar_var]
         attr = Attribute(
             value=nar_var,
             name="narrative_variable",
@@ -43,7 +45,13 @@ def gen_nanoQA_entities(nanostory: Dict[str, Any], tokenizer: Any) -> List[Entit
     return entities
 
 
-def nanoQA_data_to_prompt(nano_qa_dataset: NanoQADataset, idx: int, model_input: str):
+def nanoQA_data_to_prompt(
+    nano_qa_dataset: NanoQADataset,
+    idx: int,
+    model_input: str,
+    prepend_space: bool = True,
+    check_answer: bool = True,
+):
     """Turn the idx th nanostory of the nanoQA dataset into a ContextQueryPrompt"""
     q_var = nano_qa_dataset.questions[idx]["querried_variable"]
     query = Query(
@@ -51,7 +59,9 @@ def nanoQA_data_to_prompt(nano_qa_dataset: NanoQADataset, idx: int, model_input:
         filter_by=[Attribute(value=q_var, name=str("narrative_variable"))],
     )
     entities = gen_nanoQA_entities(
-        nano_qa_dataset.nanostories[idx], nano_qa_dataset.tokenizer
+        nano_qa_dataset.nanostories[idx],
+        nano_qa_dataset.tokenizer,
+        prepend_space=prepend_space,
     )
 
     prompt = ContextQueryPrompt(
@@ -60,10 +70,10 @@ def nanoQA_data_to_prompt(nano_qa_dataset: NanoQADataset, idx: int, model_input:
         context=entities,
         tokenizer=nano_qa_dataset.tokenizer,
     )
-
-    assert (
-        prompt.answer == nano_qa_dataset.answer_first_token_texts[idx]
-    ), f"NanoQA and ContextQueryPrompt answers are different! '{prompt.answer}' vs '{nano_qa_dataset.answer_first_token_texts[idx]}'"
+    if check_answer:
+        assert (
+            prompt.answer == nano_qa_dataset.answer_first_token_texts[idx]
+        ), f"NanoQA and ContextQueryPrompt answers are different! '{prompt.answer}' vs '{nano_qa_dataset.answer_first_token_texts[idx]}'"
     return prompt
 
 
@@ -111,11 +121,11 @@ UNIFORM_PREFIX = 'Answer: The answer is "'
 UNIFORM_ANSWER_PREFIX_TEMPLATE = (
     """<|endoftext|>
 
-Here is a short story. Read it carefully and answer the questions below.
+Here is a short story. Read it carefully and answer the questions below with a keyword from the text. Here is the format of the answer: 'The answer is "xxx".'
 
 {nanostory_text}
 
-Answer the questions below. The answers should be a single word
+Answer the questions below.
 
 Question: {question}
 
@@ -141,7 +151,13 @@ def create_nanoQA_uniform_answer_prefix_dataset(
             nanostory_text=nano_qa_dataset.nanostories[i]["story"],
             question=nano_qa_dataset.questions[i]["question"],
         )
-        prompt = nanoQA_data_to_prompt(nano_qa_dataset, i, model_input=model_input)
+        prompt = nanoQA_data_to_prompt(
+            nano_qa_dataset,
+            i,
+            model_input=model_input,
+            prepend_space=False,
+            check_answer=False,
+        )
         dataset.append(prompt)
 
     return OperationDataset(
@@ -153,7 +169,7 @@ def create_nanoQA_uniform_answer_prefix_dataset(
 QUESTION_FIRST_TEMPLATE = (
     """<|endoftext|>
 
-Read the question below, then answer it after reading the story.
+Read the question below, then answer it after reading the story using a keyword from the text. Here is the format of the answer: 'The answer is "xxx".'
 
 Question: {question}
 
@@ -181,7 +197,13 @@ def create_nanoQA_question_first_dataset(
             nanostory_text=nano_qa_dataset.nanostories[i]["story"],
             question=nano_qa_dataset.questions[i]["question"],
         )
-        prompt = nanoQA_data_to_prompt(nano_qa_dataset, i, model_input=model_input)
+        prompt = nanoQA_data_to_prompt(
+            nano_qa_dataset,
+            i,
+            model_input=model_input,
+            prepend_space=False,
+            check_answer=False,
+        )
         dataset.append(prompt)
 
     return OperationDataset(

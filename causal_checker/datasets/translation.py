@@ -62,19 +62,19 @@ This discovery underscores the importance of protecting and preserving the Amazo
     "captains": """
 Title: "From Pirates to Naval Heroes: Captains who Shaped Maritime History"
 
-Throughout the annals of maritime history, we have seen the rise of many sea captains who have shaped the contours of the world as we know it today. These stalwarts of the sea were not merely the masters of their ships, but the arbiters of destiny, using the open ocean as a platform to create history and change the world. From swashbuckling pirates to heralded naval heroes, these are the captains who have left an indelible mark on the maritime world.
+Throughout the annals of maritime history, we have seen the rise of many sea captains who have shaped the contours of the world as we know it today. From swashbuckling pirates to heralded naval heroes, these are the captains who have left an indelible mark on the maritime world.
 
-First, let's take a moment to appreciate the colorful figure of Capt. {NAME1}. Emerging from the shadows of the late 17th century, he was initially a notorious pirate who terrorized the Caribbean's crystalline waters. His name struck fear into the hearts of even the most seasoned seafarers, and he was known for his relentless pursuit of treasure and power. However, as the tides of time turned, so did the course of Capt. {NAME1}'s life. Following a mysterious incident involving a violent storm and the loss of his crew, he decided to put his piratical life behind him. Instead, he became a privateer, aiding the British Empire in its naval conflicts and skirmishes. His cunning tactics and unrivaled knowledge of the Caribbean's treacherous waters proved invaluable, and he became a highly respected figure within the naval ranks.
+First, let's take a moment to appreciate the colorful figure of Capt. {NAME1}. Emerging from the shadows of the late 17th century, he was initially a notorious pirate who terrorized the Caribbean's crystalline waters. Following a mysterious incident involving a violent storm and the loss of his crew, he decided to put his piratical life behind him. Instead, he became a privateer, aiding the British Empire in its naval conflicts and skirmishes. His cunning tactics and unrivaled knowledge of the Caribbean's treacherous waters proved invaluable, and he became a highly respected figure within the naval ranks.
 
 Our next mariner of note is Capt. {NAME2}, who is remembered as a stalwart defender of the British merchant fleet during the 18th century. His naval career began under the tutelage of Capt. {NAME1}, from whom he learned the ropes of naval warfare and the art of seafaring. Akin to his mentor, Capt. {NAME2} had a knack for turning adverse situations to his advantage. His tenacity and strategic acumen ensured that countless merchant vessels could safely pass through pirate-infested waters, contributing to the growth of British trade and prosperity.
 
-The 19th century heralded the rise of Capt. {NAME3}, an explorer whose maritime expeditions dramatically altered our understanding of the world. Born to humble beginnings in coastal Norway, Capt. {NAME3} broke free from his provincial life, captivated by stories of the sea and its infinite horizons. Commanding a small but resilient ship, he set sail for the unknown. His daring voyages took him to uncharted territories, including the icy expanses of Antarctica and the remote islands of the Pacific. Through his courageous exploration, continents were mapped, and new trade routes were established.
+The 19th century heralded the rise of Capt. {NAME3}, an explorer whose maritime expeditions dramatically altered our understanding of the world. Born to humble beginnings in coastal Norway, Capt. {NAME3} broke free from his provincial life, captivated by stories of the sea and its infinite horizons. Commanding a small but resilient ship, he set sail for the unknown.
 
-As the age of exploration gave way to the era of empire, the need for fierce and strategic naval leaders surged. Among these leaders, Capt. {NAME4} stood out, commanding the imperial fleet during the height of the 19th-century colonial era. He successfully led numerous naval campaigns, securing vital sea lanes and ensuring the smooth flow of resources from colonies to the empire. His name was etched into the annals of naval history, remembered as a disciplined and inspiring leader.
+As the age of exploration gave way to the era of empire, the need for fierce and strategic naval leaders surged. Among these leaders, Capt. {NAME4} stood out, commanding the imperial fleet during the height of the 19th-century colonial era. He successfully led numerous naval campaigns, securing vital sea lanes and ensuring the smooth flow of resources from colonies to the empire.
 
-Last, but certainly not least, is Capt. {NAME5}. As we move into the 20th century, the role of the sea captain evolved in line with technological advancements and the political climate of the time. Capt. {NAME5} was at the helm during this critical period, steering her crew through the tumultuous waters of the World Wars. Her leadership was marked by her brilliant tactical thinking and the respect she commanded from her crew, despite the gender biases prevalent at the time. Her pivotal role in key naval battles won her accolades, and she was instrumental in shaping the future of naval warfare.
+Last, but certainly not least, is Capt. {NAME5}. As we move into the 20th century, the role of the sea captain evolved in line with technological advancements and the political climate of the time. Capt. {NAME5} was at the helm during this critical period, steering her crew through the tumultuous waters of the World Wars. 
 
-In conclusion, each of these captains - Capt. {NAME1}, Capt. {NAME2}, Capt. {NAME3}, Capt. {NAME4}, and Capt. {NAME5} - has significantly shaped maritime history, leaving a legacy that continues to inspire and guide the generations of seafarers who have followed in their wake. From pirates to naval heroes, their stories embody the spirit of the sea: mysterious, untamed, and full of adventure.
+In conclusion, each of these captains - Capt. {NAME1}, Capt. {NAME2}, Capt. {NAME3}, Capt. {NAME4}, and Capt. {NAME5} - has significantly shaped maritime history, leaving a legacy that continues to inspire and guide the generations of seafarers who have followed in their wake.
 """,
 }
 
@@ -210,7 +210,9 @@ def make_translation_prompt(tokenizer, dataset_name: str):
         entities.append(
             Entity(
                 name=" " + name,
-                attributes=[Attribute(value=name_idx, name=str("name_order"), to_tokenize=False)],
+                attributes=[
+                    Attribute(value=name_idx, name=str("name_order"), to_tokenize=False)
+                ],
                 tokenizer=tokenizer,
                 tokenize_name=True,
             )

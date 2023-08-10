@@ -54,12 +54,17 @@ c1_q1_dataset, c2_q2_dataset = get_dataset_pair(
 )
 
 c2_q1_dataset = c2_q2_dataset.question_from(c1_q1_dataset)
+# %%
 
+c1_q1_dataset = NanoQADataset(
+    nb_samples=10,
+    tokenizer=model.tokenizer,  # type: ignore
+)
 # %%
 d = evaluate_model(model, c1_q1_dataset, batch_size=10)
 print_performance_table(d)
 # %%
-pprint_nanoqa_prompt(c1_q1_dataset, 0, separator="|")
+pprint_nanoqa_prompt(c1_q1_dataset, 0, separator="")
 # %%
 pprint_nanoqa_prompt(c2_q2_dataset, 0, separator="")
 pprint_nanoqa_prompt(c2_q1_dataset, 0, separator="")

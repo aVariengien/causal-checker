@@ -65,6 +65,8 @@ def make_quantity_retrieval_prompt(
     assert name in MATH_PROBLEM_TEMPLATES, "invalid name"
 
     quantities = np.random.randint(1, 10, size=3)
+    while len(set(quantities)) < 3:
+        quantities = np.random.randint(1, 10, size=3)
 
     if name == "pencils" or name == "bills":
         quantities *= 10

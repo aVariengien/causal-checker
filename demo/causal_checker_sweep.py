@@ -54,13 +54,31 @@ from names_generator import generate_name
 # gpt2, _ = get_model_and_tokenizer("gpt2-small")
 # falcon, _ = get_model_and_tokenizer("falcon-7b")
 # %%
+load_saved = False
+
+if load_saved:
+    pth = "/mnt/ssd-0/alex-dev/causal-checker/demo"
+    xp_name = "angry_gould"  # "eloquent_mcnulty"
+    results = load_object(
+        pth + "/xp_results", f"results_{xp_name}.pkl"
+    )  # eloquent_mcnulty, frosty_nash, youthful_wescoff (12b)
+    saved_xps = set()
+    for d in results:
+        saved_xps.add((d["model"], d["dataset_long_name"], d["layer"]))
+    results_df = results
+
+else:
+    saved_xps = set()
+    results_df = []
+    xp_name = generate_name()
+
 dataset_gen_fn = [
-    (create_code_type_retrieval_dataset, "type_hint"),
     (create_math_quantity_retrieval_dataset, "math_quantity"),
-    (create_factual_recall_dataset, "factual_recall"),
-    (create_induction_dataset_same_prefix, "induction_same_prefix"),
     (create_nanoQA_uniform_answer_prefix_dataset, "nanoQA_uniform_answer_prefix"),
     (create_nanoQA_question_first_dataset, "nanoQA_question_start"),
+    (create_code_type_retrieval_dataset, "type_hint"),
+    (create_factual_recall_dataset, "factual_recall"),
+    (create_induction_dataset_same_prefix, "induction_same_prefix"),
     (create_nanoQA_mixed_template_dataset, "nanoQA_mixed_template"),
     (create_nanoQA_retrieval_dataset, "nanoQA_3Q"),
     (create_translation_retrieval_dataset, "translation"),
@@ -68,16 +86,16 @@ dataset_gen_fn = [
 
 model_names = [
     "gpt2-small",
+    "pythia-2.8b",
+    "pythia-1b",
     "pythia-70m",
     "falcon-7b",
     "falcon-7b-instruct",
-    "pythia-2.8b",
     "gpt2-medium",
     "gpt2-large",
     "gpt2-xl",
     "pythia-160m",
     "pythia-410m",
-    "pythia-1b",
     "pythia-6.9b",
     "pythia-12b",
 ]
@@ -140,17 +158,13 @@ def graphs_alignments_variables(layer):
 
 batch_size = 5
 
-layer_increment = None
-relative_layer_increment = 0.1
+layer_increment = 1
+relative_layer_increment = None
 
 assert layer_increment is not None or relative_layer_increment is not None
 # pd.DataFrame.from_records(results)
-
-results_df = []
+# %%
 model = None
-
-xp_name = generate_name()
-
 for model_idx, model_name in enumerate(model_names):
     print(
         f"Start model: {model_name} ({model_idx+1}/{len(model_names)}) (xp_name: {xp_name})"
@@ -186,10 +200,13 @@ for model_idx, model_name in enumerate(model_names):
             t1 = time.time()
 
             if relative_layer_increment is not None:
-                layer_increment = int(relative_layer_increment * nb_layer)
+                layer_increment = max(int(relative_layer_increment * nb_layer), 1)
             assert layer_increment is not None
 
             for layer in range(1, nb_layer + 1, layer_increment):
+                if (model_name, dataset_name + "|" + dataset.name, layer) in saved_xps:
+                    print(f"Skipping {model_name}, {dataset.name}, {layer}")
+                    continue
                 (
                     causal_graphs,
                     alignements,
@@ -233,9 +250,16 @@ for model_idx, model_name in enumerate(model_names):
                                 else 0.0,
                             }
                         )
+                ta = time.time()
+                print(f"Saving results for {model_name}, {dataset.name}, {layer}")
                 save_object(
                     results_df, path="./xp_results", name=f"results_{xp_name}.pkl"
                 )
+                tb = time.time()
+                print(f"Saved. {tb-ta:.2f} seconds")
+            save_object(
+                results_df, path="./xp_results", name=f"results_{xp_name}_backup.pkl"
+            )
             t2 = time.time()
             print(f"Time: {t2-t1} seconds")
 

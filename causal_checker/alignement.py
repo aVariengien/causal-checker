@@ -5,12 +5,17 @@ from causal_checker.causal_graph import CausalGraph
 from swap_graphs.core import ModelComponent, WildPosition, ActivationStore
 from transformer_lens import HookedTransformer
 import numpy as np
+import random as rd
 import torch
 from causal_checker.retrieval import CausalInput, ContextQueryPrompt, OperationDataset
 from causal_checker.hf_hooks import residual_steam_hook_fn
 from causal_checker.utils import get_first_token_id
+from causal_checker.retrieval import find_answer
 
-Metric = Callable[[Any, List[Any], torch.Tensor, OperationDataset, List[int]], Any]
+Metric = Callable[
+    [Any, List[Any], torch.Tensor, OperationDataset, List[int], Optional[Dict]],
+    Any,
+]
 
 
 @define
@@ -191,7 +196,7 @@ def evaluate_model(
     for i in range(len(dataset)):
         cg_output.append(causal_graph.run(inputs=dataset[i].causal_graph_input))
     baseline_metric = compute_metric(
-        tokenizer, cg_output, logits, dataset, list(range(len(dataset)))
+        tokenizer, cg_output, logits, dataset, list(range(len(dataset))), None
     )
     return baseline_metric
 
@@ -297,6 +302,7 @@ def check_alignement(
         batch_logits,
         dataset,
         [int(x) for x in input_indices[:, 0]],
+        {"input_indices": input_indices, "variables_inter": variables_inter},
     )
 
     if baseline_metric is None:
@@ -399,13 +405,17 @@ def check_alignement_batched_graphs(
     # check that the output of the model and the causal graph are the same
     all_metrics = {metric_name: [] for metric_name in metrics.keys()}
     for metric_name, metric in metrics.items():
-        for causal_graph_outputs in all_causal_graph_outputs:
+        for setup_idx, causal_graph_outputs in enumerate(all_causal_graph_outputs):
             interchange_metric = metric(
                 tokenizer,
                 causal_graph_outputs,
                 batch_logits,
                 dataset,
                 [int(x) for x in input_indices[:, 0]],
+                {
+                    "input_indices": input_indices,
+                    "variables_inter": list_variables_inter[setup_idx],
+                },
             )
             all_metrics[metric_name].append(interchange_metric)
 
@@ -431,6 +441,7 @@ def InterchangeInterventionAccuracy(
     batch_logits: torch.Tensor,
     dataset: OperationDataset,
     target_idx: List[int],
+    extra_data: Optional[Dict] = None,
     compute_mean: bool = True,
     verbose: bool = False,
     soft_matching: bool = False,
@@ -473,6 +484,7 @@ def InterchangeInterventionTokenProbability(
     batch_logits: torch.Tensor,
     dataset: OperationDataset,
     target_idx: List[int],
+    extra_data: Optional[Dict] = None,
     compute_mean: bool = True,
     verbose: bool = False,
 ):
@@ -508,10 +520,25 @@ def InterchangeInterventionLogitDiff(
     batch_logits: torch.Tensor,
     dataset: OperationDataset,
     target_idx: List[int],
+    extra_data: Optional[Dict] = None,
     compute_mean: bool = True,
     verbose: bool = False,
 ):
+    """This metric is only intended to be used in the context of the two-step retrival hypothesis"""
     assert len(batch_logits.shape) == 3
+
+    input_indices = np.zeros((len(target_idx), 2), dtype=int)
+    input_indices[:, 0] = np.array(target_idx)
+    input_indices[:, 1] = np.array(target_idx)
+    if extra_data is not None:
+        assert extra_data["variables_inter"] in [
+            ["nil"],
+            ["query"],
+            ["output"],
+        ], "extra_data must be None or a dict with key 'variables_inter' in [['nil'], ['query'], ['output']]"
+        if extra_data["variables_inter"] == ["output"]:
+            input_indices = extra_data["input_indices"]
+
     end_logits = batch_logits[
         range(len(target_idx)),
         dataset.get_end_position().positions_from_idx(target_idx),
@@ -523,13 +550,29 @@ def InterchangeInterventionLogitDiff(
     ]
     correct_logits = end_logits[range(len(corrected_tokens_id)), corrected_tokens_id]
 
-    suffled_idx = np.random.permutation(len(target_idx))
-    suffled_ids = [
-        get_first_token_id(tokenizer, causal_graph_output[i]) for i in suffled_idx
-    ]
-    suffled_logits = end_logits[range(len(suffled_ids)), suffled_ids]
+    queries = [dataset.operations[idx].query for idx in target_idx]
 
-    logit_diff = correct_logits - suffled_logits
+    alt_tokens = []
+    for i in range(len(target_idx)):
+        rd_query = queries[rd.randint(0, len(queries) - 1)]
+        tok = find_answer(rd_query, dataset.operations[input_indices[i, 1]].context)
+        tries = 0
+        while tok == causal_graph_output[i]:
+            rd_query = queries[rd.randint(0, len(queries) - 1)]
+            tok = find_answer(rd_query, dataset.operations[input_indices[i, 1]].context)
+            tries += 1
+            if tries > 50:
+                print("WARNING: could not find an alternative token")
+                break
+
+        alt_tokens.append(tok)
+
+    alt_ids = [
+        get_first_token_id(tokenizer, alt_tokens[i]) for i in range(len(target_idx))
+    ]
+    alt_logits = end_logits[range(len(alt_ids)), alt_ids]
+
+    logit_diff = correct_logits - alt_logits
     if verbose:  # TODO maybe remove
         print(logit_diff.shape)
         for i in range(len(dataset)):
@@ -540,6 +583,8 @@ def InterchangeInterventionLogitDiff(
     else:
         return logit_diff.float().cpu().numpy()
 
+
+# %%
 
 # %%
 

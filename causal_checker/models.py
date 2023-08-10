@@ -6,16 +6,16 @@ def get_nb_layers(model):
     pass
 
 
-def get_model(model_name, dtype=torch.bfloat16):
+def get_model(model_name, dtype=torch.bfloat16, cache_dir = "/mnt/ssd-0/alex-dev/hf_models"):
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         trust_remote_code=True,
         torch_dtype=dtype,
         device_map="auto",
-        cache_dir="/mnt/ssd-0/alex-dev/hf_models",
+        cache_dir=cache_dir,
     )
     tokenizer = AutoTokenizer.from_pretrained(
-        model_name, cache_dir="/mnt/ssd-0/alex-dev/hf_models"
+        model_name, cache_dir=cache_dir
     )
     tokenizer.pad_token = tokenizer.eos_token
     return model, tokenizer

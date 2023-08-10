@@ -255,5 +255,4 @@ def test_check_alignement_batched_graphs():
     assert results["logit_diff"][1].mean() < 5
 
 
-
 # %%
