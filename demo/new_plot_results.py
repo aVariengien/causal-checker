@@ -108,7 +108,7 @@ model_names_ordered = [
 ]
 
 
-def plot_perf(df, metric: str):
+def plot_perf(df, metric: str, plot: bool = True):
     model_names = [
         "falcon-7b",
         "falcon-7b-instruct",
@@ -139,21 +139,23 @@ def plot_perf(df, metric: str):
     )
 
     pivot_table = pivot_table.fillna(0)
-    plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
-    sns.heatmap(
-        pivot_table,
-        annot=True,
-        cmap="YlGnBu",
-        fmt=".2f",
-        cbar_kws={"label": "Baseline Mean"},
-    )
-    plt.xlabel("Model")
-    plt.ylabel("Dataset")
-    plt.title(f"Baseline {metric} for Models and Datasets")
-    plt.show()
+    if plot:
+        plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
+        sns.heatmap(
+            pivot_table,
+            annot=True,
+            cmap="YlGnBu",
+            fmt=".2f",
+            cbar_kws={"label": "Baseline Mean"},
+        )
+        plt.xlabel("Model")
+        plt.ylabel("Dataset")
+        plt.title(f"Baseline {metric} for Models and Datasets")
+        plt.show()
+    return baseline_means
 
 
-plot_perf(df, "IIA")
+_ = plot_perf(df, "IIA")
 
 # %% IIA
 
@@ -237,7 +239,7 @@ def plot_hypothesis_metric(df, metric: str, hypothesis: str, plot: bool = True):
     return mean_max_results
 
 
-perf_df = plot_hypothesis_metric(df, metric="token_prob", hypothesis="Output")
+perf_df = plot_hypothesis_metric(df, metric="token_prob", hypothesis="Nil")
 
 # %%
 
@@ -247,11 +249,164 @@ perf_df = plot_hypothesis_metric(df, metric="token_prob", hypothesis="Output")
 len(perf_df[perf_df["normalized_metric"] > 0.7])
 
 
-# %% LAYYYER
+# %% LAYYYER L2
 
 
-def get_layer_df(df, layer: Literal["L1", "L2", "L3"]):
+def plot_layer_max_IIA(df, hypothesis: str, metric: str = "token_prob", plot=True):
+    model_names = [
+        "falcon-7b",
+        "falcon-7b-instruct",
+        "gpt2-small",
+        "gpt2-medium",
+        "gpt2-large",
+        "gpt2-xl",
+        "pythia-160m",
+        "pythia-410m",
+        "pythia-1b",
+        "pythia-2.8b",
+        "pythia-6.9b",
+        "pythia-12b",
+    ]
+    df = deepcopy(df)
+
+    model_dataset_pairs = get_model_dataset_pairs(df)
+    df = df[(df["metric_name"] == metric) & (df["hypothesis"] == hypothesis)]
+
+    # max_results = (
+    #     df.groupby(["dataset_long_name", "model", "layer_relative"])[
+    #         "normalized_metric"
+    #     ]
+    #     .max()
+    #     .reset_index()
+    # )
+    # filtered_max_results = max_results[
+    #     max_results.apply(
+    #         lambda row: (row["model"], row["dataset_long_name"]) in model_dataset_pairs,
+    #         axis=1,
+    #     )
+    # ]
+
+    # Assuming your dataframe is called 'df'
+
+    # Step 1: Find the layer at which the maximal value for normalized_metric is reached for each pair (dataset_long_name, model)
+    max_normalized_metric = df.groupby(["dataset_long_name", "model", "dataset"])[
+        "normalized_metric"
+    ].idxmax()
+
+    max_values_df = df.loc[
+        max_normalized_metric,
+        [
+            "dataset_long_name",
+            "dataset",
+            "model",
+            "layer_relative",
+            "normalized_metric",
+        ],
+    ]
+
+    # Step 2: Map the dataset_long_name to the corresponding dataset and calculate the mean for each value of dataset
+
+    # model_dataset_pairs = get_model_dataset_pairs(df)
+
+    max_values_df = max_values_df[
+        max_values_df.apply(
+            lambda row: (row["model"], row["dataset_long_name"]) in model_dataset_pairs,
+            axis=1,
+        )
+    ]
+    filtered_mean_values = (
+        max_values_df.groupby(["dataset", "model"])["layer_relative"]
+        .mean()
+        .reset_index()
+    )
+
+    filtered_mean_values["model"] = pd.Categorical(
+        filtered_mean_values["model"], categories=model_names, ordered=True
+    )
+    df_plot = filtered_mean_values
+
+    models = [x for x in model_names_ordered if x in list(df_plot["model"].unique())]
+    df_plot["model_id"] = df_plot["model"].apply(lambda x: models.index(x))
+
+    plot_df = []
+    margin = 0.12
+
+    for name in models:
+        subset = df_plot[df_plot["model"] == name]
+        already_seen = set()
+        for row in subset.iterrows():
+            same_layer = subset[subset["layer_relative"] == row[1]["layer_relative"]]
+            if len(same_layer) > 1:
+                col_idx = 0
+                for col in same_layer.iterrows():
+                    if not col[1]["dataset"] in already_seen:
+                        already_seen.add(col[1]["dataset"])
+                        plot_df.append(
+                            {
+                                "model": name,
+                                "layer_relative": row[1]["layer_relative"],
+                                "dataset": col[1]["dataset"],
+                                "x": models.index(name) + col_idx * margin,
+                            }
+                        )
+                        col_idx += 1
+            else:
+                plot_df.append(
+                    {
+                        "model": name,
+                        "layer_relative": row[1]["layer_relative"],
+                        "dataset": row[1]["dataset"],
+                        "x": models.index(name),
+                    }
+                )
+
+    plot_df = pd.DataFrame.from_records(plot_df)
+    plot_df = plot_df.sort_values(by="dataset")
+
+    if plot:
+        fig, ax = plt.subplots(figsize=(15, 10))
+        sns.scatterplot(
+            x="x",
+            y="layer_relative",
+            hue="dataset",
+            style="dataset",
+            s=200,
+            data=plot_df,
+            ax=ax,
+            alpha=0.9,
+        )
+        ax.set_xticks([i for i in range(len(models))])
+        ax.set_xticklabels(models)
+        plt.title(
+            "Relative Layer (0. = first, 1. = last) with Max R2(C1) accuracy for Datasets and Models"
+        )
+        plt.ylim(0, 1)
+        # Show the plot
+        plt.show()
+    return max_values_df
+
+
+_ = plot_layer_max_IIA(df, hypothesis="Query", plot=True)
+
+# %% ALL LAYERS L1 L2 L3
+
+
+def get_layer_df(orig_df, layer: Literal["L1", "L2", "L3"]):
+    if layer == "L2":
+        return plot_layer_max_IIA(
+            orig_df, hypothesis="Query", plot=False, metric="token_prob"
+        )
+
     threshold = 0.8
+
+    model_dataset_pairs = get_model_dataset_pairs(orig_df)
+    df = orig_df[
+        orig_df.apply(
+            lambda row: (row["model"], row["dataset_long_name"]) in model_dataset_pairs,
+            axis=1,
+        )
+    ]
+
     if layer == "L1":
         hypothesis = "Nil"
     elif layer == "L3":
@@ -303,11 +458,37 @@ def get_layer_df(df, layer: Literal["L1", "L2", "L3"]):
         ],
     ]
 
-    df = df.groupby(["dataset", "model"])["normalized_metric"].mean().reset_index()
+    if (
+        layer == "L1"
+    ):  # we artifically add rows where the layer is 0 and the metric is the baseline corresponding to no interventions
+        orig_df = orig_df[orig_df["metric_name"] == "IIA"]
+        acc_perf = (
+            orig_df.groupby(["model", "dataset_long_name", "dataset"])["baseline_mean"]
+            .mean()
+            .reset_index()
+        )
+        acc_perf = acc_perf[
+            acc_perf.apply(
+                lambda row: (row["model"], row["dataset_long_name"])
+                in model_dataset_pairs,
+                axis=1,
+            )
+        ]
+        acc_perf = acc_perf[
+            acc_perf.apply(
+                lambda row: row["dataset"] in ["nanoQA_mixed_template", "nanoQA_3Q"],
+                axis=1,
+            )
+        ]
+        acc_perf["layer_relative"] = 0
+        acc_perf["normalized_metric"] = acc_perf["baseline_mean"]
+        acc_perf = acc_perf.drop("baseline_mean", axis=1)
+        df = pd.concat([acc_perf, df], ignore_index=True)
+
     return df
 
 
-def plot_layer_L1_L3(df):
+def plot_IIA(df, layers=["L1", "L2", "L3"]):
     model_names = [
         "falcon-7b",
         "falcon-7b-instruct",
@@ -322,150 +503,41 @@ def plot_layer_L1_L3(df):
         "pythia-6.9b",
         "pythia-12b",
     ]
+    all_df = []
 
+    for layer in layers:
+        df_L = get_layer_df(df, layer=layer)
+        df_L["layer"] = layer
+        all_df.append(df_L)
 
-def plot_layer_max_IIA(df, hypothesis: str, plot=True):
-    model_names = [
-        "falcon-7b",
-        "falcon-7b-instruct",
-        "gpt2-small",
-        "gpt2-medium",
-        "gpt2-large",
-        "gpt2-xl",
-        "pythia-160m",
-        "pythia-410m",
-        "pythia-1b",
-        "pythia-2.8b",
-        "pythia-6.9b",
-        "pythia-12b",
-    ]
-    df = deepcopy(df)
+    df = pd.concat(all_df, ignore_index=True)
 
-    model_dataset_pairs = get_model_dataset_pairs(df)
-    df = df[(df["metric_name"] == "token_prob") & (df["hypothesis"] == hypothesis)]
+    df = df.groupby(["dataset", "model"])["normalized_metric"].mean().reset_index()
 
-    # max_results = (
-    #     df.groupby(["dataset_long_name", "model", "layer_relative"])[
-    #         "normalized_metric"
-    #     ]
-    #     .max()
-    #     .reset_index()
-    # )
-    # filtered_max_results = max_results[
-    #     max_results.apply(
-    #         lambda row: (row["model"], row["dataset_long_name"]) in model_dataset_pairs,
-    #         axis=1,
-    #     )
-    # ]
+    df["model"] = pd.Categorical(df["model"], categories=model_names, ordered=True)
 
-    # Assuming your dataframe is called 'df'
+    pivot_table = df.pivot(index="dataset", columns="model", values="normalized_metric")
 
-    # Step 1: Find the layer at which the maximal value for normalized_metric is reached for each pair (dataset_long_name, model)
-    max_normalized_metric = df.groupby(["dataset_long_name", "model", "dataset"])[
-        "normalized_metric"
-    ].idxmax()
+    pivot_table = pivot_table.fillna(float("nan"))
 
-    max_values_df = df.loc[
-        max_normalized_metric,
-        [
-            "dataset_long_name",
-            "dataset",
-            "model",
-            "layer_relative",
-            "normalized_metric",
-        ],
-    ]
-
-    # Step 2: Map the dataset_long_name to the corresponding dataset and calculate the mean for each value of dataset
-
-    mean_values = (
-        max_values_df.groupby(["dataset_long_name", "dataset", "model"])[
-            "layer_relative"
-        ]
-        .mean()
-        .reset_index()
+    plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
+    sns.heatmap(
+        pivot_table,
+        annot=True,
+        cmap="YlGnBu",
+        fmt=".2f",
+        cbar_kws={"label": f"Normalized IIA"},
     )
-
-    # model_dataset_pairs = get_model_dataset_pairs(df)
-
-    filtered_mean_values = mean_values[
-        mean_values.apply(
-            lambda row: (row["model"], row["dataset_long_name"]) in model_dataset_pairs,
-            axis=1,
-        )
-    ]
-    filtered_mean_values = (
-        filtered_mean_values.groupby(["dataset", "model"])["layer_relative"]
-        .mean()
-        .reset_index()
-    )
-
-    filtered_mean_values["model"] = pd.Categorical(
-        filtered_mean_values["model"], categories=model_names, ordered=True
-    )
-    df_plot = filtered_mean_values
-
-    models = [x for x in model_names_ordered if x in list(df_plot["model"].unique())]
-    df_plot["model_id"] = df_plot["model"].apply(lambda x: models.index(x))
-
-    plot_df = []
-    margin = 0.12
-
-    for name in models:
-        subset = df_plot[df_plot["model"] == name]
-        already_seen = set()
-        for row in subset.iterrows():
-            same_layer = subset[subset["layer_relative"] == row[1]["layer_relative"]]
-            if len(same_layer) > 1:
-                col_idx = 0
-                for col in same_layer.iterrows():
-                    if not col[1]["dataset"] in already_seen:
-                        already_seen.add(col[1]["dataset"])
-                        plot_df.append(
-                            {
-                                "model": name,
-                                "layer_relative": row[1]["layer_relative"],
-                                "dataset": col[1]["dataset"],
-                                "x": models.index(name) + col_idx * margin,
-                            }
-                        )
-                        col_idx += 1
-            else:
-                plot_df.append(
-                    {
-                        "model": name,
-                        "layer_relative": row[1]["layer_relative"],
-                        "dataset": row[1]["dataset"],
-                        "x": models.index(name),
-                    }
-                )
-
-    plot_df = pd.DataFrame.from_records(plot_df)
-    plot_df = plot_df.sort_values(by="dataset")
-
-    fig, ax = plt.subplots(figsize=(15, 10))
-    sns.scatterplot(
-        x="x",
-        y="layer_relative",
-        hue="dataset",
-        style="dataset",
-        s=200,
-        data=plot_df,
-        ax=ax,
-        alpha=0.9,
-    )
-    ax.set_xticks([i for i in range(len(models))])
-    ax.set_xticklabels(models)
-    plt.title(
-        "Relative Layer (0. = first, 1. = last) with Max R2(C1) accuracy for Datasets and Models"
-    )
-    plt.ylim(0, 1)
-    # Show the plot
+    plt.xlabel("Model")
+    plt.ylabel("Dataset Name")
+    plt.title(f"Normalized IIA")
     plt.show()
-    return max_values_df
 
 
-plot_df = plot_layer_max_IIA(df, hypothesis="Query")
+plot_IIA(df, layers=["L1", "L2", "L3"])
+
+# %%
+
 
 # %%
 
