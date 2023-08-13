@@ -669,11 +669,11 @@ fig.show()
 
 from itertools import product
 
-model = "falcon-7b-instruct"
+model = "pythia-1b"
 metric = "token_prob"  # IIA token_prob logit_diff
 x_axis = "layer"  # layer_relative layer
 y_axis = "normalized_metric"  # normalized_metric results_mean
-dataset_name = "nanoQA_mixed_template"
+dataset_name = "nanoQA_3Q"
 df_filtered = df[
     (df["metric_name"] == metric)
     & (df["model"] == model)
