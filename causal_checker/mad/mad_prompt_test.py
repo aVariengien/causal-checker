@@ -463,11 +463,11 @@ datasets = {
         "none",
     ]
 }
-df1, df2, df3 = run_all_directions(datasets)
+df1, df2, df3 = run_all_directions(datasets) # default perf, trusted->untrusted, untrusted->trusted
 
 # %%
 datasets = {
-    distractor_type: get_distracted_dataset(distractor_type, force_collisions=True)
+    distractor_type: get_distracted_dataset(distractor_type, force_collisions=True) # create dataset with collisions
     for distractor_type in [
         "small",
         "big",
@@ -475,7 +475,7 @@ datasets = {
         "none",
     ]
 }
-df1, df2, df3 = run_all_directions(datasets)
+df1, df2, df3 = run_all_directions(datasets) # default perf, trusted->untrusted, untrusted->trusted
 
 
 # %%
