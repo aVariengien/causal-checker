@@ -40,7 +40,6 @@ raw_results = load_object(
 
 # %%
 
-
 results = []
 dups = set()
 for d in raw_results:
@@ -55,10 +54,15 @@ for d in raw_results:
         results.append(d)
         dups.add(xp)
 
-
 df = pd.DataFrame.from_records(results)
 
+# %%
 
+df_filtered = df[
+    (df["metric_name"] == "IIA")
+    & (df["model"].isin(["pythia-70m"]) & (df["dataset"] == "nanoQA_3Q"))
+]
+df_filtered
 # %%
 filtering = False
 UseRdGuess = True
@@ -69,7 +73,8 @@ df["layer_relative"] = df["layer"] / df["nb_layer"]
 if UseRdGuess:
     mask = df["metric_name"] == "token_prob"
     df.loc[mask, "random_guess"] = 0
-    df = df.loc[df["baseline_mean"] >= df["random_guess"] * 1.1]
+    if filtering:
+        df = df.loc[df["baseline_mean"] >= df["random_guess"] * 1.1]
 
     df["normalized_metric"] = (df["results_mean"] - df["random_guess"]) / (
         df["baseline_mean"] - df["random_guess"]
@@ -82,14 +87,49 @@ else:
 
 
 if filtering:
-    filtered_df = df.loc[(df["metric_name"] == "IIA") & (df["baseline_mean"] < 0.65)]
+    filtered_df = df.loc[
+        (df["metric_name"] == "accuracy") & (df["baseline_mean"] < 0.65)
+    ]
     pairs_to_remove = list(zip(filtered_df["model"], filtered_df["dataset"]))
     new_df = df[
         ~df.apply(lambda row: (row["model"], row["dataset"]) in pairs_to_remove, axis=1)
     ]
     df = new_df
 
-# %% Perf table
+# %%
+
+LABEL_NAMES = {"Nil": "R2(C2)", "Query": "R1(C2)", "Output": "R1(C1)"}
+df["label_name"] = df["hypothesis"].apply(lambda x: LABEL_NAMES[x])
+df["metric_name"] = df["metric_name"].apply(lambda x: "accuracy" if x == "IIA" else x)
+
+
+PRETTY_NAMES = {
+    "nanoQA_3Q": "QA (base)",
+    "nanoQA_uniform_answer_prefix": "QA (uniform prefix)",
+    "nanoQA_question_start": "QA (question start)",
+    "nanoQA_mixed_template": "QA (mixed template)",
+    "induction_same_prefix": "Induction",
+    "factual_recall": "Factual recall",
+    "translation": "Translation",
+    "math_quantity": "Variable binding",
+    "type_hint": "Type hint",
+}
+
+ordered_p_name = list(PRETTY_NAMES.values())
+
+
+def prettify_dataset_names(df):
+    df["dataset_pretty_name"] = df["dataset"].apply(lambda x: PRETTY_NAMES[x])
+    return df
+
+
+def sort_by_dataset(df):
+    values = df["dataset_pretty_name"].unique()
+    ordered_values = [x for x in ordered_p_name if x in values]
+    custom_order_dataset = pd.CategoricalDtype(categories=ordered_values, ordered=True)
+    df["dataset_pretty_name"] = df["dataset_pretty_name"].astype(custom_order_dataset)
+    return df.sort_values(by="dataset_pretty_name")
+
 
 model_names_ordered = [
     "falcon-7b",
@@ -108,37 +148,30 @@ model_names_ordered = [
 ]
 
 
-def plot_perf(df, metric: str, plot: bool = True):
-    model_names = [
-        "falcon-7b",
-        "falcon-7b-instruct",
-        "gpt2-small",
-        "gpt2-medium",
-        "gpt2-large",
-        "gpt2-xl",
-        "pythia-70m",
-        "pythia-160m",
-        "pythia-410m",
-        "pythia-1b",
-        "pythia-2.8b",
-        "pythia-6.9b",
-        "pythia-12b",
-    ]
-    df = df[df["metric_name"] == metric]
-    # Assuming your dataframe is called 'df'
-    # Assuming the model names list is defined as follows:
+def sort_by_model(df):
+    values = df["model"].unique()
+    ordered_values = model_names_ordered
+    custom_order_dataset = pd.CategoricalDtype(categories=ordered_values, ordered=True)
+    df["model"] = df["model"].astype(custom_order_dataset)
+    return df.sort_values(by="model")
 
-    custom_order = pd.CategoricalDtype(categories=model_names, ordered=True)
-    df["model"] = df["model"].astype(custom_order)
-    df_sorted = df.sort_values(by="model")
-    grouped_data = df_sorted.groupby(["model", "dataset"])
+
+df = prettify_dataset_names(df)
+df = sort_by_dataset(df)
+# %% Perf table
+
+
+def plot_perf(df, metric: str, plot: bool = True):
+    df = df[df["metric_name"] == metric]
+    df_sorted = sort_by_model(df)
+    grouped_data = df_sorted.groupby(["model", "dataset_pretty_name"])
 
     baseline_means = grouped_data["baseline_mean"].mean().reset_index()
     pivot_table = baseline_means.pivot(
-        index="dataset", columns="model", values="baseline_mean"
+        index="dataset_pretty_name", columns="model", values="baseline_mean"
     )
 
-    pivot_table = pivot_table.fillna(0)
+    # pivot_table = pivot_table.fillna(0)
     if plot:
         plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
         sns.heatmap(
@@ -155,15 +188,15 @@ def plot_perf(df, metric: str, plot: bool = True):
     return baseline_means
 
 
-_ = plot_perf(df, "IIA")
+_ = plot_perf(df, "accuracy")
 
-# %% IIA
+# %% accuracy
 
 
 def get_model_dataset_pairs(
     df, dataset_type: Literal["dataset_long_name", "dataset"] = "dataset_long_name"
 ):
-    df = df[(df["metric_name"] == "IIA")]
+    df = df[(df["metric_name"] == "accuracy")]
     df_sorted = df.sort_values(by="model")
     grouped_data = df_sorted.groupby(["model", dataset_type])
     baseline_means = grouped_data["baseline_mean"].mean().reset_index()
@@ -174,26 +207,14 @@ def get_model_dataset_pairs(
     return model_dataset_pairs
 
 
-def plot_hypothesis_metric(df, metric: str, hypothesis: str, plot: bool = True):
-    model_names = [
-        "falcon-7b",
-        "falcon-7b-instruct",
-        "gpt2-small",
-        "gpt2-medium",
-        "gpt2-large",
-        "gpt2-xl",
-        "pythia-160m",
-        "pythia-410m",
-        "pythia-1b",
-        "pythia-2.8b",
-        "pythia-6.9b",
-        "pythia-12b",
-    ]
+def plot_label_name_metric(df, metric: str, label_name: str, plot: bool = True):
     model_dataset_pairs = get_model_dataset_pairs(df)
-    df = df[(df["metric_name"] == metric) & (df["hypothesis"] == hypothesis)]
+    df = df[(df["metric_name"] == metric) & (df["label_name"] == label_name)]
 
     max_results = (
-        df.groupby(["dataset_long_name", "model", "dataset"])["normalized_metric"]
+        df.groupby(["dataset_long_name", "model", "dataset_pretty_name"])[
+            "normalized_metric"
+        ]
         .max()
         .reset_index()
     )
@@ -205,19 +226,19 @@ def plot_hypothesis_metric(df, metric: str, hypothesis: str, plot: bool = True):
     ]
 
     mean_max_results = (
-        filtered_max_results.groupby(["dataset", "model"])["normalized_metric"]
+        filtered_max_results.groupby(["dataset_pretty_name", "model"])[
+            "normalized_metric"
+        ]
         .mean()
         .reset_index()
     )
 
     # fitering
 
-    mean_max_results["model"] = pd.Categorical(
-        mean_max_results["model"], categories=model_names, ordered=True
-    )
+    mean_max_results = sort_by_model(mean_max_results)
 
     pivot_table = mean_max_results.pivot(
-        index="dataset", columns="model", values="normalized_metric"
+        index="dataset_pretty_name", columns="model", values="normalized_metric"
     )
 
     pivot_table = pivot_table.fillna(float("nan"))
@@ -233,16 +254,13 @@ def plot_hypothesis_metric(df, metric: str, hypothesis: str, plot: bool = True):
         plt.xlabel("Model")
         plt.ylabel("Dataset Name")
         plt.title(
-            f"Normalized {metric} (0 = random guess, 1 = baseline perf) per dataset and Models"
+            f"Normalized {metric} (0 = random guess, 1 = baseline perf) for label {label_name} per dataset and models"
         )
         plt.show()
     return mean_max_results
 
 
-perf_df = plot_hypothesis_metric(df, metric="token_prob", hypothesis="Nil")
-
-# %%
-
+perf_df = plot_label_name_metric(df, metric="token_prob", label_name="R1(C2)")
 
 # %%
 
@@ -252,25 +270,11 @@ len(perf_df[perf_df["normalized_metric"] > 0.7])
 # %% LAYYYER L2
 
 
-def plot_layer_max_IIA(df, hypothesis: str, metric: str = "token_prob", plot=True):
-    model_names = [
-        "falcon-7b",
-        "falcon-7b-instruct",
-        "gpt2-small",
-        "gpt2-medium",
-        "gpt2-large",
-        "gpt2-xl",
-        "pythia-160m",
-        "pythia-410m",
-        "pythia-1b",
-        "pythia-2.8b",
-        "pythia-6.9b",
-        "pythia-12b",
-    ]
+def get_layer_max_metric(df, label_name: str, metric: str = "token_prob"):
     df = deepcopy(df)
 
     model_dataset_pairs = get_model_dataset_pairs(df)
-    df = df[(df["metric_name"] == metric) & (df["hypothesis"] == hypothesis)]
+    df = df[(df["metric_name"] == metric) & (df["label_name"] == label_name)]
 
     # max_results = (
     #     df.groupby(["dataset_long_name", "model", "layer_relative"])[
@@ -289,18 +293,19 @@ def plot_layer_max_IIA(df, hypothesis: str, metric: str = "token_prob", plot=Tru
     # Assuming your dataframe is called 'df'
 
     # Step 1: Find the layer at which the maximal value for normalized_metric is reached for each pair (dataset_long_name, model)
-    max_normalized_metric = df.groupby(["dataset_long_name", "model", "dataset"])[
-        "normalized_metric"
-    ].idxmax()
+    df["dataset_pretty_name"] = df["dataset_pretty_name"].astype(str)
+    max_normalized_metric = df.groupby(
+        ["dataset_long_name", "model", "dataset_pretty_name"]
+    )["normalized_metric"].idxmax()
 
     max_values_df = df.loc[
         max_normalized_metric,
         [
             "dataset_long_name",
-            "dataset",
             "model",
             "layer_relative",
             "normalized_metric",
+            "dataset_pretty_name",
         ],
     ]
 
@@ -314,88 +319,16 @@ def plot_layer_max_IIA(df, hypothesis: str, metric: str = "token_prob", plot=Tru
             axis=1,
         )
     ]
-    filtered_mean_values = (
-        max_values_df.groupby(["dataset", "model"])["layer_relative"]
-        .mean()
-        .reset_index()
-    )
 
-    filtered_mean_values["model"] = pd.Categorical(
-        filtered_mean_values["model"], categories=model_names, ordered=True
-    )
-    df_plot = filtered_mean_values
-
-    models = [x for x in model_names_ordered if x in list(df_plot["model"].unique())]
-    df_plot["model_id"] = df_plot["model"].apply(lambda x: models.index(x))
-
-    plot_df = []
-    margin = 0.12
-
-    for name in models:
-        subset = df_plot[df_plot["model"] == name]
-        already_seen = set()
-        for row in subset.iterrows():
-            same_layer = subset[subset["layer_relative"] == row[1]["layer_relative"]]
-            if len(same_layer) > 1:
-                col_idx = 0
-                for col in same_layer.iterrows():
-                    if not col[1]["dataset"] in already_seen:
-                        already_seen.add(col[1]["dataset"])
-                        plot_df.append(
-                            {
-                                "model": name,
-                                "layer_relative": row[1]["layer_relative"],
-                                "dataset": col[1]["dataset"],
-                                "x": models.index(name) + col_idx * margin,
-                            }
-                        )
-                        col_idx += 1
-            else:
-                plot_df.append(
-                    {
-                        "model": name,
-                        "layer_relative": row[1]["layer_relative"],
-                        "dataset": row[1]["dataset"],
-                        "x": models.index(name),
-                    }
-                )
-
-    plot_df = pd.DataFrame.from_records(plot_df)
-    plot_df = plot_df.sort_values(by="dataset")
-
-    if plot:
-        fig, ax = plt.subplots(figsize=(15, 10))
-        sns.scatterplot(
-            x="x",
-            y="layer_relative",
-            hue="dataset",
-            style="dataset",
-            s=200,
-            data=plot_df,
-            ax=ax,
-            alpha=0.9,
-        )
-        ax.set_xticks([i for i in range(len(models))])
-        ax.set_xticklabels(models)
-        plt.title(
-            "Relative Layer (0. = first, 1. = last) with Max R2(C1) accuracy for Datasets and Models"
-        )
-        plt.ylim(0, 1)
-        # Show the plot
-        plt.show()
     return max_values_df
 
-
-_ = plot_layer_max_IIA(df, hypothesis="Query", plot=True)
 
 # %% ALL LAYERS L1 L2 L3
 
 
 def get_layer_df(orig_df, layer: Literal["L1", "L2", "L3"]):
     if layer == "L2":
-        return plot_layer_max_IIA(
-            orig_df, hypothesis="Query", plot=False, metric="token_prob"
-        )
+        return get_layer_max_metric(orig_df, label_name="R1(C2)", metric="token_prob")
 
     threshold = 0.8
 
@@ -408,15 +341,15 @@ def get_layer_df(orig_df, layer: Literal["L1", "L2", "L3"]):
     ]
 
     if layer == "L1":
-        hypothesis = "Nil"
+        label_name = "R2(C2)"
     elif layer == "L3":
-        hypothesis = "Output"
+        label_name = "R1(C1)"
     else:
         raise ValueError("layer must be L1 or L3")
     filter_df = deepcopy(df)
     filter_df = filter_df[
         (filter_df["metric_name"] == "token_prob")
-        & (filter_df["hypothesis"] == hypothesis)
+        & (filter_df["label_name"] == label_name)
     ]
     filter_df = (
         filter_df.groupby(["dataset_long_name", "model", "layer"])["normalized_metric"]
@@ -428,7 +361,7 @@ def get_layer_df(orig_df, layer: Literal["L1", "L2", "L3"]):
         zip(filter_df["model"], filter_df["dataset_long_name"], filter_df["layer"])
     )  # the layers where token_prob is > 0.8
 
-    df = df[(df["metric_name"] == "IIA") & (df["hypothesis"] == hypothesis)]
+    df = df[(df["metric_name"] == "accuracy") & (df["label_name"] == label_name)]
     df = df[
         df.apply(
             lambda row: (row["model"], row["dataset_long_name"], row["layer"])
@@ -461,7 +394,7 @@ def get_layer_df(orig_df, layer: Literal["L1", "L2", "L3"]):
     if (
         layer == "L1"
     ):  # we artifically add rows where the layer is 0 and the metric is the baseline corresponding to no interventions
-        orig_df = orig_df[orig_df["metric_name"] == "IIA"]
+        orig_df = orig_df[orig_df["metric_name"] == "accuracy"]
         acc_perf = (
             orig_df.groupby(["model", "dataset_long_name", "dataset"])["baseline_mean"]
             .mean()
@@ -484,25 +417,11 @@ def get_layer_df(orig_df, layer: Literal["L1", "L2", "L3"]):
         acc_perf["normalized_metric"] = acc_perf["baseline_mean"]
         acc_perf = acc_perf.drop("baseline_mean", axis=1)
         df = pd.concat([acc_perf, df], ignore_index=True)
-
+    df = prettify_dataset_names(df)
     return df
 
 
 def plot_IIA(df, layers=["L1", "L2", "L3"]):
-    model_names = [
-        "falcon-7b",
-        "falcon-7b-instruct",
-        "gpt2-small",
-        "gpt2-medium",
-        "gpt2-large",
-        "gpt2-xl",
-        "pythia-160m",
-        "pythia-410m",
-        "pythia-1b",
-        "pythia-2.8b",
-        "pythia-6.9b",
-        "pythia-12b",
-    ]
     all_df = []
 
     for layer in layers:
@@ -512,11 +431,17 @@ def plot_IIA(df, layers=["L1", "L2", "L3"]):
 
     df = pd.concat(all_df, ignore_index=True)
 
-    df = df.groupby(["dataset", "model"])["normalized_metric"].mean().reset_index()
+    df = (
+        df.groupby(["model", "dataset_pretty_name"])["normalized_metric"]
+        .mean()
+        .reset_index()
+    )
 
-    df["model"] = pd.Categorical(df["model"], categories=model_names, ordered=True)
-
-    pivot_table = df.pivot(index="dataset", columns="model", values="normalized_metric")
+    
+    df = sort_by_dataset(df)
+    df = sort_by_model(df)
+    
+    pivot_table = df.pivot(index="dataset_pretty_name", columns="model", values="normalized_metric")
 
     pivot_table = pivot_table.fillna(float("nan"))
 
@@ -539,6 +464,76 @@ plot_IIA(df, layers=["L1", "L2", "L3"])
 # %%
 
 
+def plot_layer_comparison(df, layer: Literal["L1", "L2", "L3"]):
+    layer_df = get_layer_df(df, layer=layer)
+    filtered_mean_values = (
+        layer_df.groupby(["model", "dataset_pretty_name"])["layer_relative"]
+        .mean()
+        .reset_index()
+    )
+
+    df_plot = filtered_mean_values 
+
+    models = [x for x in model_names_ordered if x in list(df_plot["model"].unique())]
+    df_plot["model_id"] = df_plot["model"].apply(lambda x: models.index(x))
+
+    plot_df = []
+    margin = 0.12
+
+    for name in models:
+        subset = df_plot[df_plot["model"] == name]
+        already_seen = set()
+        for row in subset.iterrows():
+            same_layer = subset[subset["layer_relative"] == row[1]["layer_relative"]]
+            if len(same_layer) > 1:
+                col_idx = 0
+                for col in same_layer.iterrows():
+                    if not col[1]["dataset_pretty_name"] in already_seen:
+                        already_seen.add(col[1]["dataset_pretty_name"])
+                        plot_df.append(
+                            {
+                                "model": name,
+                                "layer_relative": row[1]["layer_relative"],
+                                "dataset_pretty_name": col[1]["dataset_pretty_name"],
+                                "x": models.index(name) + col_idx * margin,
+                            }
+                        )
+                        col_idx += 1
+            else:
+                plot_df.append(
+                    {
+                        "model": name,
+                        "layer_relative": row[1]["layer_relative"],
+                        "dataset_pretty_name": row[1]["dataset_pretty_name"],
+                        "x": models.index(name),
+                    }
+                )
+
+    plot_df = pd.DataFrame.from_records(plot_df)
+    plot_df = sort_by_dataset(plot_df)
+    plot_df = sort_by_model(plot_df)
+
+    fig, ax = plt.subplots(figsize=(15, 10))
+    sns.scatterplot(
+        x="x",
+        y="layer_relative",
+        hue="dataset_pretty_name",
+        style="dataset_pretty_name",
+        s=200,
+        data=plot_df,
+        ax=ax,
+        alpha=0.9,
+    )
+    ax.set_xticks([i for i in range(len(models))])
+    ax.set_xticklabels(models)
+    plt.title(f"Relative {layer} for Datasets and Models")
+    plt.ylim(-0.1, 1.1)
+    # Show the plot
+    plt.show()
+
+
+plot_layer_comparison(df, layer="L3")
+
 # %%
 
 
@@ -546,7 +541,7 @@ plot_IIA(df, layers=["L1", "L2", "L3"])
 
 
 def plot_layers_heatmap(
-    df, metric: str, hypothesis: str, dataset: str, figsize=(20, 6)
+    df, metric: str, label_name: str, dataset: str, figsize=(20, 6)
 ):
     df = deepcopy(df)
     valid_pairs = get_model_dataset_pairs(df, dataset_type="dataset")
@@ -554,7 +549,7 @@ def plot_layers_heatmap(
 
     df = df[
         (df["metric_name"] == metric)
-        & (df["hypothesis"] == hypothesis)
+        & (df["label_name"] == label_name)
         & (df["model"].isin(models))
         & (df["dataset"] == dataset)
     ]
@@ -606,7 +601,9 @@ def plot_layers_heatmap(
     ax.set_xticklabels(ordered_models)
     ax.set_xlabel("Model")
     ax.set_ylabel("Layer relative")
-    ax.set_title(f"Normalized {metric} vs Layer relative for {hypothesis}")
+    ax.set_title(
+        f"Normalized {metric} vs Layer relative for {label_name} on {PRETTY_NAMES[dataset]}"
+    )
 
     plt.show()
 
@@ -614,7 +611,7 @@ def plot_layers_heatmap(
 d = plot_layers_heatmap(
     df,
     metric="token_prob",
-    hypothesis="Nil",
+    label_name="R1(C1)",
     dataset="nanoQA_uniform_answer_prefix",
     figsize=(10, 6),
 )
@@ -630,7 +627,7 @@ models = [
     # "falcon-7b-instruct"
     # "gpt2-small",
 ]
-metric = "IIA"  # IIA token_prob logit_diff
+metric = "accuracy"  # accuracy token_prob logit_diff
 x_axis = "layer_relative"  # layer_relative layer
 dataset_name = "nanoQA_uniform_answer_prefix"
 df_filtered = df[
@@ -641,7 +638,7 @@ df_filtered = df[
     by="layer_relative"
 )  # & (df["dataset"] == "factual_recall")
 
-# Step 1: Define the line dash styles for each unique value in 'hypothesis' column
+# Step 1: Define the line dash styles for each unique value in 'label_name' column
 line_dash_sequence = [
     "dash",
     "dot",
@@ -654,7 +651,7 @@ fig = px.line(
     x=x_axis,
     y="normalized_metric",  # normalized_metric
     color="model",
-    line_dash="hypothesis",
+    line_dash="label_name",
     facet_row="dataset_long_name",
     height=800,
     title=f"Scaled {metric} vs Scaled layer (0=first layer, 1=last layer) on the {dataset_name} dataset",
@@ -669,20 +666,20 @@ fig.show()
 
 from itertools import product
 
-model = "pythia-1b"
-metric = "token_prob"  # IIA token_prob logit_diff
+model = "pythia-2.8b"
+metric = "token_prob"  # accuracy token_prob logit_diff
 x_axis = "layer"  # layer_relative layer
 y_axis = "normalized_metric"  # normalized_metric results_mean
-dataset_name = "nanoQA_3Q"
+dataset_name = "nanoQA_uniform_answer_prefix"
 df_filtered = df[
     (df["metric_name"] == metric)
     & (df["model"] == model)
     & (df["dataset"] == dataset_name)
-    # & (df["hypothesis"] == "Query")
+    # & (df["label_name"] == "R1(C2)")
 ].sort_values(
     by="layer_relative"
 )  # & (df["dataset"] == "factual_recall")
-
+print(len(df_filtered))
 
 if y_axis == "normalized_metric":
     std_name = "normalized_metric_std"
@@ -692,7 +689,7 @@ else:
     raise ValueError("y_axis must be normalized_metric or results_mean")
 
 df_filtered = (
-    df_filtered.groupby(["model", "dataset", "layer", "metric_name", "hypothesis"])
+    df_filtered.groupby(["model", "dataset", "layer", "metric_name", "label_name"])
     .agg(
         {
             "normalized_metric": "mean",
@@ -703,11 +700,12 @@ df_filtered = (
     )
     .reset_index()
 )
-
+df_filtered = prettify_dataset_names(df_filtered)
+print(len(df_filtered))
 
 # Assuming your dataframe is called 'df_filtered'
 
-# Step 1: Define the line dash styles for each unique value in 'hypothesis' column
+# Step 1: Define the line dash styles for each unique value in 'label_name' column
 line_dash_sequence = [
     "dash",
     "dot",
@@ -719,11 +717,11 @@ fig = px.line(
     df_filtered,
     x=x_axis,
     y=y_axis,  # normalized_metric
-    color="hypothesis",
-    # line_dash="hypothesis",
+    color="label_name",
+    # line_dash="label_name",
     # facet_row="dataset_long_name",
     height=600,
-    title=f"Scaled {metric} vs layer on the {dataset_name} dataset for {model}",
+    title=f"Scaled {metric} vs layer on the {PRETTY_NAMES[dataset_name]} dataset for {model}",
     # line_dash_sequence=line_dash_sequence,
 )
 
@@ -734,11 +732,14 @@ df_filtered["lower_bound"] = df_filtered[y_axis] - df_filtered[std_name] / np.sq
 colors = [trace.line.color for trace in fig.data]
 
 # Iterate over unique hypotheses and facet rows to add the uncertainty bounds
-for idx, (hypothesis, dataset) in enumerate(
-    product(df_filtered["hypothesis"].unique(), df_filtered["dataset"].unique())
+for idx, (label_name, dataset) in enumerate(
+    product(
+        df_filtered["label_name"].unique(), df_filtered["dataset_pretty_name"].unique()
+    )
 ):
     subset = df_filtered[
-        (df_filtered["hypothesis"] == hypothesis) & (df_filtered["dataset"] == dataset)
+        (df_filtered["label_name"] == label_name)
+        & (df_filtered["dataset_pretty_name"] == dataset)
     ]
 
     # Determine the corresponding color for this subset
@@ -781,7 +782,7 @@ fig.show()
 # %%
 df_filtered = df[
     (df["metric_name"] == metric)
-    & (df["hypothesis"] == "Query")
+    & (df["label_name"] == "R1(C2)")
     & (
         df["model"].isin(["pythia-2.8b"])
         & (df["dataset"] == "nanoQA_uniform_answer_prefix")
