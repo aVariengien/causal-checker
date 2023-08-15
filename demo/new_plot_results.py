@@ -1,5 +1,5 @@
 # %%
-from swap_graphs.utils import load_object, save_object
+
 import pandas as pd
 import plotly.express as px
 import pandas as pd
@@ -10,12 +10,21 @@ import numpy as np
 from typing import Literal
 import matplotlib.patches as patches
 import plotly.graph_objects as go
+import pickle
+
 
 # %%
-pth = "/mnt/ssd-0/alex-dev/causal-checker/demo"
+def load_object(path, name):
+    with open(os.path.join(path, name), "rb") as f:
+        return pickle.load(f)
+
+
+# %%
+
+# pth = "/mnt/ssd-0/alex-dev/causal-checker/demo"
 xp_name = "intelligent_nash"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
 raw_results = load_object(
-    pth + "/xp_results", f"results_{xp_name}.pkl"
+    "./xp_results", f"results_{xp_name}.pkl"
 )  # eloquent_mcnulty, frosty_nash, youthful_wescoff (12b)
 
 # # %%
@@ -184,7 +193,8 @@ def plot_perf(df, metric: str, plot: bool = True):
         plt.xlabel("Model")
         plt.ylabel("Dataset")
         plt.title(f"Baseline {metric} for Models and Datasets")
-        plt.show()
+        # plt.show()
+        plt.savefig(f"figs/plot_perf.pdf", bbox_inches="tight")
     return baseline_means
 
 
@@ -256,11 +266,14 @@ def plot_label_name_metric(df, metric: str, label_name: str, plot: bool = True):
         plt.title(
             f"Normalized {metric} (0 = random guess, 1 = baseline perf) for label {label_name} per dataset and models"
         )
-        plt.show()
+        # plt.show()
+        plt.savefig(f"figs/req_patching_{label_name}_{metric}.pdf", bbox_inches="tight")
     return mean_max_results
 
 
-perf_df = plot_label_name_metric(df, metric="token_prob", label_name="R1(C2)")
+for label_name in ["R1(C1)", "R1(C2)", "R2(C2)"]:
+    for metric in ["logit_diff", "accuracy", "token_prob"]:
+        perf_df = plot_label_name_metric(df, metric=metric, label_name=label_name)
 
 # %%
 
@@ -437,11 +450,12 @@ def plot_IIA(df, layers=["L1", "L2", "L3"]):
         .reset_index()
     )
 
-    
     df = sort_by_dataset(df)
     df = sort_by_model(df)
-    
-    pivot_table = df.pivot(index="dataset_pretty_name", columns="model", values="normalized_metric")
+
+    pivot_table = df.pivot(
+        index="dataset_pretty_name", columns="model", values="normalized_metric"
+    )
 
     pivot_table = pivot_table.fillna(float("nan"))
 
@@ -456,7 +470,8 @@ def plot_IIA(df, layers=["L1", "L2", "L3"]):
     plt.xlabel("Model")
     plt.ylabel("Dataset Name")
     plt.title(f"Normalized IIA")
-    plt.show()
+    # plt.show()
+    plt.savefig("figs/IAA.pdf", bbox_inches="tight")
 
 
 plot_IIA(df, layers=["L1", "L2", "L3"])
@@ -472,7 +487,7 @@ def plot_layer_comparison(df, layer: Literal["L1", "L2", "L3"]):
         .reset_index()
     )
 
-    df_plot = filtered_mean_values 
+    df_plot = filtered_mean_values
 
     models = [x for x in model_names_ordered if x in list(df_plot["model"].unique())]
     df_plot["model_id"] = df_plot["model"].apply(lambda x: models.index(x))
@@ -529,10 +544,12 @@ def plot_layer_comparison(df, layer: Literal["L1", "L2", "L3"]):
     plt.title(f"Relative {layer} for Datasets and Models")
     plt.ylim(-0.1, 1.1)
     # Show the plot
-    plt.show()
+    # plt.show()
+    plt.savefig(f"figs/layer_comparison_{layer}.pdf", bbox_inches="tight")
 
 
-plot_layer_comparison(df, layer="L3")
+for layer in ["L1", "L2", "L3"]:
+    plot_layer_comparison(df, layer=layer)
 
 # %%
 
@@ -605,16 +622,20 @@ def plot_layers_heatmap(
         f"Normalized {metric} vs Layer relative for {label_name} on {PRETTY_NAMES[dataset]}"
     )
 
-    plt.show()
+    # plt.show()
+    plt.savefig(
+        f"figs/layer_heatmap_{metric}_{label_name}_{dataset}.pdf", bbox_inches="tight"
+    )
 
 
-d = plot_layers_heatmap(
-    df,
-    metric="token_prob",
-    label_name="R1(C1)",
-    dataset="nanoQA_uniform_answer_prefix",
-    figsize=(10, 6),
-)
+for label in ["R1(C1)", "R1(C2)", "R2(C2)"]:
+    d = plot_layers_heatmap(
+        df,
+        metric="token_prob",
+        label_name=label,
+        dataset="nanoQA_uniform_answer_prefix",
+        figsize=(10, 6),
+    )
 
 
 # %% SCRAP PLOTS
@@ -666,118 +687,126 @@ fig.show()
 
 from itertools import product
 
-model = "pythia-2.8b"
-metric = "token_prob"  # accuracy token_prob logit_diff
-x_axis = "layer"  # layer_relative layer
-y_axis = "normalized_metric"  # normalized_metric results_mean
-dataset_name = "nanoQA_uniform_answer_prefix"
-df_filtered = df[
-    (df["metric_name"] == metric)
-    & (df["model"] == model)
-    & (df["dataset"] == dataset_name)
-    # & (df["label_name"] == "R1(C2)")
-].sort_values(
-    by="layer_relative"
-)  # & (df["dataset"] == "factual_recall")
-print(len(df_filtered))
 
-if y_axis == "normalized_metric":
-    std_name = "normalized_metric_std"
-elif y_axis == "results_mean":
-    std_name = "results_std"
-else:
-    raise ValueError("y_axis must be normalized_metric or results_mean")
+def single_dataset_model_plot(model, metric, x_axis, y_axis, dataset_name):
+    df_filtered = df[
+        (df["metric_name"] == metric)
+        & (df["model"] == model)
+        & (df["dataset"] == dataset_name)
+        # & (df["label_name"] == "R1(C2)")
+    ].sort_values(
+        by="layer_relative"
+    )  # & (df["dataset"] == "factual_recall")
 
-df_filtered = (
-    df_filtered.groupby(["model", "dataset", "layer", "metric_name", "label_name"])
-    .agg(
-        {
-            "normalized_metric": "mean",
-            "normalized_metric_std": "mean",
-            "results_mean": "mean",
-            "results_std": "mean",
-        }
+    if y_axis == "normalized_metric":
+        std_name = "normalized_metric_std"
+    elif y_axis == "results_mean":
+        std_name = "results_std"
+    else:
+        raise ValueError("y_axis must be normalized_metric or results_mean")
+
+    df_filtered = (
+        df_filtered.groupby(["model", "dataset", "layer", "metric_name", "label_name"])
+        .agg(
+            {
+                "normalized_metric": "mean",
+                "normalized_metric_std": "mean",
+                "results_mean": "mean",
+                "results_std": "mean",
+            }
+        )
+        .reset_index()
     )
-    .reset_index()
-)
-df_filtered = prettify_dataset_names(df_filtered)
-print(len(df_filtered))
+    df_filtered = prettify_dataset_names(df_filtered)
 
-# Assuming your dataframe is called 'df_filtered'
+    # Assuming your dataframe is called 'df_filtered'
 
-# Step 1: Define the line dash styles for each unique value in 'label_name' column
-line_dash_sequence = [
-    "dash",
-    "dot",
-    "solid",
-]
-
-# Step 2: Plot the data using px.line with line_dash_sequence parameter
-fig = px.line(
-    df_filtered,
-    x=x_axis,
-    y=y_axis,  # normalized_metric
-    color="label_name",
-    # line_dash="label_name",
-    # facet_row="dataset_long_name",
-    height=600,
-    title=f"Scaled {metric} vs layer on the {PRETTY_NAMES[dataset_name]} dataset for {model}",
-    # line_dash_sequence=line_dash_sequence,
-)
-
-df_filtered["upper_bound"] = df_filtered[y_axis] + df_filtered[std_name] / np.sqrt(100)
-df_filtered["lower_bound"] = df_filtered[y_axis] - df_filtered[std_name] / np.sqrt(100)
-
-
-colors = [trace.line.color for trace in fig.data]
-
-# Iterate over unique hypotheses and facet rows to add the uncertainty bounds
-for idx, (label_name, dataset) in enumerate(
-    product(
-        df_filtered["label_name"].unique(), df_filtered["dataset_pretty_name"].unique()
-    )
-):
-    subset = df_filtered[
-        (df_filtered["label_name"] == label_name)
-        & (df_filtered["dataset_pretty_name"] == dataset)
+    # Step 1: Define the line dash styles for each unique value in 'label_name' column
+    line_dash_sequence = [
+        "dash",
+        "dot",
+        "solid",
     ]
 
-    # Determine the corresponding color for this subset
-    color = colors[idx]
-
-    # Convert to RGBA with some transparency (0.2 in this case)
-    color_rgba = f"rgba({int(color[1:3], 16)}, {int(color[3:5], 16)}, {int(color[5:7], 16)}, 0.2)"
-
-    # Lower bound with fill set to 'none'
-    fig.add_traces(
-        go.Scatter(
-            x=subset[x_axis],
-            y=subset["lower_bound"],
-            showlegend=False,
-            mode="lines",
-            line=dict(width=0),
-        )
+    # Step 2: Plot the data using px.line with line_dash_sequence parameter
+    fig = px.line(
+        df_filtered,
+        x=x_axis,
+        y=y_axis,  # normalized_metric
+        color="label_name",
+        # line_dash="label_name",
+        # facet_row="dataset_long_name",
+        height=600,
+        title=f"Scaled {metric} vs layer on the {PRETTY_NAMES[dataset_name]} dataset for {model}",
+        # line_dash_sequence=line_dash_sequence,
     )
 
-    # Upper bound with fill set to 'tonexty' to fill towards the lower bound
-    fig.add_traces(
-        go.Scatter(
-            x=subset[x_axis],
-            y=subset["upper_bound"],
-            showlegend=False,
-            mode="lines",
-            line=dict(width=0),
-            fillcolor=color_rgba,
-            fill="tonexty",
-        )
+    df_filtered["upper_bound"] = df_filtered[y_axis] + df_filtered[std_name] / np.sqrt(
+        100
+    )
+    df_filtered["lower_bound"] = df_filtered[y_axis] - df_filtered[std_name] / np.sqrt(
+        100
     )
 
+    colors = [trace.line.color for trace in fig.data]
 
-fig.update_xaxes(title_text="Layer")
+    # Iterate over unique hypotheses and facet rows to add the uncertainty bounds
+    for idx, (label_name, dataset) in enumerate(
+        product(
+            df_filtered["label_name"].unique(),
+            df_filtered["dataset_pretty_name"].unique(),
+        )
+    ):
+        subset = df_filtered[
+            (df_filtered["label_name"] == label_name)
+            & (df_filtered["dataset_pretty_name"] == dataset)
+        ]
 
-# Step 3: Show the plot
-fig.show()
+        # Determine the corresponding color for this subset
+        color = colors[idx]
 
+        # Convert to RGBA with some transparency (0.2 in this case)
+        color_rgba = f"rgba({int(color[1:3], 16)}, {int(color[3:5], 16)}, {int(color[5:7], 16)}, 0.2)"
+
+        # Lower bound with fill set to 'none'
+        fig.add_traces(
+            go.Scatter(
+                x=subset[x_axis],
+                y=subset["lower_bound"],
+                showlegend=False,
+                mode="lines",
+                line=dict(width=0),
+            )
+        )
+
+        # Upper bound with fill set to 'tonexty' to fill towards the lower bound
+        fig.add_traces(
+            go.Scatter(
+                x=subset[x_axis],
+                y=subset["upper_bound"],
+                showlegend=False,
+                mode="lines",
+                line=dict(width=0),
+                fillcolor=color_rgba,
+                fill="tonexty",
+            )
+        )
+
+    fig.update_xaxes(title_text="Layer")
+
+    # Step 3: Show the plot
+    fig.update_layout(width=1000, height=600)
+    fig.show()
+    fig.write_image("figs/single_model_dataset_{model}_{metric}_{dataset_name}.pdf")
+
+
+single_dataset_model_plot(
+    model="pythia-2.8b",
+    metric="token_prob",  # accuracy token_prob logit_diff
+    x_axis="layer",  # layer_relative layer
+    y_axis="normalized_metric",  # normalized_metric results_mean
+    dataset_name="nanoQA_uniform_answer_prefix",
+)
 
 # %%
 df_filtered = df[
