@@ -6,7 +6,7 @@ def get_nb_layers(model):
     pass
 
 
-def get_model(model_name, dtype=torch.bfloat16, cache_dir = "/mnt/ssd-0/alex-dev/hf_models"):
+def get_model(model_name, dtype=torch.bfloat16, cache_dir=None):
     model = AutoModelForCausalLM.from_pretrained(
         model_name,
         trust_remote_code=True,
@@ -14,16 +14,14 @@ def get_model(model_name, dtype=torch.bfloat16, cache_dir = "/mnt/ssd-0/alex-dev
         device_map="auto",
         cache_dir=cache_dir,
     )
-    tokenizer = AutoTokenizer.from_pretrained(
-        model_name, cache_dir=cache_dir
-    )
+    tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
     tokenizer.pad_token = tokenizer.eos_token
     return model, tokenizer
 
 
 def get_falcon_model(size, dtype=torch.bfloat16):
     assert size in ["7b-instruct", "7b", "40b", "40b-instruct"]
-    model_name = f"/mnt/ssd-0/falcon-{size}"
+    model_name = f"falcon-{size}"
     return get_model(model_name, dtype=dtype)
 
 

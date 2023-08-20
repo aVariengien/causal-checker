@@ -1,5 +1,5 @@
 # %%
-from causal_checker.datasets.nanoQA import create_nanoQA_uniform_answer_prefix_dataset
+from causal_checker.datasets.nanoQA import create_nanoQA_retrieval_dataset
 from causal_checker.alignement import (
     CausalAlignement,
     check_alignement,
@@ -15,19 +15,18 @@ from causal_checker.models import (
 )
 from causal_checker.causal_graph import CausalGraph
 from typing import List
+from swap_graphs.utils import printw
 
 # In this demo we perform interchange intervention by defining an Alignement between
 # a model and a high-level causal graph.
 
 # %%
 # Import the model
-model, tokenizer = get_model_and_tokenizer("pythia-2.8b")
+model, tokenizer = get_model_and_tokenizer("pythia-410m")
 
 # %%
 # Define the dataset.
-dataset = create_nanoQA_uniform_answer_prefix_dataset(
-    nb_sample=100, tokenizer=tokenizer
-)
+dataset = create_nanoQA_retrieval_dataset(nb_sample=100, tokenizer=tokenizer)
 
 # A dataset is made of `ContextQueryPrompt`, objects representing single
 # task instance that contain a `model_input`, the textual representation
@@ -40,7 +39,6 @@ dataset = create_nanoQA_uniform_answer_prefix_dataset(
 # depends on the question).
 for x in dataset.operations[:2]:
     printw(x.model_input)
-    print(x.causal_graph_input)
     print("===" * 7)
 
 # %%
@@ -89,15 +87,17 @@ baseline = evaluate_model(
     batch_size=20,
     model=model,
     causal_graph=causal_graph,
-    compute_metric=partial(InterchangeInterventionAccuracy, verbose=True),
+    compute_metric=partial(
+        InterchangeInterventionAccuracy, verbose=True
+    ),  # verbose print the model answer, true answer for each input
     tokenizer=tokenizer,
 )
-print("baseline accuracy", np.mean(baseline))
+print("baseline accuracy:", np.mean(baseline))
 # %%
 
 # Perform the interchange interventions by using the `check_alignement` function.
 
-_, interchange_intervention_acc = check_alignement(
+interchange_intervention_acc = check_alignement(
     alignement=alig,
     model=model,
     causal_graph=causal_graph,
@@ -120,3 +120,5 @@ _, interchange_intervention_acc = check_alignement(
 )
 
 print("Acuracy after interchange", np.mean(interchange_intervention_acc))
+
+# %%
