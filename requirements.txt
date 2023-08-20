@@ -1,0 +1,9 @@
+matplotlib
+names_generator
+igviz
+openai
+kaleido
+networkx
+torch
+git+https://github.com/neelnanda-io/TransformerLens
+git+https://github.com/aVariengien/swap-graphs
