@@ -22,11 +22,11 @@ from swap_graphs.utils import printw
 
 # %%
 # Import the model
-model, tokenizer = get_model_and_tokenizer("pythia-410m")
+model, tokenizer = get_model_and_tokenizer("gpt2-small")
 
 # %%
 # Define the dataset.
-dataset = create_nanoQA_retrieval_dataset(nb_sample=100, tokenizer=tokenizer)
+dataset = create_nanoQA_retrieval_dataset(nb_sample=10, tokenizer=tokenizer)
 
 # A dataset is made of `ContextQueryPrompt`, objects representing single
 # task instance that contain a `model_input`, the textual representation
