@@ -69,7 +69,7 @@ Answer:""",
 }
 
 
-def to_entities(json: List[dict], tokenizer: Any) -> list[Entity]:
+def to_entities(json: List[dict], tokenizer: Any) -> List[Entity]:
     attribute_dict = {}
     for x in json:
         attributes = []
@@ -98,7 +98,7 @@ def to_entities(json: List[dict], tokenizer: Any) -> list[Entity]:
     return entities
 
 
-def get_entity_from_attribute(entities: list[Entity], attribute_value: str):
+def get_entity_from_attribute(entities: List[Entity], attribute_value: str):
     for entity in entities:
         for attribute in entity.attributes:
             if attribute.value == attribute_value:
@@ -106,7 +106,7 @@ def get_entity_from_attribute(entities: list[Entity], attribute_value: str):
     raise ValueError(f"attribute {attribute_value} not found in entities")
 
 
-def collision_free_entities(json: list, tokenizer: Any) -> list[Entity]:
+def collision_free_entities(json: list, tokenizer: Any) -> List[Entity]:
     """A collision arrves when two entities have an attribute that shares the same first token.
     json is a list of dict with the fileds "entity", "predicate", "answer", "question".
     Return a list of entities from json that are collision free.
@@ -126,7 +126,7 @@ def collision_free_entities(json: list, tokenizer: Any) -> list[Entity]:
 def make_factual_recall_prompt(
     tokenizer: Any,
     name: Literal["geography", "cvdb"],
-    collision_free_entities: list[Entity],
+    collision_free_entities: List[Entity],
     preloaded_json: List,
 ) -> ContextQueryPrompt:
     entity = rd.choice(collision_free_entities)

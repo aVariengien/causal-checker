@@ -1,0 +1,99 @@
+[2023-07-28 08:35:57,078] [INFO] [real_accelerator.py:133:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+Start model: gpt2-small (1/13) (xp_name: silly_lalande)
+ ---- 
+model: gpt2-small, dataset family: nanoQA_uniform_answer_prefix (xp_name: silly_lalande))
+ ---- dataset name nanoQA_uniform_answer_prefix 
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 1
+Saved. 0.00 seconds
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 2
+Saved. 0.00 seconds
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 3
+Saved. 0.00 seconds
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 4
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 5
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 6
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 7
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 8
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 9
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 10
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 11
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_uniform_answer_prefix, 12
+Saved. 0.01 seconds
+Time: 13.251362562179565 seconds
+ ---- 
+model: gpt2-small, dataset family: nanoQA_question_start (xp_name: silly_lalande))
+ ---- dataset name nanoQA_question_first 
+Saving results for gpt2-small, nanoQA_question_first, 1
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_question_first, 2
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_question_first, 3
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_question_first, 4
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_question_first, 5
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_question_first, 6
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_question_first, 7
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_question_first, 8
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_question_first, 9
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_question_first, 10
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_question_first, 11
+Saved. 0.01 seconds
+Saving results for gpt2-small, nanoQA_question_first, 12
+Saved. 0.01 seconds
+Time: 13.042187213897705 seconds
+ ---- 
+model: gpt2-small, dataset family: type_hint (xp_name: silly_lalande))
+ ---- dataset name geometry 
+Saving results for gpt2-small, geometry, 1
+Saved. 0.02 seconds
+Saving results for gpt2-small, geometry, 2
+Saved. 0.02 seconds
+Saving results for gpt2-small, geometry, 3
+Saved. 0.01 seconds
+Saving results for gpt2-small, geometry, 4
+Saved. 0.02 seconds
+Saving results for gpt2-small, geometry, 5
+Saved. 0.02 seconds
+Saving results for gpt2-small, geometry, 6
+Saved. 0.02 seconds
+Saving results for gpt2-small, geometry, 7
+Saved. 0.02 seconds
+Saving results for gpt2-small, geometry, 8
+Saved. 0.02 seconds
+Saving results for gpt2-small, geometry, 9
+Saved. 0.02 seconds
+Saving results for gpt2-small, geometry, 10
+Saved. 0.02 seconds
+Saving results for gpt2-small, geometry, 11
+Saved. 0.02 seconds
+Saving results for gpt2-small, geometry, 12
+Saved. 0.02 seconds
+Time: 27.624732971191406 seconds
+ ---- dataset name animals 
+Saving results for gpt2-small, animals, 1
+Saved. 0.02 seconds
+Saving results for gpt2-small, animals, 2
+Saved. 0.02 seconds
+Saving results for gpt2-small, animals, 3
+Saved. 0.02 seconds
+Saving results for gpt2-small, animals, 4
+Saved. 0.02 seconds
+Saving results for gpt2-small, animals, 5
+Saved. 0.02 seconds
+Saving results for gpt2-small, animals, 6
+Saved. 0.02 seconds

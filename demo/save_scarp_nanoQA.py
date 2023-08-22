@@ -20,43 +20,26 @@ from swap_graphs.datasets.nano_qa.narrative_variables import (
     QUERRIED_NARRATIVE_VARIABLES_PRETTY_NAMES,
 )
 import random as rd
-from transformers.models.llama.tokenization_llama_fast import LlamaTokenizerFast
 
 
 def gen_nanoQA_entities(
-    nanostory: Dict[str, Any],
-    tokenizer: Any,
-    tokenize_name: bool = True,
+    nanostory: Dict[str, Any], tokenizer: Any, prepend_space: bool = True
 ) -> List[Entity]:
     entities = []
     for nar_var in QUERRIED_NARRATIVE_VARIABLES_PRETTY_NAMES:
-        entity_name = nanostory["seed"][nar_var]
+        entity_name = " " * prepend_space + nanostory["seed"][nar_var]
         attr = Attribute(
             value=nar_var,
             name="narrative_variable",
             tokenizer=None,  # no tokenizer, values will not be recovered
             to_tokenize=False,
         )
-        if isinstance(tokenizer, LlamaTokenizerFast):
-            name_with_space = Attribute(  # sentence piece removes the first space
-                value=entity_name,  # attribute is a duplicate of the name in this case
-                name="name_with_space",
-                tokenizer=tokenizer,
-                to_tokenize=True,
-            )
-        else:
-            name_with_space = Attribute(
-                value=" " + entity_name,
-                name="name_with_space",
-                tokenizer=tokenizer,
-                to_tokenize=True,
-            )
         entities.append(
             Entity(
                 name=entity_name,
-                attributes=[attr, name_with_space],
+                attributes=[attr],
                 tokenizer=tokenizer,
-                tokenize_name=tokenize_name,
+                tokenize_name=True,
             )
         )
     return entities
@@ -66,25 +49,19 @@ def nanoQA_data_to_prompt(
     nano_qa_dataset: NanoQADataset,
     idx: int,
     model_input: str,
-    name_with_space: bool = True,
+    prepend_space: bool = True,
     check_answer: bool = True,
 ):
     """Turn the idx th nanostory of the nanoQA dataset into a ContextQueryPrompt"""
     q_var = nano_qa_dataset.questions[idx]["querried_variable"]
-    if name_with_space:
-        query = Query(
-            queried_attribute="name_with_space",
-            filter_by=[Attribute(value=q_var, name=str("narrative_variable"))],
-        )
-    else:
-        query = Query(
-            queried_attribute="name",
-            filter_by=[Attribute(value=q_var, name=str("narrative_variable"))],
-        )
+    query = Query(
+        queried_attribute=str("name"),
+        filter_by=[Attribute(value=q_var, name=str("narrative_variable"))],
+    )
     entities = gen_nanoQA_entities(
         nano_qa_dataset.nanostories[idx],
         nano_qa_dataset.tokenizer,
-        tokenize_name=not name_with_space,
+        prepend_space=prepend_space,
     )
 
     prompt = ContextQueryPrompt(
@@ -110,7 +87,6 @@ def create_nanoQA_retrieval_dataset(
         assert tokenizer is not None
         assert nb_sample is not None
         nano_qa_dataset = NanoQADataset(
-            compute_end_pos=False,
             nb_samples=nb_sample,
             tokenizer=tokenizer,
             nb_variable_values=5,
@@ -126,10 +102,7 @@ def create_nanoQA_retrieval_dataset(
     dataset = []
     for i in range(len(nano_qa_dataset)):
         prompt = nanoQA_data_to_prompt(
-            nano_qa_dataset,
-            i,
-            model_input=nano_qa_dataset.prompts_text[i],
-            check_answer=False,
+            nano_qa_dataset, i, model_input=nano_qa_dataset.prompts_text[i]
         )
         dataset.append(prompt)
 
@@ -177,7 +150,6 @@ Story: {nanostory_text}
 
 leading_space = False
 
-
 def create_nanoQA_uniform_answer_prefix_dataset(
     tokenizer: Any,
     nb_sample: int,
@@ -188,7 +160,6 @@ def create_nanoQA_uniform_answer_prefix_dataset(
         nb_variable_values=5,
         seed=42,
         querried_variables=["city", "character_name", "character_occupation"],
-        compute_end_pos=False,
     )
     dataset = []
     for i in range(len(nano_qa_dataset)):
@@ -200,7 +171,7 @@ def create_nanoQA_uniform_answer_prefix_dataset(
             nano_qa_dataset,
             i,
             model_input=model_input,
-            name_with_space=leading_space,
+            prepend_space=leading_space,
             check_answer=False,
         )
         dataset.append(prompt)
@@ -216,7 +187,6 @@ def create_nanoQA_question_first_dataset(
     nb_sample: int,
 ) -> OperationDataset:
     nano_qa_dataset = NanoQADataset(
-        compute_end_pos=False,
         nb_samples=nb_sample,
         tokenizer=tokenizer,
         nb_variable_values=5,
@@ -233,7 +203,7 @@ def create_nanoQA_question_first_dataset(
             nano_qa_dataset,
             i,
             model_input=model_input,
-            name_with_space=leading_space,
+            prepend_space=leading_space,
             check_answer=False,
         )
         dataset.append(prompt)

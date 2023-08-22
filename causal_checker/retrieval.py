@@ -4,7 +4,7 @@ from typing import List, Callable, Dict, Tuple, Set, Optional, Any, Literal
 from causal_checker.causal_graph import CausalGraph
 from swap_graphs.datasets.nano_qa.nano_qa_dataset import NanoQADataset
 from swap_graphs.core import WildPosition
-
+from transformers.models.llama.tokenization_llama_fast import LlamaTokenizerFast
 import torch
 from causal_checker.utils import get_first_token
 import random as rd
@@ -161,10 +161,15 @@ class ContextQueryPrompt(CausalInput):
         self.propagate_tokenizer()
         self.causal_graph_input = {"query": self.query, "context": self.context}
         self.answer = find_answer(self.query, self.context)
-        if self.model_input[:13] != "<|endoftext|>":
+        if self.model_input[:3] != "<s>":
+            self.model_input = self.model_input.replace(
+                "<|endoftext|>", ""
+            )  # remove incompatible start of sentence token
+        elif self.model_input[:13] != "<|endoftext|>":
             self.model_input = "<|endoftext|>" + self.model_input
         self.check_tokenisation_incoherence()
-        self.check_tokenisation_fit()
+        if not isinstance(self.tokenizer, LlamaTokenizerFast):
+            self.check_tokenisation_fit()
 
     def propagate_tokenizer(self):
         for entity in self.context:
@@ -194,7 +199,7 @@ class ContextQueryPrompt(CausalInput):
             )
 
 
-def detect_first_token_collision(entities: list[Entity]):
+def detect_first_token_collision(entities: List[Entity]):
     """Detect if two entities have an attribute of different value but with the the same first token. This would create ambiguity in the model input."""
     first_tokens = []
     all_attributes = {}
@@ -236,7 +241,7 @@ class OperationDataset:
         if collision is not None:
             val1, val2, first_tok = collision
             raise ValueError(
-                f"Two different attribute values gives the same first token! {first_tok} {val1} {val2}"
+                f"Two different attribute values gives the same first token! |{first_tok}| |{val1}| |{val2}|"
             )
 
     def get_end_position(self) -> WildPosition:

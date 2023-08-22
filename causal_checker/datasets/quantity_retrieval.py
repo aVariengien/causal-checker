@@ -21,7 +21,7 @@ from swap_graphs.datasets.nano_qa.narrative_variables import (
 import random as rd
 from functools import partial
 import numpy as np
-
+from transformers.models.llama.tokenization_llama_fast import LlamaTokenizerFast
 
 MATH_PROBLEM_TEMPLATES = {
     "pencils": """<|endoftext|>Anthony has a collection of pencils. {blue_pencils} pencils are blue, {red_pencils} pencils are red, and {green_pencils} pencils are green.""",
@@ -78,6 +78,8 @@ def make_quantity_retrieval_prompt(
     context_txt = MATH_PROBLEM_TEMPLATES[name].format(**quantities_dict)
 
     query_txt, queried_quantity = rd.choice(QUERIES[name])
+    if isinstance(tokenizer, LlamaTokenizerFast):
+        query_txt += " "
 
     entities = []
     for quantity_name, quantity_value in quantities_dict.items():
