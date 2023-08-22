@@ -22,7 +22,8 @@ def load_object(path, name):
 # %%
 
 # pth = "/mnt/ssd-0/alex-dev/causal-checker/demo"
-xp_name = "intelligent_nash"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
+xp_name = "elegant_greider"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
+# new gen: nifty_kowalevski
 raw_results = load_object(
     "./xp_results", f"results_{xp_name}.pkl"
 )  # eloquent_mcnulty, frosty_nash, youthful_wescoff (12b)
@@ -124,11 +125,24 @@ PRETTY_NAMES = {
     "type_hint": "Type hint",
 }
 
+PRETTY_MODEL_NAMES = {
+    "/mnt/llama-2-70b-hf-2/Llama-2-70b-hf": "llama-2-70b",
+    "/mnt/falcon-request-patching-2/Llama-2-7b-hf": "llama-2-7b",
+    "/mnt/falcon-request-patching-2/Llama-2-13b-hf": "llama-2-13b",
+}
+
 ordered_p_name = list(PRETTY_NAMES.values())
 
 
 def prettify_dataset_names(df):
     df["dataset_pretty_name"] = df["dataset"].apply(lambda x: PRETTY_NAMES[x])
+    return df
+
+
+def prettify_model_names(df):
+    df["model"] = df["model"].apply(
+        lambda x: PRETTY_MODEL_NAMES[x] if x in PRETTY_MODEL_NAMES else x
+    )
     return df
 
 
@@ -143,6 +157,8 @@ def sort_by_dataset(df):
 model_names_ordered = [
     "falcon-7b",
     "falcon-7b-instruct",
+    "falcon-40b",
+    "falcon-40b-instruct",
     "gpt2-small",
     "gpt2-medium",
     "gpt2-large",
@@ -154,6 +170,9 @@ model_names_ordered = [
     "pythia-2.8b",
     "pythia-6.9b",
     "pythia-12b",
+    "llama-2-7b",
+    "llama-2-13b",
+    "llama-2-70b",
 ]
 
 
@@ -165,6 +184,7 @@ def sort_by_model(df):
     return df.sort_values(by="model")
 
 
+df = prettify_model_names(df)
 df = prettify_dataset_names(df)
 df = sort_by_dataset(df)
 # %% Perf table
@@ -642,9 +662,9 @@ for label in ["R1(C1)", "R1(C2)", "R2(C2)"]:
 
 models = [
     # "gpt2-xl",
-    "pythia-2.8b",
+    # "pythia-2.8b",
     # "pythia-12b",
-    # "falcon-7b",
+    "falcon-40b",
     # "falcon-7b-instruct"
     # "gpt2-small",
 ]
@@ -801,10 +821,10 @@ def single_dataset_model_plot(model, metric, x_axis, y_axis, dataset_name):
 
 
 single_dataset_model_plot(
-    model="pythia-2.8b",
-    metric="token_prob",  # accuracy token_prob logit_diff
+    model="llama-2-7b",
+    metric="accuracy",  # accuracy token_prob logit_diff
     x_axis="layer",  # layer_relative layer
-    y_axis="normalized_metric",  # normalized_metric results_mean
+    y_axis="results_mean",  # normalized_metric results_mean
     dataset_name="nanoQA_uniform_answer_prefix",
 )
 

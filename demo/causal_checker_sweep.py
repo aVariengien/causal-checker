@@ -85,8 +85,9 @@ dataset_gen_fn = [
 ]
 
 model_names = [
-    "/mnt/falcon-request-patching-2/Llama-2-7b-hf",
-    "/mnt/falcon-request-patching-2/Llama-2-13b-hf"
+    "/mnt/llama-2-70b-hf-2/Llama-2-70b-hf",
+    # "/mnt/falcon-request-patching-2/Llama-2-7b-hf",
+    # "/mnt/falcon-request-patching-2/Llama-2-13b-hf"
     # "falcon-40b",
     # "falcon-40b-instruct",
     # "gpt2-small",

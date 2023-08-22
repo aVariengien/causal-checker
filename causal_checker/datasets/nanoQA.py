@@ -44,6 +44,9 @@ def gen_nanoQA_entities(
                 tokenizer=tokenizer,
                 to_tokenize=True,
             )
+            entity_name = (
+                """<prefix>"</prefix>""" + entity_name
+            )  # for llama the prefix matters for the next tokenization. Special synthaxe for this
         else:
             name_with_space = Attribute(
                 value=" " + entity_name,
@@ -208,6 +211,7 @@ def create_nanoQA_uniform_answer_prefix_dataset(
     return OperationDataset(
         operations=dataset,
         name="nanoQA_uniform_answer_prefix",
+        check_for_collision= not isinstance(tokenizer, LlamaTokenizerFast),
     )
 
 
@@ -241,6 +245,7 @@ def create_nanoQA_question_first_dataset(
     return OperationDataset(
         operations=dataset,
         name="nanoQA_question_first",
+        check_for_collision=not isinstance(tokenizer, LlamaTokenizerFast),
     )
 
 
@@ -273,6 +278,7 @@ def create_nanoQA_mixed_template_dataset(
     return OperationDataset(
         operations=operations,
         name="nanoQA_mixed_template",
+        check_for_collision=not isinstance(tokenizer, LlamaTokenizerFast),
     )
 
 

@@ -2,6 +2,7 @@
 from transformers import AutoTokenizer, AutoModelForCausalLM  # type: ignore
 import torch
 from causal_checker.datasets.nanoQA import create_nanoQA_retrieval_dataset
+from causal_checker.datasets.nanoQA import create_nanoQA_uniform_answer_prefix_dataset
 from causal_checker.datasets.typehint import create_code_type_retrieval_dataset
 from causal_checker.datasets.quantity_retrieval import (
     create_math_quantity_retrieval_dataset,
@@ -44,11 +45,16 @@ def get_model(
 
 
 # %%
-model_name = "/mnt/falcon-request-patching-2/Llama-2-13b-hf"
-model, tokenizer = get_model(model_name)
-# %%
+model_name = "/mnt/falcon-request-patching-2/Llama-2-7b-hf"
 tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=None)
 tokenizer.pad_token = tokenizer.eos_token
+dataset = create_nanoQA_uniform_answer_prefix_dataset(
+    nb_sample=100, tokenizer=tokenizer
+)
+# %%
+model, tokenizer = get_model(model_name)
+# %%
+
 # tokenizer.add_prefix_space = False
 # # %%
 
@@ -75,13 +81,16 @@ print(output)
 
 from causal_checker.utils import get_first_token
 
-text = "I am 40)"
+get_first_token(tokenizer, '<prefix>"</prefix>Michael')
 
 # %%
-get_first_token(tokenizer, "40)")
+entity_name = '"Micheal'
+get_first_token(tokenizer,"""<prefix>"</prefix>""" + entity_name)
 # %%
-dataset = create_induction_dataset_same_prefix(nb_sample=100, tokenizer=tokenizer)
-dataset = dataset[2]
+dataset = create_nanoQA_uniform_answer_prefix_dataset(
+    nb_sample=100, tokenizer=tokenizer
+)
+# dataset = dataset[2]
 
 # %%
 alig = CausalAlignement(
@@ -90,7 +99,7 @@ alig = CausalAlignement(
     model=model,
     mapping_hf={
         "query": residual_steam_hook_fn(
-            resid_layer=15, position=dataset.get_end_position()
+            resid_layer=21, position=dataset.get_end_position()
         ),
         "context": dummy_hook(),
         "output": residual_steam_hook_fn(
@@ -107,7 +116,7 @@ alig = CausalAlignement(
 
 baseline = evaluate_model(
     dataset=dataset,
-    batch_size=5,
+    batch_size=10,
     model=model,
     causal_graph=CONTEXT_RETRIEVAL_CAUSAL_GRAPH,
     compute_metric=partial(
