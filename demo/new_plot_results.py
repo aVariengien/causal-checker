@@ -21,32 +21,74 @@ def load_object(path, name):
 
 # %%
 
-# pth = "/mnt/ssd-0/alex-dev/causal-checker/demo"
-xp_name = "sleepy_sammet"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
+pth = "/mnt/ssd-0/alex-dev/causal-checker/demo"
+xp_name = "final_data"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
 # new gen: nifty_kowalevski
-raw_results = load_object(
-    "./xp_results", f"results_{xp_name}.pkl"
-)  # eloquent_mcnulty, frosty_nash, youthful_wescoff (12b)
+raw_results = load_object("./xp_results", f"results_{xp_name}.pkl")
+# %%
 
-# # %%
+xp_names_buggy = ["condescending_maxwell", "strange_ellis", "modest_shtern"]
+xp_names = [
+    "nifty_kowalevski",
+    "vibrant_agnesi",
+    "sleepy_sammet",
+    "suspicious_banach",
+    "nifty_moser",
+    "gifted_cartwright",
+    "romantic_hodgkin",
+    "practical_brahmagupta",
+    "elegant_cartwright",
+    "intelligent_nash",
+]
 
-# big_xp_names = "intelligent_nash"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
-# big_raw_results = load_object(
-#     pth + "/xp_results", f"results_{big_xp_names}.pkl"
-# )  # eloquent_mcnulty, frosty_nash, youthful_wescoff (12b)
+dataset_buggy = [
+    "nanoQA_uniform_answer_prefix",
+    "nanoQA_question_start",
+    "induction_same_prefix",
+    "nanoQA_mixed_template",
+    "type_hint",
+]
 
-# save_object(big_raw_results, pth + "/xp_results", f"results_intelligent_nash_save.pkl")
-# # %%
-# big_raw_results_filtered = []
-# for r in big_raw_results:
-#     if r["dataset"] not in [
-#         "nanoQA_mixed_template",
-#     ]:
-#         big_raw_results_filtered.append(r)
-# # %%
-# new_results = big_raw_results_filtered + raw_results
+# %%
 
-# save_object(new_results, pth + "/xp_results", f"results_intelligent_nash.pkl")
+raw_results = []
+for xp in xp_names:
+    res = load_object("./xp_results", f"results_{xp}.pkl")
+    raw_results += res
+# %%
+all_datasets = []
+for xp in xp_names_buggy:
+    res_buggy = load_object("./xp_results", f"results_{xp}.pkl")
+
+    res_filtered = []
+
+    for r in res_buggy:
+        all_datasets.append(r["dataset_long_name"])
+        if r["dataset"] not in dataset_buggy:
+            res_filtered.append(r)
+    raw_results += res_filtered
+
+# %%
+filtered_raw_results = []
+for r in raw_results:
+    if r["dataset_long_name"] not in [
+        "induction_same_prefix|random_dataset_1",
+        "induction_same_prefix|random_dataset_2",
+    ]:
+        if (
+            r["dataset_long_name"] != "type_hint|banking"
+            or r["model"] != "/mnt/falcon-request-patching-2/Llama-2-13b-hf"
+        ):
+            filtered_raw_results.append(r)
+
+
+raw_results = filtered_raw_results
+# %%
+
+from swap_graphs.utils import save_object
+
+save_object(raw_results, "./xp_results", f"results_final_data.pkl")
+
 
 # %%
 
@@ -66,13 +108,7 @@ for d in raw_results:
 
 df = pd.DataFrame.from_records(results)
 
-# %%
 
-df_filtered = df[
-    (df["metric_name"] == "IIA")
-    & (df["model"].isin(["pythia-70m"]) & (df["dataset"] == "nanoQA_3Q"))
-]
-df_filtered
 # %%
 filtering = False
 UseRdGuess = True
@@ -126,9 +162,9 @@ PRETTY_NAMES = {
 }
 
 PRETTY_MODEL_NAMES = {
-    "/mnt/llama-2-70b-hf-2/Llama-2-70b-hf": "llama-2-70b",
-    "/mnt/falcon-request-patching-2/Llama-2-7b-hf": "llama-2-7b",
-    "/mnt/falcon-request-patching-2/Llama-2-13b-hf": "llama-2-13b",
+    "/mnt/llama-2-70b-hf-2/Llama-2-70b-hf": "llama2-70b",
+    "/mnt/falcon-request-patching-2/Llama-2-7b-hf": "llama2-7b",
+    "/mnt/falcon-request-patching-2/Llama-2-13b-hf": "llama2-13b",
 }
 
 ordered_p_name = list(PRETTY_NAMES.values())
@@ -170,9 +206,9 @@ model_names_ordered = [
     "pythia-2.8b",
     "pythia-6.9b",
     "pythia-12b",
-    "llama-2-7b",
-    "llama-2-13b",
-    "llama-2-70b",
+    "llama2-7b",
+    "llama2-13b",
+    "llama2-70b",
 ]
 
 
@@ -218,7 +254,7 @@ def plot_perf(df, metric: str, plot: bool = True):
     return baseline_means
 
 
-_ = plot_perf(df, "token_prob")
+_ = plot_perf(df, "logit_diff")
 
 # %% accuracy
 
@@ -821,11 +857,11 @@ def single_dataset_model_plot(model, metric, x_axis, y_axis, dataset_name):
 
 
 single_dataset_model_plot(
-    model="falcon-40b-instruct",
+    model="llama2-13b",
     metric="token_prob",  # accuracy token_prob logit_diff
     x_axis="layer",  # layer_relative layer
-    y_axis="results_mean",  # normalized_metric results_mean
-    dataset_name="nanoQA_uniform_answer_prefix",
+    y_axis="normalized_metric",  # normalized_metric results_mean
+    dataset_name="translation",
 )
 
 # %%

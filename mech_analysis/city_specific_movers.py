@@ -113,7 +113,7 @@ ef_df, _ = compute_direct_effect_df(
     expand_sample_dim=False,
 )
 
-# %% 19,2 - Porto / 17, 31 / 17,4 / 22,9 / 20,3
+# %% 19,2 - Porto / 17, 31 Cusco/ 17,4 Cusco / 22,9 Cusco / 20,3 Valencia
 l = 19
 h = 2
 name = f"head {l} {h}"
@@ -146,8 +146,9 @@ def plot_histogram(data, idx, title, city):
     plt.legend()
     plt.grid(True, which="both", linestyle="--", linewidth=0.5)
     plt.tight_layout()
-    plt.show()
+
     plt.savefig("figs/" + title + ".pdf")
+    plt.show()
 
 
 plot_histogram(direct_effect, idx, f"Normalized direct Effect - {name}", city)
