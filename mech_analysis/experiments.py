@@ -214,9 +214,12 @@ def path_patching_logits(
     probs: bool = False,
     log_probs: bool = False,
     return_ref: bool = False,
+    cor_dataset: Optional[NanoQADataset] = None,
 ):
     if corrupted_cache is None:
         corrupted_cache = cache
+    if cor_dataset is None:
+        cor_dataset = dataset
 
     if isinstance(ref_narrative_variable, str):
         assert ref_narrative_variable in ALL_NAR_VAR
@@ -231,7 +234,7 @@ def path_patching_logits(
         raise ValueError("ref_narrative_variable must be None, a str or a List[str]")
 
     ref_outputs = get_all_component_outputs(cache, model, dataset)
-    cor_outputs = get_all_component_outputs(corrupted_cache, model, dataset)
+    cor_outputs = get_all_component_outputs(corrupted_cache, model, cor_dataset)
 
     def model_end(x):
         """Compute the final layer norm and unembedding"""
@@ -250,7 +253,8 @@ def path_patching_logits(
         model.cfg.d_vocab,
     )
     for k in range(nb_ressamples):
-        rd_idx = torch.randint(0, len(dataset), cor_outputs.shape[:-1])
+        rd_idx = torch.randint(0, len(cor_dataset), ref_outputs.shape[:-1])
+
         all_outputs_ressample = cor_outputs[
             torch.arange(ref_outputs.size(0)).unsqueeze(1).unsqueeze(2),
             torch.arange(ref_outputs.size(1)).unsqueeze(0).unsqueeze(2),

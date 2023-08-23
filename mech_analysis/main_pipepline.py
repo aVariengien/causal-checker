@@ -1,4 +1,3 @@
-
 from .experiments import *
 from .plot_fn import *
 
@@ -63,7 +62,6 @@ for variable in variables:
         seed=None,
     )
 
-
 var_source = "character_name"
 var_target = "season"
 variable_dataset = variable_datasets
@@ -76,7 +74,7 @@ source_dataset = variable_dataset[var_source]
 target_dataset = variable_dataset[var_target]
 
 baseline_vars = [v for v in ALL_NAR_VAR if v not in [var_source, var_target]]
-# %%
+
 baseline_dataset = NanoQADataset(
     name="baseline",
     nb_samples=DATASET_SIZE,
@@ -194,6 +192,7 @@ df_movers_t_data_s_token = get_mover_df(
     corrupted_cache=cache["baseline"],
     ref_narrative_variable=baseline_vars,
 )
+
 df_movers_s_data_s_token = get_mover_df(
     source_dataset,
     model,
@@ -230,6 +229,7 @@ plot_dataframe_comparison(
     name2="Post Request patching - Target token Q_t(C_t)",
     variable_name=var_target,
     error_bars=False,
+    save_fig=True,
 )
 
 # Target token target data post patching
@@ -241,6 +241,7 @@ plot_dataframe_comparison(
     name1="Post Request patching - Source token Q_s(C_t)",
     variable_name=var_source,
     error_bars=False,
+    save_fig=True,
 )
 
 plot_dataframe_comparison(
@@ -250,6 +251,7 @@ plot_dataframe_comparison(
     name2="Post Request patching - Source token Q_s(C_t)",
     variable_name=var_source,
     error_bars=False,
+    save_fig=True,
 )
 
 # %% [markdown]
@@ -271,8 +273,9 @@ df_baseline, df_attn = plot_comparison_direct_effect_bar_chart(
     width=1200,
     name_1="Baseline dataset 'C_t|Q_s'",
     name_2=f"Post Attn pattern patching",
-    percentile=0.95,
+    percentile=0.97,
     corrupted_cache=cache["baseline"],
+    save_fig=True,
 )
 
 print("Relative Variation in direct effect == ATTN PATCHING")
@@ -305,7 +308,7 @@ df_pre_patch, _ = compute_direct_effect_df(
 df_pre_patch["narrative_variable"] = var_source
 
 mean_overlap, std_overlap = comparative_overlap(
-    df_pre_patch, df_post_patch, threshold=0.025
+    df_pre_patch, df_post_patch, threshold=0.03
 )
 print(f"Mean overlap ATTN PATTERN PATCHING: {mean_overlap:.2f} +- {std_overlap:.2f}")
 
@@ -327,6 +330,7 @@ df_baseline, df_request = plot_comparison_direct_effect_bar_chart(
     name_2=f"Post Request patching",
     percentile=0.95,
     corrupted_cache=cache["baseline"],
+    save_fig=True,
 )
 
 print("Relative Variation in direct effect == REQUEST PATCHING")
@@ -359,7 +363,7 @@ df_pre_patch["narrative_variable"] = var_source
 
 
 mean_overlap, std_overlap = comparative_overlap(
-    df_pre_patch, df_post_patch, threshold=0.025
+    df_pre_patch, df_post_patch, threshold=0.03
 )
 print(f"Mean overlap REQUEST PATCHING: {mean_overlap:.2f} +- {std_overlap:.2f}")
 

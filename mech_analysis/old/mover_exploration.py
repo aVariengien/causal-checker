@@ -1,5 +1,5 @@
-from .experiments import *
-from .plot_fn import *
+from ..experiments import *
+from ..plot_fn import *
 
 # %%
 import math
