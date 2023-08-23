@@ -22,7 +22,7 @@ def load_object(path, name):
 # %%
 
 # pth = "/mnt/ssd-0/alex-dev/causal-checker/demo"
-xp_name = "elegant_greider"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
+xp_name = "sleepy_sammet"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
 # new gen: nifty_kowalevski
 raw_results = load_object(
     "./xp_results", f"results_{xp_name}.pkl"
@@ -218,7 +218,7 @@ def plot_perf(df, metric: str, plot: bool = True):
     return baseline_means
 
 
-_ = plot_perf(df, "accuracy")
+_ = plot_perf(df, "token_prob")
 
 # %% accuracy
 
@@ -821,8 +821,8 @@ def single_dataset_model_plot(model, metric, x_axis, y_axis, dataset_name):
 
 
 single_dataset_model_plot(
-    model="llama-2-7b",
-    metric="accuracy",  # accuracy token_prob logit_diff
+    model="falcon-40b-instruct",
+    metric="token_prob",  # accuracy token_prob logit_diff
     x_axis="layer",  # layer_relative layer
     y_axis="results_mean",  # normalized_metric results_mean
     dataset_name="nanoQA_uniform_answer_prefix",

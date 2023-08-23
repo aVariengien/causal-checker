@@ -3,7 +3,7 @@ import math
 import random as rd
 from functools import partial
 from pprint import pprint
-from typing import Any, Callable, Dict, List, Literal, Optional, Set, Tuple
+from typing import Any, Callable, Dict, List, Literal, Optional, Set, Tuple, Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -209,7 +209,7 @@ def path_patching_logits(
     cache: Dict,
     narrative_variable: str,
     corrupted_cache: Optional[Dict] = None,
-    ref_narrative_variable: Optional[str | list[str]] = None,
+    ref_narrative_variable: Optional[Union[str, List[str]]] = None,
     nb_ressamples: int = 1,
     probs: bool = False,
     log_probs: bool = False,
@@ -228,7 +228,7 @@ def path_patching_logits(
     elif ref_narrative_variable is None:
         ref_narrative_variable = ALL_NAR_VAR
     else:
-        raise ValueError("ref_narrative_variable must be None, a str or a list[str]")
+        raise ValueError("ref_narrative_variable must be None, a str or a List[str]")
 
     ref_outputs = get_all_component_outputs(cache, model, dataset)
     cor_outputs = get_all_component_outputs(corrupted_cache, model, dataset)

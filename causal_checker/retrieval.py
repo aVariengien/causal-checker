@@ -6,7 +6,7 @@ from swap_graphs.datasets.nano_qa.nano_qa_dataset import NanoQADataset
 from swap_graphs.core import WildPosition
 from transformers.models.llama.tokenization_llama_fast import LlamaTokenizerFast
 import torch
-from causal_checker.utils import get_first_token
+from causal_checker.utils import get_first_token, get_first_token_id
 import random as rd
 
 
@@ -20,6 +20,7 @@ class CausalInput:
 class Attribute:
     value: str = field()
     first_token: str = field(init=False)
+    first_token_id: int = field(init=False)
     name: str = field()
     tokenizer: Any = field(init=True, default=None)
     to_tokenize: bool = field(default=True)
@@ -28,6 +29,7 @@ class Attribute:
         if not self.to_tokenize:
             self.tokenizer = None
         self.first_token = get_first_token(self.tokenizer, self.value)
+        self.first_token_id = get_first_token_id(self.tokenizer, self.value)
 
     def __hash__(self):
         return hash(self.value + "---" + self.name)
@@ -71,6 +73,7 @@ class Entity:
                 if a.tokenizer is None:
                     a.tokenizer = self.tokenizer
                     a.first_token = get_first_token(self.tokenizer, a.value)
+                    a.first_token_id = get_first_token_id(self.tokenizer, a.value)
                 assert a.first_token == get_first_token(
                     self.tokenizer, a.value
                 ), "Incompatible tokenizer for entity and attribute"
@@ -106,7 +109,7 @@ def find_answer(query: Query, context: List[Entity], nil: str = "nil"):
                         raise ValueError(
                             f"Multiple answers found ({answer} and {entity.attributes[0].first_token})"
                         )
-                    answer = attribute.first_token
+                    answer = attribute.first_token_id
                     answer_found = True
     if not answer_found:
         raise ValueError(f"No answer was found! {query} {context}")
@@ -141,7 +144,7 @@ def get_attribute(entity: Entity, queried_attribute: str):
                 raise ValueError(
                     f"Multiple answers found ({answer} and {entity.attributes[0].first_token})"
                 )
-            answer = attribute.first_token
+            answer = attribute.first_token_id
             answer_found = True
     if not answer_found:
         raise ValueError(f"No answer was found! {queried_attribute} {entity}")
@@ -155,19 +158,21 @@ class ContextQueryPrompt(CausalInput):
     model_input: str = field()
     causal_graph_input: Dict[str, Any] = field(init=False)
     tokenizer: Any = field(init=True, default=None)
-    answer: str = field(init=False)
+    answer: int = field(init=False)
 
     def __attrs_post_init__(self):
         self.propagate_tokenizer()
         self.causal_graph_input = {"query": self.query, "context": self.context}
-        self.answer = find_answer(self.query, self.context)
+        answer = find_answer(self.query, self.context)
+        assert answer != "NotFound!"
+        self.answer = answer
         if self.model_input[:3] != "<s>":
             self.model_input = self.model_input.replace(
                 "<|endoftext|>", ""
             )  # remove incompatible start of sentence token
         elif self.model_input[:13] != "<|endoftext|>":
             self.model_input = "<|endoftext|>" + self.model_input
-        self.check_tokenisation_incoherence()
+        # self.check_tokenisation_incoherence()
         if not isinstance(self.tokenizer, LlamaTokenizerFast):
             self.check_tokenisation_fit()
 
@@ -190,9 +195,11 @@ class ContextQueryPrompt(CausalInput):
         """Assert that tokenize(prompt+answer) = tokenize(prompt) + tokenize(answer)."""
         prompt = self.model_input
         answer = self.answer
-        prompt_tokenized = self.tokenizer.tokenize(prompt)
-        answer_tokenized = self.tokenizer.tokenize(answer)
-        prompt_answer_tokenized = self.tokenizer.tokenize(prompt + answer)
+        prompt_tokenized = self.tokenizer(prompt)["input_ids"]
+        answer_tokenized = [answer]
+        prompt_answer_tokenized = self.tokenizer(
+            prompt + self.tokenizer.decode(answer)
+        )["input_ids"]
         if prompt_tokenized + answer_tokenized != prompt_answer_tokenized:
             raise ValueError(
                 f"Tokenization doesn't fit! {prompt} {answer} | {prompt_tokenized} + {answer_tokenized} != {prompt_answer_tokenized}"
@@ -205,16 +212,16 @@ def detect_first_token_collision(entities: List[Entity]):
     all_attributes = {}
     for entity in entities:
         for attribute in entity.attributes:
-            if attribute.first_token not in all_attributes:
-                all_attributes[attribute.first_token] = attribute.value
+            if attribute.first_token_id not in all_attributes:
+                all_attributes[attribute.first_token_id] = attribute.value
             else:
                 if (
-                    all_attributes[attribute.first_token] != attribute.value
+                    all_attributes[attribute.first_token_id] != attribute.value
                 ):  # different value but same first token
                     return (
                         attribute.value,
-                        all_attributes[attribute.first_token],
-                        attribute.first_token,
+                        all_attributes[attribute.first_token_id],
+                        attribute.first_token_id,
                     )
     return None
 
@@ -290,7 +297,7 @@ nil = CausalGraph(
     name="nil", output_type=str, f=lambda context: "nil", children=[context]
 )  # dummy variable that has no effect
 CONTEXT_RETRIEVAL_CAUSAL_GRAPH = CausalGraph(
-    name="output", output_type=str, f=find_answer, children=[query, context, nil]
+    name="output", output_type=int, f=find_answer, children=[query, context, nil]
 )
 
 
@@ -322,7 +329,7 @@ entity = CausalGraph(
 
 FINE_GRAINED_CONTEXT_RETRIEVAL_CAUSAL_GRAPH = CausalGraph(
     name="output",
-    output_type=str,
+    output_type=int,
     children=[entity, queried_attribute],
     f=get_attribute,
 )

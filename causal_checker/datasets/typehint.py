@@ -14,6 +14,7 @@ from causal_checker.retrieval import (
     OperationDataset,
 )
 from causal_checker.datasets.dataset_utils import gen_dataset_family
+from transformers.models.llama.tokenization_llama_fast import LlamaTokenizerFast
 
 from swap_graphs.datasets.nano_qa.narrative_variables import (
     QUERRIED_NARRATIVE_VARIABLES_PRETTY_NAMES,
@@ -313,6 +314,8 @@ def gen_code_prompt(tokenizer, dataset_name: str) -> ContextQueryPrompt:
     entities = []
 
     for i, v in enumerate(variables):
+        if isinstance(tokenizer, LlamaTokenizerFast):
+            v = """<prefix>(</prefix>""" + v
         entities.append(
             Entity(
                 name=v,

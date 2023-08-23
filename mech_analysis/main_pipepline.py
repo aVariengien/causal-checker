@@ -1,3 +1,4 @@
+
 from .experiments import *
 from .plot_fn import *
 
@@ -48,7 +49,7 @@ else:
     raise ValueError(f"no mid layer set for {model_name}")
 
 # %% Create the datasets
-DATASET_SIZE = 40
+DATASET_SIZE = 50
 variable_datasets = {}
 caches_per_qvar = {}
 variables = ["city", "character_name", "character_occupation", "season", "day_time"]
@@ -75,6 +76,7 @@ source_dataset = variable_dataset[var_source]
 target_dataset = variable_dataset[var_target]
 
 baseline_vars = [v for v in ALL_NAR_VAR if v not in [var_source, var_target]]
+# %%
 baseline_dataset = NanoQADataset(
     name="baseline",
     nb_samples=DATASET_SIZE,
@@ -83,7 +85,7 @@ baseline_dataset = NanoQADataset(
     tokenizer=model.tokenizer,  # type: ignore
     seed=None,
 )
-
+# %%
 t_stories_s_questions = target_dataset.question_from(source_dataset)
 t_stories_s_questions.name = "t_stories_s_questions"
 

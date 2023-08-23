@@ -11,6 +11,8 @@ from causal_checker.retrieval import CausalInput, ContextQueryPrompt, OperationD
 from causal_checker.hf_hooks import residual_steam_hook_fn
 from causal_checker.utils import get_first_token_id
 from causal_checker.retrieval import find_answer
+from transformers.models.llama.tokenization_llama_fast import LlamaTokenizerFast
+
 
 Metric = Callable[
     [Any, List[Any], torch.Tensor, OperationDataset, List[int], Optional[Dict]],
@@ -453,22 +455,24 @@ def InterchangeInterventionAccuracy(
         :,
     ]
     # get the predicted token
-    predicted_token = torch.argmax(end_logits, dim=-1)
-    # detokenize
-    predicted_str = tokenizer.batch_decode(predicted_token)  # type: ignore
+    predicted_token = torch.argmax(end_logits, dim=-1).cpu().numpy()
+
     # compute the accuracy
 
-    if verbose:  # TODO maybe remove
+    if verbose:
         for i in range(len(target_idx)):
-            print(f"|{predicted_str[i]}|, |{causal_graph_output[i]}|")
+            print(f"|{predicted_token[i]}|, |{causal_graph_output[i]}|")
 
     if not soft_matching:
         results = [
-            predicted_str[i] == causal_graph_output[i] for i in range(len(target_idx))
+            predicted_token[i] == causal_graph_output[i] for i in range(len(target_idx))
         ]
     else:
         results = [
-            soft_match(predicted_str[i], causal_graph_output[i])
+            soft_match(
+                tokenizer.decode(predicted_token[i]),
+                tokenizer.decode(causal_graph_output[i]),
+            )
             for i in range(len(target_idx))
         ]
 
@@ -496,10 +500,18 @@ def InterchangeInterventionTokenProbability(
     ]
     probas = torch.softmax(end_logits, dim=-1)
 
-    corrected_tokens_id = [
-        get_first_token_id(tokenizer, causal_graph_output[i])
-        for i in range(len(target_idx))
-    ]
+    # if isinstance(tokenizer, LlamaTokenizerFast):
+    #     if dataset.name in ["nanoQA_uniform_answer_prefix", "nanoQA_question_first"]:
+    #         prefixes = ["""<prefix>"</prefix>"""] * len(target_idx)
+    #     if dataset.name in ["random_dataset_0", "random_dataset_1", "random_dataset_2"]:
+    #         prefixes = ["""<prefix>:</prefix>"""] * len(target_idx)
+    #     if dataset.name in ["random_dataset_0", "random_dataset_1", "random_dataset_2"]:
+    #         prefixes = ["""<prefix>:</prefix>"""] * len(target_idx)
+
+    corrected_tokens_id = [causal_graph_output[i] for i in range(len(target_idx))]
+
+    # for i in range(len(target_idx)):
+    #     print(get_first_token_id(tokenizer, causal_graph_output[i]), get_first_token(tokenizer, causal_graph_output[i]), causal_graph_output[i])
 
     correct_probs = probas[range(len(target_idx)), corrected_tokens_id]
 
@@ -544,10 +556,7 @@ def InterchangeInterventionLogitDiff(
         dataset.get_end_position().positions_from_idx(target_idx),
         :,
     ]
-    corrected_tokens_id = [
-        get_first_token_id(tokenizer, causal_graph_output[i])
-        for i in range(len(target_idx))
-    ]
+    corrected_tokens_id = [causal_graph_output[i] for i in range(len(target_idx))]
     correct_logits = end_logits[range(len(corrected_tokens_id)), corrected_tokens_id]
 
     queries = [dataset.operations[idx].query for idx in target_idx]
@@ -555,6 +564,13 @@ def InterchangeInterventionLogitDiff(
     alt_tokens = []
     for i in range(len(target_idx)):
         rd_query = queries[rd.randint(0, len(queries) - 1)]
+        tries = 0
+        while rd_query.queried_attribute != queries[i].queried_attribute:
+            rd_query = queries[rd.randint(0, len(queries) - 1)]
+            tries += 1
+            if tries > 50:
+                print("WARNING: could not find an alternative query")
+                break
         tok = find_answer(rd_query, dataset.operations[input_indices[i, 1]].context)
         tries = 0
         while tok == causal_graph_output[i]:
@@ -564,12 +580,9 @@ def InterchangeInterventionLogitDiff(
             if tries > 50:
                 print("WARNING: could not find an alternative token")
                 break
-
         alt_tokens.append(tok)
 
-    alt_ids = [
-        get_first_token_id(tokenizer, alt_tokens[i]) for i in range(len(target_idx))
-    ]
+    alt_ids = [alt_tokens[i] for i in range(len(target_idx))]
     alt_logits = end_logits[range(len(alt_ids)), alt_ids]
 
     logit_diff = correct_logits - alt_logits

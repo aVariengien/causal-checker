@@ -13,6 +13,7 @@ from causal_checker.retrieval import (
     Entity,
     OperationDataset,
 )
+from transformers.models.llama.tokenization_llama_fast import LlamaTokenizerFast
 
 from swap_graphs.datasets.nano_qa.nano_qa_dataset import NanoQADataset
 from swap_graphs.datasets.nano_qa.narrative_variables import (
@@ -73,6 +74,8 @@ def gen_induction_prompt(
     # create the abstract representation
     entities = []
     for s, t in pairs:
+        if isinstance(tokenizer, LlamaTokenizerFast):
+            t = """<prefix>:</prefix>""" + t
         entities.append(
             Entity(
                 name=t,
@@ -95,7 +98,7 @@ def create_induction_dataset_same_prefix(
     nb_sample=100,
     tokenizer=None,
 ) -> List[OperationDataset]:
-    dataset_names = ["random_dataset_" + str(i) for i in range(3)]
+    dataset_names = ["random_dataset_" + str(i) for i in range(1)]
     kwargs_prompt_gen_fn = {}
     for name in dataset_names:
         kwargs_prompt_gen_fn[name] = {}

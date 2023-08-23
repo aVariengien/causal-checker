@@ -58,7 +58,7 @@ load_saved = False
 
 if load_saved:
     pth = "/mnt/ssd-0/alex-dev/causal-checker/demo"
-    xp_name = "angry_gould"  # "eloquent_mcnulty"
+    xp_name = "romantic_hodgkin"  # "eloquent_mcnulty"
     results = load_object(
         pth + "/xp_results", f"results_{xp_name}.pkl"
     )  # eloquent_mcnulty, frosty_nash, youthful_wescoff (12b)
@@ -73,15 +73,15 @@ else:
     xp_name = generate_name()
 
 dataset_gen_fn = [
-    (create_math_quantity_retrieval_dataset, "math_quantity"),
-    (create_nanoQA_uniform_answer_prefix_dataset, "nanoQA_uniform_answer_prefix"),
-    (create_nanoQA_question_first_dataset, "nanoQA_question_start"),
+    # (create_math_quantity_retrieval_dataset, "math_quantity"),
+    # (create_nanoQA_uniform_answer_prefix_dataset, "nanoQA_uniform_answer_prefix"),
+    # (create_nanoQA_question_first_dataset, "nanoQA_question_start"),
+    # (create_factual_recall_dataset, "factual_recall"),
+    #(create_induction_dataset_same_prefix, "induction_same_prefix"),
+    #(create_nanoQA_mixed_template_dataset, "nanoQA_mixed_template"),
     (create_code_type_retrieval_dataset, "type_hint"),
-    (create_factual_recall_dataset, "factual_recall"),
-    (create_induction_dataset_same_prefix, "induction_same_prefix"),
-    (create_nanoQA_mixed_template_dataset, "nanoQA_mixed_template"),
-    (create_nanoQA_retrieval_dataset, "nanoQA_3Q"),
-    (create_translation_retrieval_dataset, "translation"),
+    # (create_nanoQA_retrieval_dataset, "nanoQA_3Q"),
+    #(create_translation_retrieval_dataset, "translation"),
 ]
 
 model_names = [
@@ -104,7 +104,27 @@ model_names = [
     # "pythia-6.9b",
     # "pythia-12b",
 ]
-print("model names:", model_names)
+
+dataset_idxs = None
+
+
+
+
+print("========" * 7)
+print(f" {len(model_names)} MODELS:")
+for model_name in model_names:
+    print(model_name)
+print("========" * 7)
+print(f" {len(dataset_gen_fn)} DATASETS:")
+for dataset_fn, dataset_name in dataset_gen_fn:
+    print(dataset_name)
+print("=======")
+if dataset_idxs is not None:
+    print("WARNING: USING ONLY SUB DATASETS") 
+print("=======")
+if load_saved:
+    print("WARNING: USING SAVED DF") 
+    
 metrics = {
     "IIA": partial(InterchangeInterventionAccuracy, compute_mean=False),
     "logit_diff": partial(InterchangeInterventionLogitDiff, compute_mean=False),
@@ -164,7 +184,7 @@ def graphs_alignments_variables(layer):
     )
 
 
-batch_size = 5
+batch_size = 20
 
 layer_increment = 1
 relative_layer_increment = None
@@ -189,6 +209,11 @@ for model_idx, model_name in enumerate(model_names):
         datasets = dataset_fn(nb_sample=100, tokenizer=tokenizer)
         if isinstance(datasets, OperationDataset):
             datasets = [datasets]
+
+        if dataset_idxs is not None:
+            print("WARNING: USING ONLY SUB DATASETS") 
+            datasets = [datasets[i] for i in dataset_idxs]
+            
         for dataset in datasets:
             print(f" ---- dataset name {dataset.name} ")
             baselines = {}

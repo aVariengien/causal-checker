@@ -304,7 +304,7 @@ def compute_direct_effect_df(
     model: HookedTransformer,
     cache: Dict,
     narrative_variable: str,
-    ref_narrative_variable: Optional[str | list[str]],
+    ref_narrative_variable: Optional[Union[str, List[str]]],
     corrupted_cache: Optional[Dict] = None,
     nb_ressamples=1,
     expand_sample_dim=False,
@@ -420,7 +420,7 @@ def plot_comparison_direct_effect_bar_chart(
     model: HookedTransformer,
     variable: str,
     corrupted_cache: Optional[Dict] = None,
-    alt_variable: Optional[str | List[str]] = None,
+    alt_variable: Optional[Union[str, List[str]]] = None,
     title_suffix="",
     error_bar=True,
     height=800,
@@ -647,7 +647,7 @@ def get_mover_df(
     mid_layer=-1,
     cache: Optional[Dict] = None,
     corrupted_cache: Optional[Dict] = None,
-    ref_narrative_variable: Optional[str | list[str]] = None,
+    ref_narrative_variable: Optional[Union[str, List[str]]] = None,
 ):
     if cache is None:
         cache = {}

@@ -59,7 +59,7 @@ def gen_nanoQA_entities(
                 name=entity_name,
                 attributes=[attr, name_with_space],
                 tokenizer=tokenizer,
-                tokenize_name=tokenize_name,
+                tokenize_name=True,
             )
         )
     return entities
@@ -211,7 +211,7 @@ def create_nanoQA_uniform_answer_prefix_dataset(
     return OperationDataset(
         operations=dataset,
         name="nanoQA_uniform_answer_prefix",
-        check_for_collision= not isinstance(tokenizer, LlamaTokenizerFast),
+        check_for_collision=not isinstance(tokenizer, LlamaTokenizerFast),
     )
 
 

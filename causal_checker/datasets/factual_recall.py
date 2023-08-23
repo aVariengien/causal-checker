@@ -23,7 +23,7 @@ from functools import partial
 import random as rd
 import json
 from causal_checker.retrieval import detect_first_token_collision
-
+from transformers.models.llama.tokenization_llama_fast import LlamaTokenizerFast
 
 QUERIED_VARIABLES = {
     "cvdb": ["continent", "gender", "nationality"],
