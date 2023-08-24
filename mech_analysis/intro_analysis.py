@@ -39,7 +39,6 @@ torch.set_grad_enabled(False)
 
 # %%
 
-
 model_name = "pythia-2.8b"
 model = HookedTransformer.from_pretrained(
     model_name=model_name, cache_dir="/mnt/ssd-0/alex-dev/hf_models"
@@ -53,7 +52,7 @@ else:
 
 # %%
 
-DATASET_SIZE = 40
+DATASET_SIZE = 50
 variable_datasets = {}
 baseline_datasets = {}
 baseline_cache = {}
@@ -105,6 +104,7 @@ for variable in variables:
 
 direct_effect_df = {}
 for variable in variables:
+    print(f"Variable: {variable}")
     direct_effect_df[variable], _ = compute_direct_effect_df(
         dataset=variable_datasets[variable],
         model=model,
@@ -112,7 +112,7 @@ for variable in variables:
         narrative_variable=variable,
         ref_narrative_variable=[v for v in variables if v != variable],
         corrupted_cache=baseline_cache[variable],
-        nb_ressamples=3,
+        nb_ressamples=20,
         expand_sample_dim=True,
     )
     direct_effect_df[variable]["narrative_variable"] = variable
@@ -150,7 +150,7 @@ mean_std_direct_effect_df["relative_direct_effect_std"] = (
     mean_std_direct_effect_df["direct_effect_std"] / total_abs_direct_effect
 )
 
-percent = 0.05
+percent = 0.03
 df = mean_std_direct_effect_df
 error_bar = True
 df_sorted = df.sort_values("abs_direct_effect_mean", ascending=False)
@@ -181,7 +181,7 @@ fig.update_layout(
 
 fig.show()
 
-fig.write_image(f"figs/top_5_percent_all_vars_{dataset_name}.svg")
+fig.write_image(f"figs/top_3_percent_all_vars_{dataset_name}.pdf")
 
 # show in matrix form
 
@@ -211,6 +211,7 @@ fig.update_layout(
     height=800,
 )
 fig.show()
+fig.write_image(f"figs/attribution_matrix_{dataset_name}.pdf")
 
 # %%
 
@@ -220,7 +221,7 @@ fig.show()
 
 # %%
 K = None
-threshold = 0.025
+threshold = 0.03
 
 print(f"overlap between top {K} components")
 

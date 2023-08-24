@@ -67,7 +67,7 @@ alig = CausalAlignement(
     model=model,
     mapping_hf={
         "query": residual_steam_hook_fn(
-            resid_layer=16, position=dataset.get_end_position()
+            resid_layer=8, position=dataset.get_end_position()
         ),
         "context": dummy_hook(),
         "output": residual_steam_hook_fn(

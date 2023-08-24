@@ -11,6 +11,7 @@ from typing import Literal
 import matplotlib.patches as patches
 import plotly.graph_objects as go
 import pickle
+import os
 
 
 # %%
@@ -21,32 +22,10 @@ def load_object(path, name):
 
 # %%
 
-# pth = "/mnt/ssd-0/alex-dev/causal-checker/demo"
-xp_name = "intelligent_nash"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
-raw_results = load_object(
-    "./xp_results", f"results_{xp_name}.pkl"
-)  # eloquent_mcnulty, frosty_nash, youthful_wescoff (12b)
-
-# # %%
-
-# big_xp_names = "intelligent_nash"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
-# big_raw_results = load_object(
-#     pth + "/xp_results", f"results_{big_xp_names}.pkl"
-# )  # eloquent_mcnulty, frosty_nash, youthful_wescoff (12b)
-
-# save_object(big_raw_results, pth + "/xp_results", f"results_intelligent_nash_save.pkl")
-# # %%
-# big_raw_results_filtered = []
-# for r in big_raw_results:
-#     if r["dataset"] not in [
-#         "nanoQA_mixed_template",
-#     ]:
-#         big_raw_results_filtered.append(r)
-# # %%
-# new_results = big_raw_results_filtered + raw_results
-
-# save_object(new_results, pth + "/xp_results", f"results_intelligent_nash.pkl")
-
+pth = "/mnt/ssd-0/alex-dev/causal-checker/demo"
+xp_name = "final_data"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
+# new gen: nifty_kowalevski
+raw_results = load_object("./xp_results", f"results_{xp_name}.pkl")
 # %%
 
 results = []
@@ -65,13 +44,7 @@ for d in raw_results:
 
 df = pd.DataFrame.from_records(results)
 
-# %%
 
-df_filtered = df[
-    (df["metric_name"] == "IIA")
-    & (df["model"].isin(["pythia-70m"]) & (df["dataset"] == "nanoQA_3Q"))
-]
-df_filtered
 # %%
 filtering = False
 UseRdGuess = True
@@ -124,11 +97,24 @@ PRETTY_NAMES = {
     "type_hint": "Type hint",
 }
 
+PRETTY_MODEL_NAMES = {
+    "/mnt/llama-2-70b-hf-2/Llama-2-70b-hf": "llama2-70b",
+    "/mnt/falcon-request-patching-2/Llama-2-7b-hf": "llama2-7b",
+    "/mnt/falcon-request-patching-2/Llama-2-13b-hf": "llama2-13b",
+}
+
 ordered_p_name = list(PRETTY_NAMES.values())
 
 
 def prettify_dataset_names(df):
     df["dataset_pretty_name"] = df["dataset"].apply(lambda x: PRETTY_NAMES[x])
+    return df
+
+
+def prettify_model_names(df):
+    df["model"] = df["model"].apply(
+        lambda x: PRETTY_MODEL_NAMES[x] if x in PRETTY_MODEL_NAMES else x
+    )
     return df
 
 
@@ -143,6 +129,8 @@ def sort_by_dataset(df):
 model_names_ordered = [
     "falcon-7b",
     "falcon-7b-instruct",
+    "falcon-40b",
+    "falcon-40b-instruct",
     "gpt2-small",
     "gpt2-medium",
     "gpt2-large",
@@ -154,6 +142,9 @@ model_names_ordered = [
     "pythia-2.8b",
     "pythia-6.9b",
     "pythia-12b",
+    "llama2-7b",
+    "llama2-13b",
+    "llama2-70b",
 ]
 
 
@@ -165,6 +156,7 @@ def sort_by_model(df):
     return df.sort_values(by="model")
 
 
+df = prettify_model_names(df)
 df = prettify_dataset_names(df)
 df = sort_by_dataset(df)
 # %% Perf table
@@ -182,7 +174,7 @@ def plot_perf(df, metric: str, plot: bool = True):
 
     # pivot_table = pivot_table.fillna(0)
     if plot:
-        plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
+        plt.figure(figsize=(13, 7))  # Adjust the figure size as needed
         sns.heatmap(
             pivot_table,
             annot=True,
@@ -254,7 +246,7 @@ def plot_label_name_metric(df, metric: str, label_name: str, plot: bool = True):
 
     pivot_table = pivot_table.fillna(float("nan"))
     if plot:
-        plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
+        plt.figure(figsize=(13, 7))  # Adjust the figure size as needed
         sns.heatmap(
             pivot_table,
             annot=True,
@@ -275,10 +267,6 @@ def plot_label_name_metric(df, metric: str, label_name: str, plot: bool = True):
 for label_name in ["R1(C1)", "R1(C2)", "R2(C2)"]:
     for metric in ["logit_diff", "accuracy", "token_prob"]:
         perf_df = plot_label_name_metric(df, metric=metric, label_name=label_name)
-
-# %%
-
-len(perf_df[perf_df["normalized_metric"] > 0.7])
 
 
 # %% LAYYYER L2
@@ -460,7 +448,7 @@ def plot_IIA(df, layers=["L1", "L2", "L3"]):
 
     pivot_table = pivot_table.fillna(float("nan"))
 
-    plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
+    plt.figure(figsize=(13, 7))  # Adjust the figure size as needed
     sns.heatmap(
         pivot_table,
         annot=True,
@@ -550,7 +538,7 @@ def plot_layer_comparison(df, layer: Literal["L1", "L2", "L3"]):
 
 
 for layer in ["L1", "L2", "L3"]:
-    plot_layer_comparison(df, layer=layer)
+    plot_layer_comparison(df, layer=layer)  # type: ignore
 
 # %%
 
@@ -583,7 +571,7 @@ def plot_layers_heatmap(
     # Get unique models
     models = metric_df["model"].unique()
     ordered_models = [x for x in model_names_ordered if x in models]
-    colormap = plt.cm.viridis
+    colormap = plt.cm.viridis  # type: ignore
     # Plotting
     for i, model in enumerate(ordered_models):
         print(model)
@@ -608,7 +596,7 @@ def plot_layers_heatmap(
             ax.add_patch(rect)
             prev_height += rect_height
 
-    sm = plt.cm.ScalarMappable(cmap=colormap, norm=plt.Normalize(vmin=0, vmax=1))
+    sm = plt.cm.ScalarMappable(cmap=colormap, norm=plt.Normalize(vmin=0, vmax=1))  # type: ignore
     cbar = fig.colorbar(sm)
     cbar.set_label(f"Normalized {metric}", rotation=270, labelpad=15)
 
@@ -643,9 +631,9 @@ for label in ["R1(C1)", "R1(C2)", "R2(C2)"]:
 
 models = [
     # "gpt2-xl",
-    "pythia-2.8b",
+    # "pythia-2.8b",
     # "pythia-12b",
-    # "falcon-7b",
+    "falcon-40b",
     # "falcon-7b-instruct"
     # "gpt2-small",
 ]
@@ -749,7 +737,7 @@ def single_dataset_model_plot(model, metric, x_axis, y_axis, dataset_name):
         100
     )
 
-    colors = [trace.line.color for trace in fig.data]
+    colors = [trace.line.color for trace in fig.data]  # type: ignore
 
     # Iterate over unique hypotheses and facet rows to add the uncertainty bounds
     for idx, (label_name, dataset) in enumerate(
@@ -801,13 +789,21 @@ def single_dataset_model_plot(model, metric, x_axis, y_axis, dataset_name):
     fig.write_image(f"figs/single_model_dataset_{model}_{metric}_{dataset_name}.pdf")
 
 
-single_dataset_model_plot(
-    model="pythia-2.8b",
-    metric="accuracy",  # accuracy token_prob logit_diff
-    x_axis="layer",  # layer_relative layer
-    y_axis="normalized_metric",  # normalized_metric results_mean
-    dataset_name="nanoQA_uniform_answer_prefix",
-)
+for model, dataset in [
+    ("pythia-2.8b", "nanoQA_uniform_answer_prefix"),
+    ("llama2-70b", "induction_same_prefix"),
+    ("llama2-70b", "translation"),
+    ("llama2-70b", "nanoQA_uniform_answer_prefix"),
+    ("llama2-70b", "factual_recall"),
+    ("falcon-40b", "nanoQA_uniform_answer_prefix"),
+]:
+    single_dataset_model_plot(
+        model=model,
+        metric="token_prob",  # accuracy token_prob logit_diff
+        x_axis="layer",  # layer_relative layer
+        y_axis="normalized_metric",  # normalized_metric results_mean
+        dataset_name=dataset,
+    )
 
 # %%
 df_filtered = df[

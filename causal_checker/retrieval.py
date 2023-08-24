@@ -194,7 +194,7 @@ class ContextQueryPrompt(CausalInput):
             )
 
 
-def detect_first_token_collision(entities: list[Entity]):
+def detect_first_token_collision(entities: List[Entity]):
     """Detect if two entities have an attribute of different value but with the the same first token. This would create ambiguity in the model input."""
     first_tokens = []
     all_attributes = {}

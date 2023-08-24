@@ -157,6 +157,7 @@ def plot_dataframe_comparison(
     variable_name="",
     marker_size=15,
     error_bars=True,
+    save_fig=False,
 ):
     """Plot a comparison of two dataframes with the same columns, df1 is the reference dataframe"""
     ref_total_effect = df1["total_effect"].iloc[0].numpy()
@@ -284,9 +285,11 @@ def plot_dataframe_comparison(
         title=f"Absolute Direct Logit Attribution vs Attention to correct token (variable: {variable_name})",
         height=800,
         width=1200,
-        legend=dict(x=100, y=1000),  # Adjust legend position here
+        # legend=dict(x=100, y=1000),  # Adjust legend position here
     )
     fig.show()
+    if save_fig:
+        fig.write_image(f"figs/fig_2d_heads_{name1}_{name2}.pdf")
 
 
 def plot_intersection_mtx(d: Dict[str, List], title: str = ""):
@@ -304,7 +307,7 @@ def compute_direct_effect_df(
     model: HookedTransformer,
     cache: Dict,
     narrative_variable: str,
-    ref_narrative_variable: Optional[str | list[str]],
+    ref_narrative_variable: Optional[Union[str, List[str]]],
     corrupted_cache: Optional[Dict] = None,
     nb_ressamples=1,
     expand_sample_dim=False,
@@ -344,6 +347,8 @@ def compute_direct_effect_df(
                     "normalized_direct_effect_mean": direct_effect_mean[l, h].numpy()
                     / total_abs_direct_effect,
                     "normalized_direct_effect_std": direct_effect_std[l, h].numpy()
+                    / total_abs_direct_effect,
+                    "all_normalized_direct_effect": direct_effect[l, h].numpy()
                     / total_abs_direct_effect,
                 }
             )
@@ -420,7 +425,7 @@ def plot_comparison_direct_effect_bar_chart(
     model: HookedTransformer,
     variable: str,
     corrupted_cache: Optional[Dict] = None,
-    alt_variable: Optional[str | List[str]] = None,
+    alt_variable: Optional[Union[str, List[str]]] = None,
     title_suffix="",
     error_bar=True,
     height=800,
@@ -428,6 +433,7 @@ def plot_comparison_direct_effect_bar_chart(
     percentile=0.95,
     name_1="Dataset1",
     name_2="Dataset2",
+    save_fig=False,
 ):
     # TODO probably correct
     # Compute direct_effect for the 1 dataset
@@ -529,7 +535,10 @@ def plot_comparison_direct_effect_bar_chart(
     )
 
     fig.show()
-
+    if save_fig:
+        fig.write_image(
+            f"figs/fig_bar_chart_comparison_{name_1}_{name_2}_{variable}_{title_suffix}.pdf"
+        )
     return df_1, df_2
 
 
@@ -647,7 +656,7 @@ def get_mover_df(
     mid_layer=-1,
     cache: Optional[Dict] = None,
     corrupted_cache: Optional[Dict] = None,
-    ref_narrative_variable: Optional[str | list[str]] = None,
+    ref_narrative_variable: Optional[Union[str, List[str]]] = None,
 ):
     if cache is None:
         cache = {}
@@ -659,7 +668,7 @@ def get_mover_df(
         narrative_variable=narrative_variable,
         ref_narrative_variable=ref_narrative_variable,
         corrupted_cache=corrupted_cache,
-        nb_ressamples=1,
+        nb_ressamples=3,
     )
     attn_to_cor_tok = attention_to_nar_var_tok(
         dataset, model, cache, narrative_variable=narrative_variable
@@ -792,15 +801,5 @@ def comparative_overlap(df1, df2, K=25, threshold=None):
         overlaps.append(overlap)
     return np.mean(overlaps), np.std(overlaps)
 
-
-# %%
-
-# %%
-
-# %%
-
-# %%
-
-# %%
 
 # %%

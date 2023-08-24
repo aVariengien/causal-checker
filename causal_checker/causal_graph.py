@@ -1,5 +1,5 @@
 from attrs import define, field
-from typing import List, Callable, Dict, Tuple, Set, Optional, Any, Literal
+from typing import List, Callable, Dict, Tuple, Set, Optional, Any, Literal, Union
 import uuid
 
 a = 0
@@ -12,7 +12,7 @@ NoFunction = Literal["NoFunction"]
 class CausalGraph:
     name: str = field()
     output_type: type = field()
-    f: Callable[..., Any] | NoFunction = field(default=NO_FUNCTION)
+    f: Union[Callable[..., Any], NoFunction] = field(default=NO_FUNCTION)
     children: List["CausalGraph"] = field(factory=list)
     leaf: bool = field(default=False)
     uuid: str = field(init=False)

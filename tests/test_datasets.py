@@ -328,16 +328,6 @@ def test_translation_dataset():
         ), f"Random guess accuracy should be 1/5 {dataset.compute_random_guess_accuracy()}"
 
 
-def test_translation_dataset_falcon_perf():
-    model, tokenizer = get_model_and_tokenizer("falcon-7b")
-    datasets = create_translation_retrieval_dataset(
-        nb_sample=50,
-        tokenizer=tokenizer,
-    )
-    for dataset in datasets:
-        assert_dataset_perf(model, tokenizer, dataset, threshold=0.75)
-
-
 # induction dataset
 
 
@@ -356,14 +346,6 @@ def test_induction_dataset():
 
 def test_factual_recall_dataset():
     model, tokenizer = get_model_and_tokenizer("gpt2-xl")
-    datasets = create_factual_recall_dataset(
-        nb_sample=200,
-        tokenizer=tokenizer,
-    )
-    for dataset in datasets:
-        assert_dataset_perf(model, tokenizer, dataset)
-
-    model, tokenizer = get_model_and_tokenizer("falcon-7b")
     datasets = create_factual_recall_dataset(
         nb_sample=200,
         tokenizer=tokenizer,

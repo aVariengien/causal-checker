@@ -21,7 +21,7 @@ def get_model(model_name, dtype=torch.bfloat16, cache_dir=None):
 
 def get_falcon_model(size, dtype=torch.bfloat16):
     assert size in ["7b-instruct", "7b", "40b", "40b-instruct"]
-    model_name = f"falcon-{size}"
+    model_name = f"tiiuae/falcon-{size}"
     return get_model(model_name, dtype=dtype)
 
 

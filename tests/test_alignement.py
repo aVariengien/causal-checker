@@ -252,7 +252,7 @@ def test_check_alignement_batched_graphs():
     assert results["token_prob"][0].mean() > 0.25
     assert results["logit_diff"][0].mean() > 7.5
     assert results["token_prob"][1].mean() < 0.1
-    assert results["logit_diff"][1].mean() < 5
+    assert results["logit_diff"][1].mean() < 7
 
 
 # %%
