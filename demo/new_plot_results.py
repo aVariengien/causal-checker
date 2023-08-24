@@ -27,71 +27,6 @@ xp_name = "final_data"  # "eloquent_mcnulty" flamboyant_bassi  angry_gould
 raw_results = load_object("./xp_results", f"results_{xp_name}.pkl")
 # %%
 
-xp_names_buggy = ["condescending_maxwell", "strange_ellis", "modest_shtern"]
-xp_names = [
-    "nifty_kowalevski",
-    "vibrant_agnesi",
-    "sleepy_sammet",
-    "suspicious_banach",
-    "nifty_moser",
-    "gifted_cartwright",
-    "romantic_hodgkin",
-    "practical_brahmagupta",
-    "elegant_cartwright",
-    "intelligent_nash",
-]
-
-dataset_buggy = [
-    "nanoQA_uniform_answer_prefix",
-    "nanoQA_question_start",
-    "induction_same_prefix",
-    "nanoQA_mixed_template",
-    "type_hint",
-]
-
-# %%
-
-raw_results = []
-for xp in xp_names:
-    res = load_object("./xp_results", f"results_{xp}.pkl")
-    raw_results += res
-# %%
-all_datasets = []
-for xp in xp_names_buggy:
-    res_buggy = load_object("./xp_results", f"results_{xp}.pkl")
-
-    res_filtered = []
-
-    for r in res_buggy:
-        all_datasets.append(r["dataset_long_name"])
-        if r["dataset"] not in dataset_buggy:
-            res_filtered.append(r)
-    raw_results += res_filtered
-
-# %%
-filtered_raw_results = []
-for r in raw_results:
-    if r["dataset_long_name"] not in [
-        "induction_same_prefix|random_dataset_1",
-        "induction_same_prefix|random_dataset_2",
-    ]:
-        if (
-            r["dataset_long_name"] != "type_hint|banking"
-            or r["model"] != "/mnt/falcon-request-patching-2/Llama-2-13b-hf"
-        ):
-            filtered_raw_results.append(r)
-
-
-raw_results = filtered_raw_results
-# %%
-
-from swap_graphs.utils import save_object
-
-save_object(raw_results, "./xp_results", f"results_final_data.pkl")
-
-
-# %%
-
 results = []
 dups = set()
 for d in raw_results:
@@ -238,7 +173,7 @@ def plot_perf(df, metric: str, plot: bool = True):
 
     # pivot_table = pivot_table.fillna(0)
     if plot:
-        plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
+        plt.figure(figsize=(13, 7))  # Adjust the figure size as needed
         sns.heatmap(
             pivot_table,
             annot=True,
@@ -250,11 +185,12 @@ def plot_perf(df, metric: str, plot: bool = True):
         plt.ylabel("Dataset")
         plt.title(f"Baseline {metric} for Models and Datasets")
         # plt.show()
-        plt.savefig(f"figs/plot_perf.pdf", bbox_inches="tight")
+        plt.savefig(f"figs/plot_perf_{metric}.pdf", bbox_inches="tight")
     return baseline_means
 
 
-_ = plot_perf(df, "logit_diff")
+for metric in ["accuracy", "token_prob", "logit_diff"]:
+    _ = plot_perf(df, metric)
 
 # %% accuracy
 
@@ -309,7 +245,7 @@ def plot_label_name_metric(df, metric: str, label_name: str, plot: bool = True):
 
     pivot_table = pivot_table.fillna(float("nan"))
     if plot:
-        plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
+        plt.figure(figsize=(13, 7))  # Adjust the figure size as needed
         sns.heatmap(
             pivot_table,
             annot=True,
@@ -515,7 +451,7 @@ def plot_IIA(df, layers=["L1", "L2", "L3"]):
 
     pivot_table = pivot_table.fillna(float("nan"))
 
-    plt.figure(figsize=(10, 6))  # Adjust the figure size as needed
+    plt.figure(figsize=(13, 7))  # Adjust the figure size as needed
     sns.heatmap(
         pivot_table,
         annot=True,
@@ -853,16 +789,24 @@ def single_dataset_model_plot(model, metric, x_axis, y_axis, dataset_name):
     # Step 3: Show the plot
     fig.update_layout(width=1000, height=600)
     fig.show()
-    fig.write_image("figs/single_model_dataset_{model}_{metric}_{dataset_name}.pdf")
+    fig.write_image(f"figs/single_model_dataset_{model}_{metric}_{dataset_name}.pdf")
 
 
-single_dataset_model_plot(
-    model="llama2-13b",
-    metric="token_prob",  # accuracy token_prob logit_diff
-    x_axis="layer",  # layer_relative layer
-    y_axis="normalized_metric",  # normalized_metric results_mean
-    dataset_name="translation",
-)
+for model, dataset in [
+    ("pythia-2.8b", "nanoQA_uniform_answer_prefix"),
+    ("llama2-70b", "induction_same_prefix"),
+    ("llama2-70b", "translation"),
+    ("llama2-70b", "nanoQA_uniform_answer_prefix"),
+    ("llama2-70b", "factual_recall"),
+    ("falcon-40b", "nanoQA_uniform_answer_prefix"),
+]:
+    single_dataset_model_plot(
+        model=model,
+        metric="token_prob",  # accuracy token_prob logit_diff
+        x_axis="layer",  # layer_relative layer
+        y_axis="normalized_metric",  # normalized_metric results_mean
+        dataset_name=dataset,
+    )
 
 # %%
 df_filtered = df[
