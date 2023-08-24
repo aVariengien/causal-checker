@@ -7,13 +7,19 @@ The repo contains
 * `causal_checker/retrieval.py`: A definition of a high-level causal graph for retrieval tasks.
 * `causal_checker/datasets`: 6 datasets sharing the same abstract input representation to study retrieval tasks.
 * `demo/causal_checker_sweep.py` : a script using to run residual stream patching on 13 models on all datasets.
-* `data_analysis`: Data from residual-stream patching experiments, and code to reproduce the plots from "A Universal Emergent Decomposition of  Retrieval Tasks in Autoregressive Language Models".
+* `data_analysis`: Data from residual-stream patching experiments, and code to reproduce the plots from "A Universal Emergent Decomposition of  Retrieval Tasks in Autoregressive Language Models". The data can be downloaded from [here](https://drive.google.com/file/d/1-ObQJftSeERZqsGFA5cKJFtwDniapKW1/view?usp=sharing).
 * `internal_process_supervision`: An application of request-patching to remove the effect of distractors on model solving a question-answering task.
 * `mech_analysis`: The code for a detailed case study on pythia-2.8 on the NanoQA dataset.
 
 ##### To start
 
 `demo/main_demo.py` walk you through the most important object of the code base.
+
+##### Branches
+
+The `main` branch is stable but doesn't support Llama 2. 
+
+The `llama2-support` contains a number of modification specific to the Llama2 sentence piece tokenizer that can lead to incompatibility with other types of tokenizers.
 
 ##### Dependencies
 
