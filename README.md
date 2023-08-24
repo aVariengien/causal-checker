@@ -11,20 +11,20 @@ The repo contains
 * `internal_process_supervision`: An application of request-patching to remove the effect of distractors on model solving a question-answering task.
 * `mech_analysis`: The code for a detailed case study on pythia-2.8 on the NanoQA dataset.
 
-##### To start
+## To start
 
 `demo/main_demo.py` walk you through the most important object of the code base.
 
-##### Branches
+## Branches
 
 The `main` branch is stable but doesn't support Llama 2. 
 
 The `llama2-support` contains a number of modification specific to the Llama2 sentence piece tokenizer that can lead to incompatibility with other types of tokenizers.
 
-##### Dependencies
+## Dependencies
 
 This librairy is build on [swap-graphs](https://github.com/aVariengien/swap-graphs) for the objects representing model components and positions, and [TransformerLens](https://github.com/neelnanda-io/TransformerLens) for fine-grained hooks. For memory efficiency, HuggingFace hooks are also supported, but allow less control. 
 
-##### Install
+## Install
 
 `pip install -e .`
