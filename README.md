@@ -10,6 +10,7 @@ The repo contains
 * `data_analysis`: Data from residual-stream patching experiments, and code to reproduce the plots from "A Universal Emergent Decomposition of  Retrieval Tasks in Autoregressive Language Models". The data can be downloaded from [here](https://drive.google.com/file/d/1-ObQJftSeERZqsGFA5cKJFtwDniapKW1/view?usp=sharing).
 * `internal_process_supervision`: An application of request-patching to remove the effect of distractors on model solving a question-answering task.
 * `mech_analysis`: The code for a detailed case study on pythia-2.8 on the NanoQA dataset.
+* `data` contains file to create the factual recall datasets.
 
 ## To start
 
